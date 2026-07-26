@@ -29,7 +29,7 @@ A machine-readable snapshot of orchestration state, updated after every meaningf
 
 ```jsonc
 {
-  "schema_version": "arkwright-longflow-2.1",
+  "schema_version": "metawatch-longflow-2.1",
   "mode": "continuous | interactive | complete | hard_blocked | interactive_override",
   "status": "in_progress | complete | hard_blocked",
   "parent_prd": <issue-number>,

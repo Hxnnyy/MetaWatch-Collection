@@ -3,7 +3,7 @@ name: issues-execution
 description: Use to implement a parent PRD and child issue tree end-to-end with orchestration, predicates, reviews, and closure.
 ---
 
-# Issues Execution (Arkwright Longflow)
+# Issues Execution (MetaWatch Longflow)
 
 Orchestrate delivery of a parent PRD's child issue tree. You are the orchestrator. Subagents implement; you own the outcome. A subagent reporting "done" is a claim to verify, not evidence.
 

@@ -1,6 +1,6 @@
 # Acceptance Predicates
 
-Mechanically verifiable acceptance criteria. Every child issue in the Arkwright Longflow set ships with a predicate script. A child cannot be closed unless its predicate exits 0 on the integration branch.
+Mechanically verifiable acceptance criteria. Every child issue in the MetaWatch Longflow set ships with a predicate script. A child cannot be closed unless its predicate exits 0 on the integration branch.
 
 ## Why
 

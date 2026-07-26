@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "workflow": {
-    "name": "Arkwright Merge Train",
+    "name": "MetaWatch Merge Train",
     "type": "merge-train",
     "continuousModeDefault": true,
     "pauseOnlyOnHardBlocks": true

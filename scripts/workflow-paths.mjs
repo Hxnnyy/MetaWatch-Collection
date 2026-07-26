@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 export const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const homeDir = os.homedir();
 
-export const skillGroupName = "arkwright-workflows";
+export const skillGroupName = "metawatch";
 export const installedSkillRoot = path.join(homeDir, ".agents", "skills", skillGroupName);
 export const canonicalAgentRoot = path.join(homeDir, ".agents", "agents");
 

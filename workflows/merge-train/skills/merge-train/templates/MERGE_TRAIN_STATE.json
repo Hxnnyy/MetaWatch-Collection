@@ -1,5 +1,5 @@
 {
-  "workflow": "Arkwright Merge Train",
+  "workflow": "MetaWatch Merge Train",
   "status": "not_started",
   "phase": "ingest",
   "parent_pr": null,

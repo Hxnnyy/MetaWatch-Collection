@@ -3,7 +3,7 @@ name: prd-to-issues
 description: Use to turn a PRD into independently grabbable GitHub issues with vertical slices, wave planning, and verifiable acceptance predicates.
 ---
 
-# PRD to Issues (Arkwright Longflow)
+# PRD to Issues (MetaWatch Longflow)
 
 Convert a parent PRD into a set of vertical-slice child issues, each shipping with a deterministic acceptance predicate (`scripts/verify-issue-<n>.sh`) committed alongside.
 

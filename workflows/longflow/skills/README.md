@@ -1,6 +1,6 @@
 # Skills Index
 
-Arkwright Longflow exposes these public skills:
+MetaWatch Longflow exposes these public skills:
 
 1. `longflow-orchestrator`
 2. `council`

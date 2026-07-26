@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "name": "MetaWatch",
+  "description": "Portable, review-first coding-agent workflows and skills.",
+  "primitives": [
+    { "id": "longflow", "kind": "workflow", "path": "workflows/longflow", "readme": "workflows/longflow/README.md" },
+    { "id": "merge-train", "kind": "workflow", "path": "workflows/merge-train", "readme": "workflows/merge-train/README.md" },
+    { "id": "longflow-orchestrator", "kind": "skill", "path": "workflows/longflow/skills/longflow-orchestrator", "readme": "workflows/longflow/skills/longflow-orchestrator/README.md" },
+    { "id": "council", "kind": "skill", "path": "workflows/longflow/skills/council", "readme": "workflows/longflow/skills/council/README.md" },
+    { "id": "write-a-prd", "kind": "skill", "path": "workflows/longflow/skills/write-a-prd", "readme": "workflows/longflow/skills/write-a-prd/README.md" },
+    { "id": "prd-to-issues", "kind": "skill", "path": "workflows/longflow/skills/prd-to-issues", "readme": "workflows/longflow/skills/prd-to-issues/README.md" },
+    { "id": "issues-execution", "kind": "skill", "path": "workflows/longflow/skills/issues-execution", "readme": "workflows/longflow/skills/issues-execution/README.md" },
+    { "id": "codebase-quality-sweep", "kind": "skill", "path": "workflows/longflow/skills/codebase-quality-sweep", "readme": "workflows/longflow/skills/codebase-quality-sweep/README.md" },
+    { "id": "merge-train-skill", "kind": "skill", "path": "workflows/merge-train/skills/merge-train", "readme": "workflows/merge-train/skills/merge-train/README.md" },
+    { "id": "code-economy", "kind": "skill", "path": "skills/code-economy", "readme": "skills/code-economy/README.md" },
+    { "id": "tdd", "kind": "skill", "path": "skills/tdd", "readme": "skills/tdd/README.md" },
+    { "id": "supabase-secure-by-default", "kind": "skill", "path": "skills/supabase-secure-by-default", "readme": "skills/supabase-secure-by-default/README.md" },
+    { "id": "project-agents-example", "kind": "example", "path": "examples/AGENTS.md", "readme": "examples/README.md" }
+  ]
+}

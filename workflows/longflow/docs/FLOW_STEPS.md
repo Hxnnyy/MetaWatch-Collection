@@ -1,6 +1,6 @@
 # Flow Steps
 
-This file is the practical execution order for Arkwright Longflow.
+This file is the practical execution order for MetaWatch Longflow.
 
 ## Step 1: Grill
 

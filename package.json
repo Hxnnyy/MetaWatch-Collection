@@ -1,9 +1,11 @@
 {
-  "name": "arkwright-workflows",
+  "name": "metawatch",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "test": "npm run validate:public && npm run validate:config -- workflows/longflow/longflow.config.example.json && npm run validate:config -- workflows/merge-train/merge-train.config.example.json && npm run validate:skills && npm run validate:links && node --test",
+    "validate:public": "node scripts/validate-public-release.mjs",
     "validate:config": "node scripts/validate-config.mjs",
     "prompt:kickoff": "node scripts/generate-kickoff-prompt.mjs",
     "heartbeat:watch": "node scripts/heartbeat-watch.mjs",

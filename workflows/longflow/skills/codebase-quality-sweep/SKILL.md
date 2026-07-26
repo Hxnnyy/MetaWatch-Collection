@@ -4,7 +4,7 @@ description: Systematic codebase quality audit, triage, issue-tree creation, and
 disable-model-invocation: true
 ---
 
-# Codebase Quality Sweep (Arkwright Longflow)
+# Codebase Quality Sweep (MetaWatch Longflow)
 
 End-to-end: audit → triage → issues → fix (delegated to `issues-execution`) → re-audit.
 

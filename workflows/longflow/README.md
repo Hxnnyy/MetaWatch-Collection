@@ -1,6 +1,6 @@
-# Arkwright Longflow
+# MetaWatch Longflow
 
-Arkwright Longflow is the planned implementation workflow inside Arkwright Workflows. It turns rough intent into audited delivery through grilling, council convergence, PRD authoring, issue slicing, deterministic evidence, implementation waves, wave gates, final closeout, and handover.
+MetaWatch Longflow is the planned implementation workflow inside MetaWatch. It turns rough intent into audited delivery through grilling, council convergence, PRD authoring, issue slicing, deterministic evidence, implementation waves, wave gates, final closeout, and handover.
 
 ## Flow
 

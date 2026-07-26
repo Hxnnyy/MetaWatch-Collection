@@ -1,6 +1,6 @@
 # Model and Persona Routing
 
-Arkwright Longflow uses **provider aliases** rather than physical model names everywhere except `modelAliases`. To roll a frontier-version bump, edit `modelAliases` in one place — every routing rule resolves to the new version automatically.
+MetaWatch Longflow uses **provider aliases** rather than physical model names everywhere except `modelAliases`. To roll a frontier-version bump, edit `modelAliases` in one place — every routing rule resolves to the new version automatically.
 
 ## Aliases
 

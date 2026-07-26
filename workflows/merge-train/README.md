@@ -1,6 +1,6 @@
-# Arkwright Merge Train
+# MetaWatch Merge Train
 
-Arkwright Merge Train is a workflow for taking a feature branch or parent PR through rigorous pre-merge audit, optional child slicing, remediation, signed-off child integration, rolling parent checkpoints, and final parent manual-review readiness.
+MetaWatch Merge Train is a workflow for taking a feature branch or parent PR through rigorous pre-merge audit, optional child slicing, remediation, signed-off child integration, rolling parent checkpoints, and final parent manual-review readiness.
 
 Use it when a parent branch is too large for ordinary review or when multiple child PRs must be integrated without losing global coherence.
 

@@ -1,12 +1,12 @@
 ---
 name: longflow-orchestrator
-description: "End-to-end Arkwright Longflow: rough intent through council convergence, PRD, issue slicing, orchestrated implementation, wave gates, closeout, and handover."
+description: "End-to-end MetaWatch Longflow: rough intent through council convergence, PRD, issue slicing, orchestrated implementation, wave gates, closeout, and handover."
 disable-model-invocation: true
 ---
 
 # Longflow Orchestrator
 
-Run the whole Arkwright Longflow when the user wants a feature, plan, or rough intent converted into shipped, audited work.
+Run the whole MetaWatch Longflow when the user wants a feature, plan, or rough intent converted into shipped, audited work.
 
 ## Hard rules
 

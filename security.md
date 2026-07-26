@@ -1,6 +1,8 @@
-# Security
+# Security and portability
 
-Arkwright Workflows is documentation and orchestration tooling. It does not require secrets by default.
+MetaWatch is documentation and orchestration tooling. It does not require secrets by default.
+
+Report a suspected vulnerability privately to the repository owner through GitHub's security-reporting channel when available. Do not open a public issue containing an active credential or exploit.
 
 ## Repository Rules
 
@@ -8,6 +10,10 @@ Arkwright Workflows is documentation and orchestration tooling. It does not requ
 - Do not embed provider API keys in workflow configs.
 - Keep model aliases and harness names in config; keep credentials in the target harness or environment.
 - Treat branch pushes, PR merges, destructive migrations, and production environment changes as governed actions.
+- Do not publish absolute user paths, personal identifiers, customer context, transcripts, account-specific settings, or private integrations.
+- Do not redistribute third-party plugin assets without clear permission.
+
+`npm run validate:public` rejects common absolute paths, token-like assignments, private-key headers, selected provider token formats, missing registry targets, and explicit platform-only assumptions. Pattern checks can produce neither a complete secret scan nor a licence review; contributors must still inspect the diff.
 
 ## Workflow Security
 

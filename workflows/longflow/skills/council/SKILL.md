@@ -3,7 +3,7 @@ name: council
 description: Run a two-stage LLM council convergence loop with model-level and persona-level audits, using a lab-independent chair, per-PRD persona routing, and bounded convergence rules.
 ---
 
-# Council (Arkwright Longflow)
+# Council (MetaWatch Longflow)
 
 Use this skill after grilling and before write-a-prd.
 

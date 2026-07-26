@@ -32,7 +32,7 @@ Rationale: Merge Train handles large parent branches where ordinary correctness 
 
 ## 2026-05-27: Repository Becomes Canonical Skill Source
 
-Decision: keep Arkwright workflow skills canonical in this repository and export them into `~/.agents/skills/arkwright-workflows` for harness discovery.
+Decision: keep workflow skills canonical in this repository and export them into `~/.agents/skills/metawatch` for harness discovery.
 
 Rationale: `.agents` is not a git repository, so direct installed-skill edits drift without review history. Repo-first iteration gives workflow changes normal diff, validation, and rollback behavior while still keeping Codex, Claude Code, and Gemini pointed at the same installed skill group.
 
@@ -71,3 +71,9 @@ Rationale: completed-but-open threads can continue occupying harness capacity an
 Decision: replace the per-reviewer iteration cap with a hard budget of 3 review cycles per gate (each wave gate and the final-closeout panel). A cycle is any reviewer dispatch against the gate plus its remediation; relabelled "fresh"/"final"/"zero-blocker" panels count against the same budget. At the budget, only material findings (exploitable security vulnerability, data loss/corruption, tenant-isolation breach, failing predicate/test) hard-block; all other open findings are recorded as residual findings and carried to `merge-train`, which re-reviews the full branch pre-merge and is the designated backstop. Merge Train's own audit-remediate loop is likewise capped at 3 cycles per child, with cap-hit held for owner disposition. `STATE.json` gains `reviewer_verdicts.<gate>.review_cycles`.
 
 Rationale: the CallOS #244 run showed the per-reviewer cap being bypassed by renaming — successive "zero-blocker", "final", "final-final", "absolute", and "release" panels ran ~10 review rounds per child issue. Each round found progressively more marginal edge cases while remediation added structure that generated the next round's findings; session logs put the run at ~107B input tokens over four days with 57% of subagent dispatches being review/gate tasks. A gate-scoped budget that no renaming can reset, plus a materiality bar for what may stall the run, bounds review cost at the point of diminishing returns while merge-train still catches stragglers before merge.
+
+## 2026-07-26: Publish the Portable Harness as MetaWatch
+
+Decision: make MetaWatch the public repository identity and distribute a registry of review-first, portable primitives. Preserve Longflow and Merge Train, and add only audited user-authored skills that are self-contained and general-purpose.
+
+Rationale: the useful product is a curated harness distribution, not a machine-global configuration dump or a cosmetic rename. Installation must inspect and merge with local rules; ambiguous provenance, private context, credentials, machine paths, plugin-owned material, and platform-specific configuration remain excluded. The Git history preserves the repository's earlier Arkwright identity.

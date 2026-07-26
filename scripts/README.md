@@ -51,4 +51,4 @@ npm run export:agents
 npm run validate:install
 ```
 
-The skill exporter refreshes `~/.agents/skills/arkwright-workflows` from this repo and repairs Codex/Claude skill links. The agent exporter repairs Claude reviewer-persona symlinks from `~/.agents/agents`. Gemini discovers `~/.agents/skills` directly, so no Gemini skill symlinks are created.
+The skill exporter refreshes `~/.agents/skills/metawatch` from this repo and repairs Codex/Claude skill links. The agent exporter repairs Claude reviewer-persona symlinks from `~/.agents/agents`. Gemini discovers `~/.agents/skills` directly, so no Gemini skill symlinks are created.

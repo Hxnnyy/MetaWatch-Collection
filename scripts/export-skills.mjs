@@ -62,7 +62,7 @@ function createHarnessLink(harnessRoot, skillName) {
 
 function writeGroupReadme() {
   const body = [
-    "# Arkwright Workflows",
+    "# MetaWatch",
     "",
     "Generated installed skill group. Canonical source lives in:",
     "",

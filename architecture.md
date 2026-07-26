@@ -1,6 +1,6 @@
 # Architecture
 
-Arkwright Workflows is organized as a workflow-pack repository.
+MetaWatch is organized as a registry-backed primitive repository.
 
 ## Boundaries
 
@@ -8,6 +8,8 @@ Arkwright Workflows is organized as a workflow-pack repository.
 - `workflows/<name>/` contains self-contained workflow packs with README, docs, skills, examples, templates, and config.
 - `shared/` contains canonical orchestration, review, verification, and template primitives reused across workflows.
 - `scripts/` contains workflow-aware utilities that operate on workflow config files and repository docs.
+- `skills/` contains small, independently installable portable skills.
+- `registry.json` is the public index and installation boundary; entries point to existing primitives and their human-readable documentation.
 
 ## Current Workflow Packs
 

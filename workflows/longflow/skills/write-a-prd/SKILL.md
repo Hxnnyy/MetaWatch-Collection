@@ -3,7 +3,7 @@ name: write-a-prd
 description: Use to write a PRD or plan a feature through interview, codebase exploration, module mapping, and verifiable definition of done.
 ---
 
-# Write a PRD (Arkwright Longflow)
+# Write a PRD (MetaWatch Longflow)
 
 Author a parent PRD that downstream skills (`prd-to-issues`, `issues-execution`) can convert into independently-grabbable child issues with mechanically verifiable acceptance criteria.
 
