@@ -44,6 +44,21 @@ export const publicSkills = [
     name: "merge-train",
     source: "workflows/merge-train/skills/merge-train",
     workflow: "merge-train"
+  },
+  {
+    name: "code-economy",
+    source: "skills/code-economy",
+    workflow: "standalone"
+  },
+  {
+    name: "tdd",
+    source: "skills/tdd",
+    workflow: "standalone"
+  },
+  {
+    name: "supabase-secure-by-default",
+    source: "skills/supabase-secure-by-default",
+    workflow: "standalone"
   }
 ];
 
