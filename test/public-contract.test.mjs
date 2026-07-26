@@ -66,6 +66,30 @@ test("catalog matches the exact curated skill set", () => {
   ]);
 });
 
+test("Corey Haines source contract pins paths and includes reviewed AI SEO references", () => {
+  const provenancePath = path.join(repoRoot, "third_party/corey-haines/provenance.json");
+  const provenance = JSON.parse(fs.readFileSync(provenancePath, "utf8"));
+  assert.equal(provenance.revision, "c21a984a56da10fb6085e6334f6f60929220a4da");
+  assert.deepEqual(provenance.sourceContract.upstreamPathsAtRevision, {
+    "ai-seo": "skills/ai-seo",
+    "cold-email": "skills/cold-email",
+    "copywriting": "skills/copywriting",
+    "pricing-strategy": "skills/pricing",
+    "product-marketing-context": "skills/product-marketing",
+    "programmatic-seo": "skills/programmatic-seo"
+  });
+  assert.deepEqual(provenance.sourceContract.requiredIncludedFiles["ai-seo"], [
+    "references/citations-vs-recommendations.md",
+    "references/content-types.md",
+    "references/okf.md"
+  ]);
+  assert.deepEqual(provenance.sourceContract.declaredOmissions, []);
+  const aiSeo = provenance.assets.find(({ name }) => name === "ai-seo");
+  for (const file of provenance.sourceContract.requiredIncludedFiles["ai-seo"]) {
+    assert.ok(fs.existsSync(path.join(path.dirname(provenancePath), aiSeo.path, file)), file);
+  }
+});
+
 test("Context7 prerequisite and skill-authoring meta-skill are discoverable", () => {
   const context7 = fs.readFileSync(path.join(repoRoot, "third_party/context7/README.md"), "utf8");
   assert.match(context7, /does not install the external CLI/i);

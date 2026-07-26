@@ -73,6 +73,7 @@ for (const bundle of registry.bundles ?? []) {
     if (!fs.existsSync(licensePath)) failures.push(`${bundle.provenanceFile}: missing retained license ${provenance.licenseFile}`);
     else if (!/MIT License|The MIT License/.test(fs.readFileSync(licensePath, "utf8"))) failures.push(`${bundle.provenanceFile}: retained license is not MIT`);
     const assetNames = new Set((provenance.assets ?? []).map((asset) => asset.name));
+    const assetsByName = new Map((provenance.assets ?? []).map((asset) => [asset.name, asset]));
     for (const asset of provenance.assets ?? []) {
       for (const field of ["name", "path", "upstreamPath", "designation", "modifications", "dependencies"]) {
         if (asset[field] === undefined || asset[field] === "") failures.push(`${bundle.provenanceFile}: ${asset.name ?? "<unknown>"} missing ${field}`);
@@ -83,6 +84,26 @@ for (const bundle of registry.bundles ?? []) {
       }
       if (!new Set(["exact", "adapted"]).has(asset.designation)) failures.push(`${bundle.provenanceFile}: ${asset.name} designation must be exact or adapted`);
       if (asset.path && !fs.existsSync(path.join(provenanceRoot, asset.path))) failures.push(`${bundle.provenanceFile}: missing asset ${asset.path}`);
+    }
+    if (provenance.sourceContract) {
+      const { upstreamPathsAtRevision, requiredIncludedFiles, declaredOmissions } = provenance.sourceContract;
+      if (!upstreamPathsAtRevision || !requiredIncludedFiles || !Array.isArray(declaredOmissions)) failures.push(`${bundle.provenanceFile}: invalid sourceContract`);
+      for (const [assetName, upstreamPath] of Object.entries(upstreamPathsAtRevision ?? {})) {
+        if (assetsByName.get(assetName)?.upstreamPath !== upstreamPath) failures.push(`${bundle.provenanceFile}: ${assetName} upstream path drifted from sourceContract`);
+      }
+      for (const [assetName, files] of Object.entries(requiredIncludedFiles ?? {})) {
+        const asset = assetsByName.get(assetName);
+        if (!asset) {
+          failures.push(`${bundle.provenanceFile}: required files reference unknown asset ${assetName}`);
+          continue;
+        }
+        for (const file of files) {
+          if (!fs.existsSync(path.join(provenanceRoot, asset.path, file))) failures.push(`${bundle.provenanceFile}: ${assetName} missing required upstream file ${file}`);
+        }
+      }
+      for (const omission of declaredOmissions ?? []) {
+        if (!omission.asset || !omission.path || !omission.rationale) failures.push(`${bundle.provenanceFile}: every declared omission needs asset, path, and rationale`);
+      }
     }
   } else if (bundle.provenanceFile) {
     failures.push(`registry.json: MetaWatch-owned bundle ${bundle.id} must not claim third-party provenance`);
