@@ -1,0 +1,17 @@
+{
+  "creator": "Corey Haines",
+  "upstreamRepository": "https://github.com/coreyhaines31/marketingskills",
+  "revision": "c21a984a56da10fb6085e6334f6f60929220a4da",
+  "license": "MIT",
+  "licenseFile": "LICENSE",
+  "installationDisposition": "install-complete-bundle-root",
+  "assets": [
+    { "name": "marketing-router", "path": "marketing", "upstreamPath": "skills", "designation": "adapted", "modifications": "Local top-level router that consolidates the six selected upstream workflows into one progressively disclosed skill.", "dependencies": ["ai-seo", "cold-email", "copywriting", "pricing-strategy", "product-marketing-context", "programmatic-seo"] },
+    { "name": "ai-seo", "path": "marketing/workflows/ai-seo", "upstreamPath": "skills/ai-seo", "designation": "adapted", "modifications": "Packaged under the shared marketing router; upstream SKILL.md is named workflow.md and local changelog/evals are retained.", "dependencies": ["marketing-router"] },
+    { "name": "cold-email", "path": "marketing/workflows/cold-email", "upstreamPath": "skills/cold-email", "designation": "adapted", "modifications": "Packaged under the shared marketing router; upstream SKILL.md is named workflow.md and local changelog/evals are retained.", "dependencies": ["marketing-router"] },
+    { "name": "copywriting", "path": "marketing/workflows/copywriting", "upstreamPath": "skills/copywriting", "designation": "adapted", "modifications": "Packaged under the shared marketing router; upstream SKILL.md is named workflow.md and local changelog/evals are retained.", "dependencies": ["marketing-router"] },
+    { "name": "pricing-strategy", "path": "marketing/workflows/pricing-strategy", "upstreamPath": "skills/pricing-strategy", "designation": "adapted", "modifications": "Packaged under the shared marketing router; upstream SKILL.md is named workflow.md and local changelog/evals are retained.", "dependencies": ["marketing-router"] },
+    { "name": "product-marketing-context", "path": "marketing/workflows/product-marketing-context", "upstreamPath": "skills/product-marketing-context", "designation": "adapted", "modifications": "Packaged under the shared marketing router; upstream SKILL.md is named workflow.md and local changelog/evals are retained.", "dependencies": ["marketing-router"] },
+    { "name": "programmatic-seo", "path": "marketing/workflows/programmatic-seo", "upstreamPath": "skills/programmatic-seo", "designation": "adapted", "modifications": "Packaged under the shared marketing router; upstream SKILL.md is named workflow.md and local changelog/evals are retained.", "dependencies": ["marketing-router"] }
+  ]
+}

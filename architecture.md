@@ -9,6 +9,7 @@ MetaWatch is organized as a registry-backed primitive repository.
 - `shared/` contains canonical orchestration, review, verification, and template primitives reused across workflows.
 - `scripts/` contains workflow-aware utilities that operate on workflow config files and repository docs.
 - `skills/` contains small, independently installable portable skills.
+- `third_party/` contains dependency-complete imported/adapted bundles, each with its own licence and machine-readable provenance.
 - `registry.json` is the public index and installation boundary; entries point to existing primitives and their human-readable documentation.
 
 ## Current Workflow Packs

@@ -1,0 +1,17 @@
+{
+  "creator": "Matt Pocock",
+  "upstreamRepository": "https://github.com/mattpocock/skills",
+  "revision": "ed37663cc5fbef691ddfecd080dff42f7e7e350d",
+  "license": "MIT",
+  "licenseFile": "LICENSE",
+  "installationDisposition": "install-complete-bundle-root",
+  "assets": [
+    { "name": "codebase-design", "path": "codebase-design", "upstreamPath": "skills/engineering/codebase-design", "designation": "exact", "modifications": "No changes to installed content; optional upstream harness agent metadata is outside this snapshot.", "dependencies": [] },
+    { "name": "domain-modeling", "path": "domain-modeling", "upstreamPath": "skills/engineering/domain-modeling", "designation": "exact", "modifications": "No changes to installed content; optional upstream harness agent metadata is outside this snapshot.", "dependencies": [] },
+    { "name": "writing-great-skills", "path": "writing-great-skills", "upstreamPath": "skills/productivity/writing-great-skills", "designation": "exact", "modifications": "No changes to installed content; optional upstream harness agent metadata is outside this snapshot.", "dependencies": [] },
+    { "name": "improve-codebase-architecture", "path": "improve-codebase-architecture", "upstreamPath": "skills/engineering/improve-codebase-architecture", "designation": "adapted", "modifications": "Installed local workflow snapshot with MetaWatch harness wording and reporting flow.", "dependencies": ["codebase-design", "domain-modeling", "grilling"] },
+    { "name": "tdd", "path": "tdd", "upstreamPath": "skills/engineering/tdd", "designation": "adapted", "modifications": "Installed local red-green-refactor workflow with expanded test-quality, mocking, and Playwright references.", "dependencies": [] },
+    { "name": "wayfinder", "path": "wayfinder", "upstreamPath": "skills/engineering/wayfinder", "designation": "adapted", "modifications": "Installed local decision-mapping workflow and harness agent metadata.", "dependencies": ["domain-modeling", "grilling"] },
+    { "name": "grilling", "path": "grilling", "upstreamPath": "skills/productivity/grilling", "designation": "adapted", "modifications": "Installed local decision interview workflow and harness agent metadata.", "dependencies": ["domain-modeling"] }
+  ]
+}

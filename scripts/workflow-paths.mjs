@@ -51,13 +51,58 @@ export const publicSkills = [
     workflow: "standalone"
   },
   {
-    name: "tdd",
-    source: "skills/tdd",
+    name: "frontend-design",
+    source: "skills/frontend-design",
     workflow: "standalone"
   },
   {
-    name: "supabase-secure-by-default",
-    source: "skills/supabase-secure-by-default",
+    name: "codebase-design",
+    source: "third_party/matt-pocock/codebase-design",
+    workflow: "standalone"
+  },
+  {
+    name: "domain-modeling",
+    source: "third_party/matt-pocock/domain-modeling",
+    workflow: "standalone"
+  },
+  {
+    name: "writing-great-skills",
+    source: "third_party/matt-pocock/writing-great-skills",
+    workflow: "standalone"
+  },
+  {
+    name: "improve-codebase-architecture",
+    source: "third_party/matt-pocock/improve-codebase-architecture",
+    workflow: "standalone"
+  },
+  {
+    name: "tdd",
+    source: "third_party/matt-pocock/tdd",
+    workflow: "standalone"
+  },
+  {
+    name: "wayfinder",
+    source: "third_party/matt-pocock/wayfinder",
+    workflow: "standalone"
+  },
+  {
+    name: "grilling",
+    source: "third_party/matt-pocock/grilling",
+    workflow: "standalone"
+  },
+  {
+    name: "frontend-design-plus",
+    source: "third_party/emil-kowalski/frontend-design-plus",
+    workflow: "standalone"
+  },
+  {
+    name: "marketing",
+    source: "third_party/corey-haines/marketing",
+    workflow: "standalone"
+  },
+  {
+    name: "context7-cli",
+    source: "third_party/context7/context7-cli",
     workflow: "standalone"
   }
 ];

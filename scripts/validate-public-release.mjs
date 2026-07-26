@@ -42,9 +42,9 @@ function inspect(filePath) {
 }
 
 const registry = JSON.parse(fs.readFileSync(path.join(repoRoot, "registry.json"), "utf8"));
-if (registry.name !== "MetaWatch" || registry.schemaVersion !== 2) failures.push("registry.json: invalid public identity or schema");
+if (registry.name !== "MetaWatch Collection" || registry.schemaVersion !== 3) failures.push("registry.json: invalid public identity or schema");
 for (const bundle of registry.bundles ?? []) {
-  for (const field of ["id", "kind", "root", "readme", "entrypoints"]) {
+  for (const field of ["id", "kind", "ownership", "root", "readme", "entrypoints"]) {
     if (!bundle[field]) failures.push(`registry.json: ${bundle.id ?? "<unknown>"} missing ${field}`);
   }
   if (bundle.root && !fs.existsSync(path.join(repoRoot, bundle.root))) failures.push(`registry.json: missing ${bundle.root}`);
@@ -52,6 +52,40 @@ for (const bundle of registry.bundles ?? []) {
   if (!Array.isArray(bundle.entrypoints) || bundle.entrypoints.length === 0) failures.push(`registry.json: ${bundle.id} needs entrypoints`);
   for (const entrypoint of bundle.entrypoints ?? []) {
     if (!fs.existsSync(path.join(repoRoot, bundle.root, entrypoint))) failures.push(`registry.json: ${bundle.id} missing entrypoint ${entrypoint}`);
+  }
+  if (bundle.ownership === "third-party") {
+    if (!bundle.provenanceFile) {
+      failures.push(`registry.json: ${bundle.id} missing provenanceFile`);
+      continue;
+    }
+    const provenancePath = path.join(repoRoot, bundle.provenanceFile);
+    if (!fs.existsSync(provenancePath)) {
+      failures.push(`registry.json: missing ${bundle.provenanceFile}`);
+      continue;
+    }
+    const provenance = JSON.parse(fs.readFileSync(provenancePath, "utf8"));
+    for (const field of ["creator", "upstreamRepository", "revision", "license", "licenseFile", "installationDisposition", "assets"]) {
+      if (!provenance[field]) failures.push(`${bundle.provenanceFile}: missing ${field}`);
+    }
+    if (!/^[0-9a-f]{40}$/.test(provenance.revision ?? "")) failures.push(`${bundle.provenanceFile}: revision must be a pinned commit`);
+    const provenanceRoot = path.dirname(provenancePath);
+    const licensePath = path.join(provenanceRoot, provenance.licenseFile ?? "");
+    if (!fs.existsSync(licensePath)) failures.push(`${bundle.provenanceFile}: missing retained license ${provenance.licenseFile}`);
+    else if (!/MIT License|The MIT License/.test(fs.readFileSync(licensePath, "utf8"))) failures.push(`${bundle.provenanceFile}: retained license is not MIT`);
+    const assetNames = new Set((provenance.assets ?? []).map((asset) => asset.name));
+    for (const asset of provenance.assets ?? []) {
+      for (const field of ["name", "path", "upstreamPath", "designation", "modifications", "dependencies"]) {
+        if (asset[field] === undefined || asset[field] === "") failures.push(`${bundle.provenanceFile}: ${asset.name ?? "<unknown>"} missing ${field}`);
+      }
+      if (!Array.isArray(asset.dependencies)) failures.push(`${bundle.provenanceFile}: ${asset.name} dependencies must be an array`);
+      for (const dependency of asset.dependencies ?? []) {
+        if (!assetNames.has(dependency) && !dependency.startsWith("external:")) failures.push(`${bundle.provenanceFile}: ${asset.name} has undeclared dependency ${dependency}`);
+      }
+      if (!new Set(["exact", "adapted"]).has(asset.designation)) failures.push(`${bundle.provenanceFile}: ${asset.name} designation must be exact or adapted`);
+      if (asset.path && !fs.existsSync(path.join(provenanceRoot, asset.path))) failures.push(`${bundle.provenanceFile}: missing asset ${asset.path}`);
+    }
+  } else if (bundle.provenanceFile) {
+    failures.push(`registry.json: MetaWatch-owned bundle ${bundle.id} must not claim third-party provenance`);
   }
 }
 for (const resource of registry.resources ?? []) {

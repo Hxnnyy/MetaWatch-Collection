@@ -1,0 +1,7 @@
+interface:
+  display_name: "Frontend Design Plus"
+  short_description: "Apply exhaustive design-engineering polish"
+  default_prompt: "Use $frontend-design-plus to take this interface through a deep design-engineering polish pass."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Wayfinder"
+  short_description: "Map a huge ambiguous effort"
+  default_prompt: "Use $wayfinder to map this destination into decisions, dependencies, evidence, and an executable frontier."
+
+policy:
+  allow_implicit_invocation: false

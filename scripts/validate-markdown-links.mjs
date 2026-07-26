@@ -22,7 +22,7 @@ function stripAnchor(link) {
 }
 
 function validateFile(filePath) {
-  const text = fs.readFileSync(filePath, "utf8");
+  const text = fs.readFileSync(filePath, "utf8").replace(/```[\s\S]*?```/g, "");
   const regex = /(?<!!)\[[^\]]+\]\(([^)]+)\)/g;
   for (const match of text.matchAll(regex)) {
     const raw = match[1].trim();

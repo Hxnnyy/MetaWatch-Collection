@@ -1,0 +1,11 @@
+{
+  "creator": "Emil Kowalski",
+  "upstreamRepository": "https://github.com/emilkowalski/skills",
+  "revision": "6bf24434f7730ad169077756cf9c7cd7bd675fc6",
+  "license": "MIT",
+  "licenseFile": "frontend-design-plus/LICENSE",
+  "installationDisposition": "install-complete-bundle-root",
+  "assets": [
+    { "name": "frontend-design-plus", "path": "frontend-design-plus", "upstreamPath": "skills/emil-design-eng", "designation": "adapted", "modifications": "Renamed and wrapped for deliberate user invocation; installed harness agent metadata retained.", "dependencies": [] }
+  ]
+}

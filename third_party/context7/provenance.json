@@ -1,0 +1,11 @@
+{
+  "creator": "Upstash",
+  "upstreamRepository": "https://github.com/upstash/context7",
+  "revision": "b250c2515694eee4b6df4db82fa056df9ed3e306",
+  "license": "MIT",
+  "licenseFile": "LICENSE",
+  "installationDisposition": "install-skill-root-after-confirming-external-cli-prerequisite",
+  "assets": [
+    { "name": "context7-cli", "path": "context7-cli", "upstreamPath": "skills/context7-cli", "designation": "adapted", "modifications": "Installed snapshot with local changelog; machine-specific Node-manager policy generalized for portability.", "dependencies": ["external:Node.js runtime", "external:npx", "external:ctx7 CLI"] }
+  ]
+}

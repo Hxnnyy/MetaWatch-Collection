@@ -1,0 +1,7 @@
+interface:
+  display_name: "Frontend Design"
+  short_description: "Design restrained, polished product interfaces"
+  default_prompt: "Use $frontend-design to design or refine this interface with strong hierarchy, end-user copy, restrained chrome, and responsive verification."
+
+policy:
+  allow_implicit_invocation: true

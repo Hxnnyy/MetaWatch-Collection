@@ -1,49 +1,34 @@
 {
-  "schemaVersion": 2,
-  "name": "MetaWatch",
-  "description": "Portable, review-first coding-agent workflow and skill bundles.",
+  "schemaVersion": 3,
+  "name": "MetaWatch Collection",
+  "description": "Portable, review-first coding-agent workflow and skill bundles with explicit provenance.",
   "bundles": [
     {
-      "id": "longflow",
-      "kind": "workflow",
-      "root": "workflows/longflow",
-      "readme": "workflows/longflow/README.md",
-      "entrypoints": [
-        "skills/longflow-orchestrator/SKILL.md",
-        "skills/council/SKILL.md",
-        "skills/write-a-prd/SKILL.md",
-        "skills/prd-to-issues/SKILL.md",
-        "skills/issues-execution/SKILL.md",
-        "skills/codebase-quality-sweep/SKILL.md"
-      ]
+      "id": "longflow", "kind": "workflow", "ownership": "metawatch", "root": "workflows/longflow", "readme": "workflows/longflow/README.md",
+      "entrypoints": ["skills/longflow-orchestrator/SKILL.md", "skills/council/SKILL.md", "skills/write-a-prd/SKILL.md", "skills/prd-to-issues/SKILL.md", "skills/issues-execution/SKILL.md", "skills/codebase-quality-sweep/SKILL.md"]
     },
     {
-      "id": "merge-train",
-      "kind": "workflow",
-      "root": "workflows/merge-train",
-      "readme": "workflows/merge-train/README.md",
+      "id": "merge-train", "kind": "workflow", "ownership": "metawatch", "root": "workflows/merge-train", "readme": "workflows/merge-train/README.md",
       "entrypoints": ["skills/merge-train/SKILL.md"]
     },
     {
-      "id": "code-economy",
-      "kind": "skill",
-      "root": "skills/code-economy",
-      "readme": "skills/code-economy/README.md",
-      "entrypoints": ["SKILL.md"]
+      "id": "code-economy", "kind": "skill", "ownership": "metawatch", "root": "skills/code-economy", "readme": "skills/code-economy/README.md", "entrypoints": ["SKILL.md"]
     },
     {
-      "id": "tdd",
-      "kind": "skill",
-      "root": "skills/tdd",
-      "readme": "skills/tdd/README.md",
-      "entrypoints": ["SKILL.md"]
+      "id": "frontend-design", "kind": "skill", "ownership": "metawatch", "root": "skills/frontend-design", "readme": "skills/frontend-design/README.md", "entrypoints": ["SKILL.md"]
     },
     {
-      "id": "supabase-secure-by-default",
-      "kind": "skill",
-      "root": "skills/supabase-secure-by-default",
-      "readme": "skills/supabase-secure-by-default/README.md",
-      "entrypoints": ["SKILL.md"]
+      "id": "matt-pocock-skills", "kind": "collection", "ownership": "third-party", "root": "third_party/matt-pocock", "readme": "third_party/matt-pocock/README.md", "provenanceFile": "third_party/matt-pocock/provenance.json",
+      "entrypoints": ["codebase-design/SKILL.md", "domain-modeling/SKILL.md", "writing-great-skills/SKILL.md", "improve-codebase-architecture/SKILL.md", "tdd/SKILL.md", "wayfinder/SKILL.md", "grilling/SKILL.md"]
+    },
+    {
+      "id": "frontend-design-plus", "kind": "skill", "ownership": "third-party", "root": "third_party/emil-kowalski/frontend-design-plus", "readme": "third_party/emil-kowalski/README.md", "provenanceFile": "third_party/emil-kowalski/provenance.json", "entrypoints": ["SKILL.md"]
+    },
+    {
+      "id": "marketing", "kind": "collection", "ownership": "third-party", "root": "third_party/corey-haines/marketing", "readme": "third_party/corey-haines/README.md", "provenanceFile": "third_party/corey-haines/provenance.json", "entrypoints": ["SKILL.md"]
+    },
+    {
+      "id": "context7-cli", "kind": "skill", "ownership": "third-party", "root": "third_party/context7/context7-cli", "readme": "third_party/context7/README.md", "provenanceFile": "third_party/context7/provenance.json", "entrypoints": ["SKILL.md"]
     }
   ],
   "resources": [

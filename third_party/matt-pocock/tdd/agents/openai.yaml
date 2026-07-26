@@ -1,0 +1,7 @@
+interface:
+  display_name: "TDD"
+  short_description: "Drive behavior through red-green-refactor"
+  default_prompt: "Use $tdd to implement this behavior one tested vertical slice at a time."
+
+policy:
+  allow_implicit_invocation: true

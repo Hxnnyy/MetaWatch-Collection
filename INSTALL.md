@@ -12,8 +12,9 @@ MetaWatch does not prescribe a universal harness directory. Coding agents should
 2. Inspect existing project and user instructions; more specific local rules remain authoritative.
 3. Propose additions and conflicts before modifying harness state.
 4. Preserve the complete registered bundle `root`; do not install a nested workflow skill by itself.
-5. Merge instruction text; never replace an existing `AGENTS.md` wholesale.
-6. Run `npm test` in MetaWatch and the relevant checks in the target project.
-7. Review the resulting diff and report preserved customisations and exclusions.
+5. Preserve `provenanceFile` and its referenced licence whenever installing or redistributing a third-party bundle.
+6. Merge instruction text; never replace an existing `AGENTS.md` wholesale.
+7. Run `npm test` in MetaWatch and the relevant checks in the target project.
+8. Review the resulting diff and report preserved customisations and exclusions.
 
 The repository's legacy export helpers are maintainer conveniences for an already configured local harness. They are not the public installation contract.

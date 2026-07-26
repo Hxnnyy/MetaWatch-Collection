@@ -77,3 +77,9 @@ Rationale: repeated relabelling of review panels can bypass a per-reviewer cap, 
 Decision: make MetaWatch the public repository identity and distribute a registry of review-first, portable primitives. Preserve Longflow and Merge Train, and add only audited user-authored skills that are self-contained and general-purpose.
 
 Rationale: the useful product is a curated harness distribution, not a machine-global configuration dump or a cosmetic rename. Installation must inspect and merge with local rules; ambiguous provenance, private context, credentials, machine paths, plugin-owned material, and platform-specific configuration remain excluded. The Git history preserves the repository's earlier Arkwright identity.
+
+## 2026-07-26: Add a Provenance-Gated Skill Catalog
+
+Decision: expand MetaWatch Collection with the exact curated skill set recorded in `registry.json`. MetaWatch-owned work and third-party work have distinct ownership metadata. Third-party skills ship only as dependency-complete roots with pinned provenance and retained MIT notices.
+
+Rationale: a centralized harness catalog is useful only when direct users can tell what is original, exact, adapted, externally dependent, or excluded. Bundle-level installation prevents relative references and companion-skill dependencies from being separated.

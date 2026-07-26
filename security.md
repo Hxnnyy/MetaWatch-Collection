@@ -12,6 +12,7 @@ Report a suspected vulnerability privately to the repository owner through GitHu
 - Treat branch pushes, PR merges, destructive migrations, and production environment changes as governed actions.
 - Do not publish absolute user paths, personal identifiers, customer context, transcripts, account-specific settings, or private integrations.
 - Do not redistribute third-party plugin assets without clear permission.
+- Preserve the licence and provenance record beside every redistributed third-party bundle.
 
 `npm run validate:public` rejects common absolute paths, token-like assignments, private-key headers, selected provider token formats, missing registry targets, and explicit platform-only assumptions. Pattern checks can produce neither a complete secret scan nor a licence review; contributors must still inspect the diff.
 
