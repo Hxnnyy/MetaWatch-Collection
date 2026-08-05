@@ -24,7 +24,6 @@ Copy templates into the delivery workspace and initialize:
 - `CHECKPOINTS/`
 - `CONTINUOUS_DIRECTIVE.md`
 - `EXECPLAN.md`
-- `HEARTBEAT.md`
 
 ## Child Processing
 

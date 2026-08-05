@@ -79,12 +79,23 @@ function validateCommon(config) {
   return aliasNames(config);
 }
 
+const validTiers = ["T0", "T1", "T2", "T3"];
+
 function validateLongflow(config, names) {
+  const tierDefault = getAt(config, "tier.default");
+  if (tierDefault !== "propose" && !validTiers.includes(tierDefault)) {
+    fail(`tier.default must be "propose" or one of ${validTiers.join(", ")}`);
+  }
+  const blockAt = getAt(config, "tier.blockForApprovalAt");
+  if (!Array.isArray(blockAt) || blockAt.some((tier) => !validTiers.includes(tier))) {
+    fail(`tier.blockForApprovalAt must be an array of tiers from ${validTiers.join(", ")}`);
+  }
+
   requireAlias(config, names, "models.councilChair.alias");
   requireString(config, "models.councilChair.reasoning");
-  requireAliasArray(config, names, "models.councilStageA");
-  requireAliasArray(config, names, "models.councilStageB");
+  requireAliasArray(config, names, "models.council");
 
+  requireAlias(config, names, "routing.intentAuditor");
   requireAlias(config, names, "routing.leadByIssueType.frontend");
   requireAlias(config, names, "routing.leadByIssueType.backend");
   requireAlias(config, names, "routing.leadByIssueType.security");
@@ -93,32 +104,29 @@ function validateLongflow(config, names) {
   requireAliasArray(config, names, "routing.reviewersByIssueType.backend");
   requireAliasArray(config, names, "routing.reviewersByIssueType.security");
   requireAliasArray(config, names, "routing.reviewersByIssueType.docs");
-  requireAliasArray(config, names, "routing.waveGateReviewers");
+  requireAliasArray(config, names, "routing.promiseGateReviewers");
   requireAliasArray(config, names, "routing.finalCloseoutModels");
   requireArray(config, "routing.finalCloseoutPersonas");
 
-  const personasByPrdType = getAt(config, "routing.personasByPrdType");
-  if (!personasByPrdType || typeof personasByPrdType !== "object" || Array.isArray(personasByPrdType)) {
-    fail("routing.personasByPrdType must be an object mapping PRD type to persona array");
-  }
-  if (!Array.isArray(personasByPrdType.default) || personasByPrdType.default.length === 0) {
-    fail("routing.personasByPrdType.default must be a non-empty array");
-  }
+  requireArray(config, "adjudication.providers");
+  requireString(config, "adjudication.fallback");
 
-  requireInteger(config, "convergence.openCriticalsAllowed", 0);
-  requireArray(config, "convergence.requireDispositionForSeverity");
-  requireInteger(config, "convergence.maxNewMediumOrAboveFindingsPerCycleToExit", 0);
-  requireBoolean(config, "convergence.severityDowngradeRequiresChairSignoff");
-  requireInteger(config, "convergence.stageAMaxCycles", 1);
-  requireInteger(config, "convergence.stageBMaxCycles", 1);
-  requireString(config, "convergence.atCapAction");
+  requireInteger(config, "council.maxRounds", 1);
+  requireInteger(config, "council.t3MaxRounds", 1);
+  if (getAt(config, "council.maxRounds") > 2 || getAt(config, "council.t3MaxRounds") > 2) {
+    fail("council rounds are capped at 2 (one round default, second is a T3 exception)");
+  }
+  requireBoolean(config, "council.severityDowngradeRequiresChairSignoff");
 
   requireBoolean(config, "guardrails.requireFreshBranch");
   requireBoolean(config, "guardrails.requireFreshWorktree");
   requireArray(config, "guardrails.protectedEnvironment");
   requireBoolean(config, "guardrails.orchestratorDelegationDefault");
   requireInteger(config, "guardrails.maxImplementerRetryPerIssue", 1);
-  requireInteger(config, "guardrails.maxReviewerRetryPerCategory", 1);
+  requireInteger(config, "guardrails.reviewCycleBudgetPerGate", 1);
+  if (getAt(config, "guardrails.reviewCycleBudgetPerGate") > 3) {
+    fail("guardrails.reviewCycleBudgetPerGate cannot exceed the hard budget of 3");
+  }
 }
 
 function validateMergeTrain(config, names) {
@@ -141,9 +149,8 @@ function validateMergeTrain(config, names) {
   requireBoolean(config, "hardBlockPolicy.criticalRiskRequiresHumanSignoff");
   requireBoolean(config, "hardBlockPolicy.irreversibleActionsRequireHumanSignoff");
   requireBoolean(config, "hardBlockPolicy.allowPassWithNotesAtFinalCloseout");
-  requireString(config, "heartbeatPolicy.stateFile");
-  requireInteger(config, "heartbeatPolicy.staleAfterSeconds", 60);
-  requireBoolean(config, "heartbeatPolicy.rereadAtBatchBoundaries");
+  requireString(config, "statePolicy.stateFile");
+  requireBoolean(config, "statePolicy.rereadAtBatchBoundaries");
   requireString(config, "branchConventions.parentBranchPattern");
   requireString(config, "branchConventions.childBranchPattern");
   requireString(config, "branchConventions.mergePolicy");

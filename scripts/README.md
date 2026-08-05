@@ -18,15 +18,15 @@ npm run prompt:kickoff -- workflows\longflow\longflow.config.example.json output
 npm run prompt:kickoff -- workflows\merge-train\merge-train.config.example.json outputs\merge-train-kickoff.txt
 ```
 
-## Heartbeat Watcher
+## Shared Tree Sync
 
-Optional helper for harnesses that support background shell processes:
+`shared/` is the single authoring source for orchestration/review/verification contracts. The flattened copy that ships with skills is generated:
 
 ```powershell
-npm run heartbeat:watch -- --state .\STATE.json --interval 60 --stale-after 900
+npm run sync:shared
 ```
 
-The watcher emits a loud terminal reminder when heartbeat state is stale. It does not resume a stopped model by itself.
+`npm test` runs `sync:shared -- --check` and fails when the trees drift.
 
 ## Markdown Link Validation
 

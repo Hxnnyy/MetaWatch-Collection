@@ -14,13 +14,13 @@ MetaWatch is organized as a registry-backed primitive repository.
 
 ## Current Workflow Packs
 
-- `workflows/longflow/`: planned delivery from rough intent to PRD, child issues, implementation waves, final closeout, and handover.
+- `workflows/longflow/`: calibrated delivery from rough intent — intent contract, tier calibration, optional council and PRD, ledger slicing, continuous execution with promise gates, closeout, and retro.
 - `workflows/merge-train/`: large parent PR/branch audit, child PR remediation, parent integration checkpoints, and final manual-review readiness. Merge Train owns a workflow-local strict review bar for structural maintainability checks that are stronger than the shared reviewer baseline.
 
 ## Shared Primitives
 
-Shared primitives intentionally stay small and protocol-oriented. Workflow packs reference them rather than duplicating the same rules in full. This keeps continuous mode, bounded agent lifecycle, hard blocks, heartbeat recovery, reviewer semantics, strict structural review, predicate/test adequacy, autonomy envelope, and course-correction behavior consistent.
+Shared primitives intentionally stay small and protocol-oriented. Workflow packs reference them rather than duplicating the same rules in full. This keeps intent contracts, process calibration, promise gates, continuous mode, bounded agent lifecycle, hard blocks, reviewer semantics, intent audits, walkthrough verification, strict structural review, predicate/test adequacy, autonomy envelope, and course-correction behavior consistent. `shared/` is the single authoring source; `workflows/longflow/skills/_shared/` is generated from it by `scripts/sync-shared.mjs`.
 
 ## Scripts
 
-`scripts/validate-config.mjs` detects Longflow and Merge Train config shapes. `scripts/generate-kickoff-prompt.mjs` emits workflow-specific kickoff prompts. `scripts/validate-markdown-links.mjs` provides lightweight path/link validation for docs-heavy changes.
+`scripts/validate-config.mjs` detects Longflow and Merge Train config shapes. `scripts/generate-kickoff-prompt.mjs` emits workflow-specific kickoff prompts. `scripts/sync-shared.mjs` generates the shipped `_shared` tree from `shared/` (with `--check` for CI). `scripts/validate-markdown-links.mjs` provides lightweight path/link validation for docs-heavy changes.

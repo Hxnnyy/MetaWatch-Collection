@@ -6,10 +6,12 @@ This guide is for people who can describe business goals clearly but do not writ
 
 You do not need to code. You do need to:
 
-1. Describe what success looks like in plain language.
-2. Answer decision questions during grill and council loops.
-3. Confirm when a proposal truly matches your intent.
+1. Describe what success looks like in plain language — this becomes the intent contract (`INTENT.md`), and only you can change it once frozen.
+2. Confirm the ceremony tier the orchestrator proposes (how much process the task deserves).
+3. Answer decision questions during grill and council rounds.
 4. Respond only when a real hard block appears.
+
+Every progress update you see is required to open in plain English: what happened, what was decided, and what it means for the product — plus a confidence line that the work still matches your intent. If an update doesn't make sense to you, that is a defect in the process, not in you: say so.
 
 ## What the Agents Handle
 
@@ -41,7 +43,7 @@ Look for intent drift:
 
 ### Council
 
-Watch split decisions. You only need to step in when:
+One adversarial round, then dispositions. You only need to step in when:
 
 - There is a tie-break choice that is mostly product taste.
 - You prefer one tradeoff direction.
@@ -58,13 +60,14 @@ Let continuous mode run unless the orchestrator reports a hard block.
 
 Read the final closure summary:
 
-- What was shipped
-- Which tests/predicates passed
-- Which follow-ups were intentionally deferred
+- Which of your promises are now true (with walkthrough evidence)
+- What it cost against the estimate
+- Which follow-ups were intentionally deferred, and why they're safe to defer
 
 ## Common Mistakes to Avoid
 
 - Rushing from grill to coding before proposal alignment.
 - Ignoring split decisions in council logs.
 - Accepting vague acceptance criteria.
-- Closing work on "looks good" without predicate evidence.
+- Closing work on "looks good" without walkthrough or predicate evidence.
+- Letting ceremony grow unchallenged: if the process feels heavier than the product deserves, say so — descoping is cheap, wasted effort is not.

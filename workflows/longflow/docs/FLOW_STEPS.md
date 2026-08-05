@@ -1,98 +1,65 @@
 # Flow Steps
 
-This file is the practical execution order for MetaWatch Longflow.
+This file is the practical execution order for MetaWatch Longflow. Steps marked with a tier only run at that tier and above — calibration decides, and skipping below-tier steps needs no justification.
 
-## Step 1: Grill
+## Step 1: Intent and Calibration (always)
 
-Goal: convert raw intent into a proposal with explicit decisions and explicit unresolved risks.
+Goal: a frozen intent contract and an explicit decision about how much process this run deserves.
 
-Skill: grilling
-Output: proposal draft + decision tree summary + open-risk register.
+Skill: longflow-orchestrator (Phase 0), with `grilling` for the stress test.
+Outputs: `tasks/INTENT.md` (numbered promises, non-goals, product class, owner sign-off), a tier (T0–T3) with plain-English rationale, the riskiest assumption named, a rough budget.
 
-## Step 2: Human Alignment Check
+**T0 exits here**: build the thing, no further Longflow.
 
-Goal: ensure proposal matches user intent before council work.
+## Step 2: Spike the Riskiest Assumption (when cheap)
 
-Action:
+Goal: answer the question that would invalidate the plan, before the plan is funded.
 
-- User reads proposal.
-- Fix mismatches.
-- Confirm readiness for council.
+Output: the answer, recorded in the execplan; possibly better questions for the PRD interview.
 
-## Step 3: Council Stage A (Model-Level)
+## Step 3: Council (T2 on genuine disagreement; T3 default)
 
-Goal: produce a converged plan via independent voting members and a lab-independent chair.
+Goal: one time-boxed adversarial round over the proposal.
 
 Skill: council
-Convergence: every High/Medium has an explicit disposition (`accept` / `reject` / `defer` / `accepted-as-residual-risk`); zero open Criticals; new ≥Medium findings per cycle ≤ threshold.
-Bounds: hard cap from `convergence.stageAMaxCycles` (default 5); chair force-dispositions remaining items at cap.
-Output: stage-a log + ballot + disposition table + severity-downgrade log + residual-risk list.
+Rules: independent multi-lab reviews; one pragmatist seat on the strongest model arguing the smallest faithful implementation; lab-independent chair dispositions every finding in one pass; empirical disagreements become spikes. Second round only at T3 with chair justification.
+Output: proposal vNext, spike queue, residual risks, plain-English owner summary.
 
-## Step 4: Council Stage B (Persona-Level)
+## Step 4: Write Parent PRD (T2+)
 
-Goal: per-PRD persona audit, with persona set routed by PRD type rather than always-all-five.
-
-Skill: council
-Persona selection: `routing.personasByPrdType[prdType]` (default = all five). PRD-declared exclusions require chair sign-off.
-Convergence: same exit rules and cycle cap as Stage A (`convergence.stageBMaxCycles`).
-Output: stage-b matrix + convergence confirmation + severity-downgrade log.
-
-## Step 5: Write Parent PRD
-
-Goal: produce an implementation-ready parent PRD with measurable definition of done.
+Goal: a PRD subordinate to the intent contract.
 
 Skill: write-a-prd
-Output: parent PRD issue body content.
+Outputs: promise trace, module map, parallelism analysis, frozen promise-level acceptance, subtraction-pass record (cuts + later-maybe list).
 
-## Step 6: Slice PRD into Child Issues
+## Step 5: Slice into Ledger Items (T1+; informal at T1)
 
-Goal: produce parallel-safe implementation slices with deterministic acceptance predicates.
+Goal: parallel-safe vertical slices, each citing its promise, classed and sized.
 
 Skill: prd-to-issues
-Outputs:
+Outputs: `tasks/ledger/*.json` with rigour classes, S/M/L sizes, and proportionate checks; delivery governance; **blocking coverage audit** — every promise funded, every item cites a promise.
 
-- Child issue bodies
-- Wave plan
-- Delivery governance section
-- Predicate scripts for each child issue
+## Step 6: Execute in Continuous Mode
 
-## Step 7: Execute in Continuous Mode
-
-Goal: implement all child issues to closure with minimal interruption.
+Goal: make promises true with minimal interruption.
 
 Skill: issues-execution
-Rules:
+Rules: delegate by default; bound and reap the agent pool; rigour follows the item; watch tripwires and dispatch intent audits when they fire; suppress non-hard-block check-ins.
 
-- Delegate implementation by default.
-- Track every agent ID, reserve two pool slots, and default descendant delegation to zero.
-- Consume and close returned agents before replacement dispatches; reconcile after compaction and at wave gates.
-- Verify each issue with predicate scripts and relevant tests.
-- Treat predicates as evidence floors, not quality ceilings.
-- Apply predicate adequacy, test adequacy, and reviewer loops on blocking findings.
-- Continue until hard block or completion.
+## Step 7: Promise Gates (as they come due)
 
-## Step 8: Wave-Gate Reviews
+Goal: judge each promise when its items complete — not per wave.
 
-Goal: validate each completed wave before closing its child issues.
+Composition: walkthrough (all tiers) → intent audit (T2+) → risk-routed reviewer panel over production items (T2+), alias-resolved from `routing.promiseGateReviewers`. Hard budget: 3 review cycles per gate.
 
-Required wave reviewers (alias-resolved from `routing.waveGateReviewers`):
+## Step 8: Final Closeout
 
-- `frontier-openai-fast`
-- `frontier-anthropic-fast`
-- `frontier-google`
+Goal: evidence-based closure of the whole run.
 
-## Step 9: Final Closeout Panel
+Requirements: end-to-end walkthrough of the full journey; final intent audit `aligned`; each final persona once, round-robin across `routing.finalCloseoutModels`, no-blocking; `PASS_WITH_NOTES` not accepted.
 
-Goal: evidence-based parent closure.
+## Step 9: Handover and Retro
 
-Requirement:
+Goal: plain-English handover and a smarter next run.
 
-- For each final reviewer model, run all five personas.
-- Parent closes only when all required persona-model audits are no-blocking.
-- `PASS_WITH_NOTES` is not accepted at final closeout unless explicitly configured and accepted as residual risk.
-
-## Step 10: Handover
-
-Goal: freeze documentation, log follow-ups, and prepare safe handover.
-
-Skill: longflow-orchestrator handover phase
+Outputs: which promises are true (walkthrough quotes), cost against budget, flagged follow-ups with product rationale; retro entry appended to `RUNS.md`.

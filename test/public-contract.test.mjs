@@ -107,3 +107,57 @@ test("public identity and installation contract are discoverable", () => {
   assert.match(install, /Merge rather than overwrite/i);
   assert.match(install, /do not invent an installation location/i);
 });
+
+test("pragmatic-longflow contracts are present and coherent", () => {
+  const read = (rel) => fs.readFileSync(path.join(repoRoot, rel), "utf8");
+
+  // New shared contracts exist with their load-bearing sections.
+  assert.match(read("shared/orchestration/intent-contract.md"), /intent contract > PRD > issues > code/);
+  const calibration = read("shared/orchestration/process-calibration.md");
+  for (const tier of ["T0 — just build", "T1 — lite", "T2 — standard", "T3 — fortress"]) assert.ok(calibration.includes(tier), tier);
+  for (const rigor of ["production-transferable", "dogfood-disposable", "spike"]) assert.ok(calibration.includes(rigor), rigor);
+  assert.match(calibration, /err toward under-engineering/i);
+  assert.match(read("shared/orchestration/promise-gates.md"), /Waves schedule\. Promises gate\./);
+  const audit = read("shared/review/intent-audit.md");
+  assert.match(audit, /impressive machinery around promises that are still hollow/);
+  assert.match(audit, /binding/i);
+  assert.match(read("shared/verification/walkthrough-verification.md"), /cannot walk/);
+
+  // Course-correction symmetry.
+  const ccp = JSON.parse(read("shared/templates/COURSE_CORRECTION_PROPOSAL.json"));
+  assert.match(ccp.recommended_action, /descope/);
+  assert.match(ccp.recommended_action, /de_escalate/);
+  assert.ok("serves_promise" in ccp);
+
+  // Heartbeat machinery is fully retired.
+  for (const gone of [
+    "shared/orchestration/heartbeat-protocol.md",
+    "shared/templates/HEARTBEAT.md",
+    "shared/templates/CONTINUOUS_DIRECTIVE.md",
+    "scripts/heartbeat-watch.mjs"
+  ]) assert.ok(!fs.existsSync(path.join(repoRoot, gone)), `${gone} should be deleted`);
+
+  // STATE template carries the directive and promise structure.
+  const state = JSON.parse(read("shared/templates/STATE.json"));
+  assert.ok(state.directive && state.directive.length > 50);
+  assert.ok(Array.isArray(state.promises));
+  assert.equal(state.intent_authority, "tasks/INTENT.md");
+});
+
+test("persona roster is consistent everywhere it is named", async () => {
+  const { reviewerPersonas } = await import("../scripts/workflow-paths.mjs");
+  assert.deepEqual([...reviewerPersonas].sort(), [
+    "implementation-reviewer", "intent-auditor", "operations-reviewer", "product-reviewer", "security-reviewer"
+  ]);
+  const personasDoc = fs.readFileSync(path.join(repoRoot, "shared/review/reviewer-personas.md"), "utf8");
+  for (const persona of reviewerPersonas) assert.ok(personasDoc.includes(`\`${persona}\``), `${persona} missing from reviewer-personas.md`);
+
+  const longflow = JSON.parse(fs.readFileSync(path.join(repoRoot, "workflows/longflow/longflow.config.example.json"), "utf8"));
+  for (const persona of longflow.routing.finalCloseoutPersonas) {
+    assert.ok(reviewerPersonas.includes(persona), `longflow config references unknown persona ${persona}`);
+  }
+  const mergeTrain = JSON.parse(fs.readFileSync(path.join(repoRoot, "workflows/merge-train/merge-train.config.example.json"), "utf8"));
+  for (const persona of mergeTrain.parentReviewerPersonas) {
+    assert.ok(reviewerPersonas.includes(persona), `merge-train config references unknown persona ${persona}`);
+  }
+});

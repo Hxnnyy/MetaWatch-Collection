@@ -22,28 +22,37 @@ function makeResolver(aliases) {
 function buildLongflowPrompt(config, resolve) {
   const lead = config.routing.leadByIssueType;
   const issueReview = config.routing.reviewersByIssueType;
-  const convergence = config.convergence || {};
-  const personaRoutingLines = Object.entries(config.routing.personasByPrdType || {}).map(
-    ([prdType, personas]) => `- ${prdType}: ${personas.join(", ")}`
-  );
+  const tier = config.tier || {};
+  const council = config.council || {};
+  const adjudication = config.adjudication || {};
 
   return [
     `You are the implementation orchestrator for ${config.workflow.name}.`,
     "",
+    "Phase 0 — intent and calibration:",
+    "1. Capture the intent contract (tasks/INTENT.md): numbered promises, non-goals, product class, owner's words.",
+    `2. Propose a ceremony tier with a plain-English rationale (tier.default: ${tier.default || "propose"}); block for owner approval at: ${(tier.blockForApprovalAt || ["T3"]).join(", ")}.`,
+    "3. Name the riskiest assumption; spike it if a cheap experiment can answer it.",
+    "4. T0 means just build it — no Longflow artifacts. That is a valid outcome.",
+    "",
     "Execution constraints:",
     `1. Continuous mode default: ${config.workflow.continuousModeDefault}.`,
     `2. Pause only on hard blocks: ${config.workflow.pauseOnlyOnHardBlocks}.`,
-    "3. Predicate pass is an evidence floor, not a quality ceiling.",
-    "4. Re-read CONTINUOUS_DIRECTIVE, state, execplan tail, and heartbeat at every batch boundary.",
+    "3. Err toward under-engineering: flag follow-ups instead of building them.",
+    "4. Gates attach to promises, not waves. Every gate opens with a walkthrough.",
+    "5. Rigour follows the item: production-transferable gets the full gate; dogfood-disposable gets one honest check; a spike delivers an answer.",
+    "6. Re-read STATE.json (directive field) and INTENT.md at every promise gate and on every resume.",
+    "7. Every recorded decision carries: serves promise #N because <...>.",
     "",
-    "Council chair:",
-    `- ${resolve(config.models.councilChair.alias)} (${config.models.councilChair.reasoning})`,
+    "Intent auditor (fresh-context, binding descope authority at T1-T2):",
+    `- ${resolve(config.routing.intentAuditor)}`,
+    `- Cross-provider adjudication for contested T3 verdicts: ${(adjudication.providers || []).join(", ") || "none configured"} (fallback: ${adjudication.fallback || "same-provider-skeptic"}).`,
     "",
-    "Council Stage A voting members:",
-    list(config.models.councilStageA.map(resolve)),
-    "",
-    "Council Stage B voting members:",
-    list(config.models.councilStageB.map(resolve)),
+    "Council (single time-boxed round; empirical disagreements become spikes):",
+    `- Chair (lab-independent, does not vote): ${resolve(config.models.councilChair.alias)} (${config.models.councilChair.reasoning})`,
+    "- Members (one carries the pragmatist seat on the strongest model):",
+    list(config.models.council.map(resolve)),
+    `- Max rounds: ${council.maxRounds ?? 1} (T3 exception: ${council.t3MaxRounds ?? 2}).`,
     "",
     "Lead routing by issue type:",
     `- Frontend: ${resolve(lead.frontend)}`,
@@ -57,29 +66,20 @@ function buildLongflowPrompt(config, resolve) {
     `- Security reviewers: ${issueReview.security.map(resolve).join(", ")}`,
     `- Docs reviewers: ${issueReview.docs.map(resolve).join(", ")}`,
     "",
-    "Wave-gate reviewers:",
-    list(config.routing.waveGateReviewers.map(resolve)),
+    "Promise-gate reviewers (risk-routed; disposable-only gates get walkthrough only):",
+    list(config.routing.promiseGateReviewers.map(resolve)),
     "",
     "Final closeout panel:",
     `Models: ${config.routing.finalCloseoutModels.map(resolve).join(", ")}`,
     `Personas: ${config.routing.finalCloseoutPersonas.join(", ")}`,
     "",
-    "Stage B persona routing:",
-    ...personaRoutingLines,
-    "",
-    "Convergence rules:",
-    `1. Open Criticals allowed: ${convergence.openCriticalsAllowed ?? 0}.`,
-    `2. Require explicit disposition for severities: ${(convergence.requireDispositionForSeverity || []).join(", ")}.`,
-    `3. Max new Medium-or-above findings per cycle to exit: ${convergence.maxNewMediumOrAboveFindingsPerCycleToExit ?? 2}.`,
-    `4. Severity downgrade requires chair sign-off: ${convergence.severityDowngradeRequiresChairSignoff ?? true}.`,
-    `5. Stage A max cycles: ${convergence.stageAMaxCycles ?? 5}. Stage B max cycles: ${convergence.stageBMaxCycles ?? 5}.`,
-    `6. At-cap action: ${convergence.atCapAction || "chair-force-disposition-and-escalate"}.`,
-    "",
     "Closure rules:",
-    "1. Child issue closes only with predicate/test evidence and no-blocking reviewers.",
-    "2. Predicate/test adequacy issues are blocking.",
-    "3. Final closeout does not accept PASS_WITH_NOTES unless explicitly configured.",
-    "4. Do not stop for routine progress updates."
+    "1. A promise is true only when its walkthrough holds and required reviewers are no-blocking.",
+    "2. Review-cycle budget: 3 per gate, hard, however panels are named.",
+    "3. Final closeout: end-to-end walkthrough, aligned intent audit, no PASS_WITH_NOTES.",
+    "4. Report plain-English first: what happened, what was decided, what it means for the product.",
+    "5. Append the retro to RUNS.md before declaring the run complete.",
+    "6. Do not stop for routine progress updates."
   ].join("\n");
 }
 
@@ -90,9 +90,8 @@ function buildMergeTrainPrompt(config, resolve) {
     "Execution constraints:",
     `1. Continuous mode default: ${config.workflow.continuousModeDefault}.`,
     `2. Pause only on hard blocks: ${config.workflow.pauseOnlyOnHardBlocks}.`,
-    `3. State file: ${config.heartbeatPolicy.stateFile}.`,
-    `4. Heartbeat stale after seconds: ${config.heartbeatPolicy.staleAfterSeconds}.`,
-    "5. Re-read directive, state, execplan tail, and heartbeat at every batch boundary.",
+    `3. State file: ${config.statePolicy.stateFile}.`,
+    "4. Re-read state and the execplan tail at every batch boundary.",
     "",
     "Models:",
     `- Child audit: ${resolve(config.models.childAuditModel)}`,

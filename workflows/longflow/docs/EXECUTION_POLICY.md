@@ -5,7 +5,7 @@ This policy governs issues-execution runs.
 ## Operating Mode
 
 - Default mode: continuous.
-- Pause policy: hard-block conditions only.
+- Pause policy: hard-block conditions only (tier-parameterised — at T0–T1, underspecified acceptance is decided small and flagged, not blocked).
 
 ## Isolation Policy
 
@@ -30,31 +30,37 @@ Use model routing from config for:
 
 - lead by issue type
 - reviewer sets by issue type
-- wave-gate panel
+- promise-gate panel (risk-routed; disposable-only gates get walkthrough only)
 - final closeout panel
+- intent auditor (`routing.intentAuditor` — strongest available model, always fresh-context)
 
-## Issue Closure Policy
+## Item Closure Policy
 
-An issue can close only when:
+An item can close only when its rigour-class gate is met:
 
-1. Predicate script passes.
-2. Required issue reviewers are no-blocking.
-3. Wave-gate conditions are met.
+1. `production-transferable`: check script passes on the integration branch; gate reviewers no-blocking at the promise gate.
+2. `dogfood-disposable`: one honest check passes. Nothing else.
+3. `spike`: the answer is recorded in the execplan.
 
-## Parent Closure Policy
+## Promise and Run Closure Policy
 
-Parent PRD can close only when:
+A promise is `true` only when its walkthrough holds, the intent audit (T2+) is not misaligned, and required reviewers are no-blocking within the 3-cycle budget.
 
-1. All child issues are closed.
-2. Predicate rollup passes.
-3. Required final persona-model audits are no-blocking.
+The run closes only when:
+
+1. Every promise is true.
+2. The production predicate rollup passes.
+3. The end-to-end walkthrough holds and the final intent audit is `aligned`.
+4. Required final persona audits are no-blocking.
+5. The retro is appended to `RUNS.md`.
 
 ## State Durability Policy
 
 Required files:
 
-- tasks/CONTINUOUS_DIRECTIVE.md
-- tasks/STATE.json
+- tasks/INTENT.md
+- tasks/STATE.json (carries the continuous directive)
+- tasks/ledger/*.json (T2+)
 - tasks/<date>-<slug>-execplan.md
 
 These must be updated and re-read according to shared contracts.

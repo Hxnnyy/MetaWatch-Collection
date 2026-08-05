@@ -9,7 +9,6 @@
   "merged_child_count": 0,
   "checkpoint_count": 0,
   "last_checkpoint_after_child": null,
-  "last_heartbeat_at": null,
   "next_action": "Ingest parent PR, child PR list, branch policy, and test commands.",
   "block_reason": null,
   "updated_at": null

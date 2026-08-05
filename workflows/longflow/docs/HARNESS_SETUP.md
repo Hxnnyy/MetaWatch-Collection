@@ -10,7 +10,7 @@ Make each skill available in your preferred coding harness with minimal coupling
 
 1. Keep this repository as the source of truth.
 2. Register each skill directory in `workflows/longflow/skills` in your harness skill system.
-3. Ensure shared files remain reachable at `workflows/longflow/skills/_shared` and `shared/`.
+3. Ensure shared files remain reachable at `workflows/longflow/skills/_shared` (generated — run `npm run sync:shared` after editing `shared/`).
 4. Use `workflows/longflow/longflow.config.json` to control model and routing policy.
 
 ## Recommended Skill Registration Order
@@ -32,5 +32,7 @@ Make each skill available in your preferred coding harness with minimal coupling
 
 - Skills are visible in your harness.
 - Shared contract files are readable.
-- Config file validates using `npm run validate:config -- workflows\longflow\longflow.config.json`.
-- You can generate a kickoff prompt using `npm run prompt:kickoff -- workflows\longflow\longflow.config.json`.
+- Config file validates using `npm run validate:config -- workflows/longflow/longflow.config.json`.
+- You can generate a kickoff prompt using `npm run prompt:kickoff -- workflows/longflow/longflow.config.json`.
+- Cross-provider adjudication CLIs listed in `adjudication.providers` are installed, or the config records the same-provider fallback.
+- Long-horizon persistence comes from the harness plus `STATE.json` — no heartbeat watcher is needed.

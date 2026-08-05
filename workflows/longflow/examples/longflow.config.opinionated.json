@@ -1,14 +1,20 @@
 {
-  "version": "1.1",
+  "version": "2.0",
   "workflow": {
-    "name": "MetaWatch Longflow",
+    "name": "MetaWatch Longflow (opinionated)",
     "continuousModeDefault": true,
     "pauseOnlyOnHardBlocks": true
   },
   "harness": {
-    "orchestrator": "copilot-chat",
+    "orchestrator": "claude-code",
     "subagentDispatchStyle": "named-agent",
     "supportsParallelSubagents": true
+  },
+  "tier": {
+    "default": "propose",
+    "blockForApprovalAt": [
+      "T3"
+    ]
   },
   "modelAliases": {
     "frontier-anthropic-strong": "Claude Fable 5",
@@ -23,22 +29,17 @@
     "councilChair": {
       "alias": "frontier-oss",
       "reasoning": "high",
-      "rationale": "Independent of any voting council member to avoid intra-lab homogenization on tie-breaks."
+      "rationale": "Independent of any council member's lab to avoid intra-lab homogenization on dispositions."
     },
-    "councilStageA": [
+    "council": [
       "frontier-anthropic-strong",
       "frontier-openai-strong",
-      "frontier-google",
-      "frontier-xai"
-    ],
-    "councilStageB": [
-      "frontier-anthropic-fast",
-      "frontier-openai-fast",
       "frontier-google",
       "frontier-xai"
     ]
   },
   "routing": {
+    "intentAuditor": "frontier-anthropic-strong",
     "leadByIssueType": {
       "frontend": "frontier-anthropic-fast",
       "backend": "frontier-openai-fast",
@@ -63,7 +64,7 @@
         "frontier-anthropic-fast"
       ]
     },
-    "waveGateReviewers": [
+    "promiseGateReviewers": [
       "frontier-openai-fast",
       "frontier-anthropic-fast",
       "frontier-google"
@@ -74,61 +75,24 @@
       "frontier-google"
     ],
     "finalCloseoutPersonas": [
-      "implementation-quality-reviewer",
-      "documentation-reviewer",
-      "performance-reviewer",
-      "product-design-reviewer",
+      "implementation-reviewer",
+      "product-reviewer",
+      "operations-reviewer",
       "security-reviewer"
-    ],
-    "personasByPrdType": {
-      "frontend": [
-        "implementation-quality-reviewer",
-        "product-design-reviewer",
-        "performance-reviewer"
-      ],
-      "backend": [
-        "implementation-quality-reviewer",
-        "performance-reviewer",
-        "security-reviewer",
-        "documentation-reviewer"
-      ],
-      "data": [
-        "implementation-quality-reviewer",
-        "security-reviewer",
-        "performance-reviewer"
-      ],
-      "infra": [
-        "security-reviewer",
-        "performance-reviewer",
-        "documentation-reviewer"
-      ],
-      "fullstack": [
-        "implementation-quality-reviewer",
-        "documentation-reviewer",
-        "performance-reviewer",
-        "product-design-reviewer",
-        "security-reviewer"
-      ],
-      "default": [
-        "implementation-quality-reviewer",
-        "documentation-reviewer",
-        "performance-reviewer",
-        "product-design-reviewer",
-        "security-reviewer"
-      ]
-    }
+    ]
   },
-  "convergence": {
-    "openCriticalsAllowed": 0,
-    "requireDispositionForSeverity": [
-      "high",
-      "medium"
+  "adjudication": {
+    "providers": [
+      "codex exec",
+      "cursor-agent",
+      "grok"
     ],
-    "maxNewMediumOrAboveFindingsPerCycleToExit": 2,
-    "severityDowngradeRequiresChairSignoff": true,
-    "stageAMaxCycles": 5,
-    "stageBMaxCycles": 5,
-    "atCapAction": "chair-force-disposition-and-escalate"
+    "fallback": "same-provider-skeptic"
+  },
+  "council": {
+    "maxRounds": 1,
+    "t3MaxRounds": 2,
+    "severityDowngradeRequiresChairSignoff": true
   },
   "guardrails": {
     "requireFreshBranch": true,
@@ -141,6 +105,17 @@
     ],
     "orchestratorDelegationDefault": true,
     "maxImplementerRetryPerIssue": 3,
-    "maxReviewerRetryPerCategory": 3
+    "reviewCycleBudgetPerGate": 3
+  },
+  "closurePolicy": {
+    "walkthroughRequiredAtEveryGate": true,
+    "intentAuditRequiredAtGatesFromTier": "T2",
+    "predicatePassRequired": true,
+    "predicatePassSufficient": false,
+    "predicateAdequacyReviewRequired": true,
+    "testAdequacyReviewRequired": true,
+    "allowPassWithNotesAtFinalCloseout": false,
+    "courseCorrectionProposalRequiredForCheckChanges": true,
+    "retroRequiredAtCloseout": true
   }
 }

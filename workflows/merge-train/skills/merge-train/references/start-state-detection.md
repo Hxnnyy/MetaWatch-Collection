@@ -42,6 +42,5 @@ If no train files exist, copy templates into the delivery workspace:
 - `CHECKPOINTS/`
 - `CONTINUOUS_DIRECTIVE.md`
 - `EXECPLAN.md`
-- `HEARTBEAT.md`
 
 Update state before creating PRs, dispatching auditors, or integrating children.

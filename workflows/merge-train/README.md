@@ -22,7 +22,6 @@ Use it when a parent branch is too large for ordinary review or when multiple ch
 
 - `../../shared/orchestration/continuous-mode.md`
 - `../../shared/orchestration/hard-block-conditions.md`
-- `../../shared/orchestration/heartbeat-protocol.md`
 - `../../shared/orchestration/state-files.md`
 - `../../shared/orchestration/autonomy-envelope.md`
 - `../../shared/orchestration/course-correction-protocol.md`
@@ -45,7 +44,6 @@ Create these files in the target delivery workspace:
 - `CHECKPOINTS/`
 - `CONTINUOUS_DIRECTIVE.md`
 - `EXECPLAN.md`
-- `HEARTBEAT.md`
 
 The public skill is `skills/merge-train`. Templates are in `templates/` and shared templates are in `../../shared/templates/`.
 

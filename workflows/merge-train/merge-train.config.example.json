@@ -33,11 +33,10 @@
     ]
   },
   "parentReviewerPersonas": [
-    "architecture-coherence-reviewer",
-    "runtime-integration-reviewer",
+    "implementation-reviewer",
+    "operations-reviewer",
     "security-reviewer",
-    "regression-test-reviewer",
-    "product-design-reviewer"
+    "product-reviewer"
   ],
   "checkpointPolicy": {
     "everyNChildMerges": 3,
@@ -65,9 +64,8 @@
     "irreversibleActionsRequireHumanSignoff": true,
     "allowPassWithNotesAtFinalCloseout": false
   },
-  "heartbeatPolicy": {
+  "statePolicy": {
     "stateFile": "MERGE_TRAIN_STATE.json",
-    "staleAfterSeconds": 900,
     "rereadAtBatchBoundaries": true
   },
   "branchConventions": {

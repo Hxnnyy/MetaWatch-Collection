@@ -4,7 +4,7 @@ MetaWatch Collection is a portable, review-first catalog of coding-agent workflo
 
 ## Start here
 
-- Choose [Longflow](workflows/longflow/README.md) to take rough intent through planning, implementation, review, and handover.
+- Choose [Longflow](workflows/longflow/README.md) to take rough intent through calibrated planning, implementation, review, and handover — it sizes its own ceremony to the task, from "just build it" to full governance.
 - Choose [Merge Train](workflows/merge-train/README.md) to audit and remediate a large branch or pull request before merge.
 - Browse [the primitive registry](registry.json) for every distributed workflow, skill, and example.
 - Read [installation guidance](INSTALL.md) before asking an agent to integrate MetaWatch into a harness.

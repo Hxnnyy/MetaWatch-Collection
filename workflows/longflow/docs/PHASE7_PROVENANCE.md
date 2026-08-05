@@ -33,6 +33,10 @@ Notable events captured:
 - Decision-tree closure summary with resolved decisions and open risks.
 - Transition from grill output into formal PRD and issue-tree workflows.
 
+## 2026-08 Rework
+
+The 2026-08 pragmatic-longflow rework superseded several captured patterns after field experience with long autonomous runs: two-stage council convergence became a single time-boxed round with a pragmatist seat; wave gates became promise gates with walkthrough verification; uniform predicate rigour became per-item rigour classes; and the fresh-context intent auditor was added with binding descope authority. The decision log records the rationale and the shadow-run provenance.
+
 ## Why This Matters
 
 Longflow defaults are not hypothetical. They reflect procedures that were battle-tested during an end-to-end architecture and delivery cycle, then generalized into reusable skill contracts.
