@@ -1,82 +1,58 @@
 ---
 name: write-a-prd
-description: Use to write a PRD or plan a feature through interview, codebase exploration, module mapping, and verifiable definition of done.
+description: Use to write a PRD subordinate to an intent contract — interview, codebase exploration, module mapping, promise-level acceptance, and a subtraction pass that cuts everything no promise funds.
 ---
 
 # Write a PRD (MetaWatch Longflow)
 
-Author a parent PRD that downstream skills (`prd-to-issues`, `issues-execution`) can convert into independently-grabbable child issues with mechanically verifiable acceptance criteria.
+Author a parent PRD that elaborates `tasks/INTENT.md` without exceeding it, and that downstream skills (`prd-to-issues`, `issues-execution`) can convert into ledger items with proportionate checks.
+
+The PRD is where scope creep is born: first drafts always overreach somewhere, and every uncut requirement becomes funded work downstream. This skill's distinctive obligation is **subtraction**.
 
 ## Hard rules
 
-1. **Verifiable hints in user stories.** Every user story includes a one-sentence description of how completion is observed in the running system. This feeds predicate authorship in `prd-to-issues`.
-2. **Module Map and Parallelism Analysis are mandatory.** Wave planning depends on them.
-3. **Definition of Done is a flat list of mechanically verifiable predicates.** When all pass, the PRD is delivered. This list becomes the spine of the final-closeout audit. If you cannot write a predicate hint for a criterion, the criterion is underspecified — sharpen it before submitting.
-4. **Out-of-scope items are mechanically distinguishable from in-scope.** An audit-time grep or test could classify any candidate behaviour as in-scope or out-of-scope.
-5. **No file paths or code snippets in the PRD.** They go stale.
+1. **The intent contract comes first.** If `tasks/INTENT.md` does not exist, stop and create it with the owner (`../_shared/intent-contract.md`) before writing a line of PRD. The PRD is subordinate to it; where they disagree, the intent contract wins.
+2. **Every requirement cites the promise it serves.** The promise-trace table shows the reverse: every promise funded by requirements. A promise with no requirements is a hollow core forming — fix it here, where it costs nothing.
+3. **The subtraction pass is mandatory.** After drafting, cut every requirement that cites no promise, and demote real-but-unfunded ideas to "later, maybe". Contested cuts are adjudicated by a fresh-context intent auditor, not by the author. An empty cut list on a PRD of any size is a smell.
+4. **Promise-level acceptance is authored here and frozen.** One entry per promise: how the running product will show the promise is true. Owner-amendable only, verified by walkthrough at gates — this is the frozen tier of `../_shared/acceptance-predicates.md`.
+5. **Name the riskiest assumption and spike it** if calibration hasn't already. A PRD built on an unanswered empirical question is a bet, not a plan — and spikes at PRD time exist as much to surface better questions as to answer the first one.
+6. **Module Map and Parallelism Analysis are mandatory** (T2+). Scheduling depends on them.
+7. **No file paths or code snippets in the PRD.** They go stale. (File-set *hints* in the Module Map are fine.)
+8. **Verifiable hints in user stories.** Every story includes a one-sentence description of how completion is observed in the running system, tagged with its promise number.
 
 ## Process
 
-### 1. Elicit
+### 1. Ingest intent
 
-Ask the user for a long, detailed description of the problem and any solution ideas they already have.
+Read `tasks/INTENT.md`. The promises are your spine; the non-goals are your fence; the product class calibrates everything downstream.
 
 ### 2. Verify
 
-Explore the repo to confirm their assertions and understand current state. Inspect `AGENTS.md`, `CLAUDE.md`, `README*`, `docs/`, package scripts.
+Explore the repo to confirm the owner's assertions and understand current state. Inspect `AGENTS.md`, `CLAUDE.md`, `README*`, `docs/`, package scripts.
 
 ### 3. Interview
 
-Walk down each branch of the design tree. Resolve dependencies between decisions before moving on. Do not proceed until you can write a defensible Module Map.
+Walk down each branch of the design tree with the owner. Resolve dependencies between decisions before moving on. The `grilling` skill is the right companion when assumptions need stress-testing. Do not proceed until you can write a defensible Module Map.
 
-The `grilling` skill is a good companion if the user wants their assumptions stress-tested.
+### 4. Draft
 
-### 4. Module Map
+Use `../_shared/templates/prd.md`: problem, solution, promise trace, user stories with hints, implementation decisions, module map (hunt for deep modules), parallelism analysis, promise-level acceptance, item-check hints.
 
-Identify deep modules — modules that encapsulate substantial functionality behind a simple, testable interface that rarely changes. For each:
+### 5. Subtract
 
-- Responsibility (one sentence)
-- Public interface (high level)
-- Test boundary (what's tested in isolation)
-- Independently deliverable (yes/no)
-- File-set hint
+Walk every requirement against the promise list. Cut the unfunded; demote the "real but not now" to later-maybe; record both lists in the PRD. If you and the owner disagree on a cut, dispatch a fresh-context intent auditor with the intent contract and both positions — its call stands at T1–T2.
 
-Confirm with the user that the modules match expectations.
+### 6. Submit
 
-### 5. Parallelism Analysis
-
-For each pair of modules, classify as Independent / Sequential / Conflicting. This drives wave planning in `prd-to-issues`. If two modules must touch the same file, say so explicitly — that's a sequencing constraint downstream.
-
-### 6. Definition of Done
-
-Write a flat list of mechanically verifiable predicates. Each entry is a one-line statement that maps to an executable check (test, grep, file-exists, type-check, custom script, endpoint probe).
-
-Examples:
-
-- All new endpoints reject unauthenticated requests with 401 (verified by integration test).
-- No `console.log` in production code paths (verified by grep-zero).
-- Migration applies cleanly on a fresh database (verified by CI script).
-- E2E login flow passes on mobile and desktop viewports.
-
-If you cannot write a predicate hint for a criterion, the criterion is underspecified. Sharpen it before continuing.
-
-### 7. Submit
-
-Write the PRD as a GitHub issue using `../_shared/templates/prd.md`. Do not close the issue.
+Record the PRD (local file or ledger reference by default; a GitHub issue when the team needs visibility — `../_shared/ledger.md`). Confirm the promise-level acceptance wording with the owner: they are signing the frozen contract.
 
 ## Handoff to `prd-to-issues`
 
-The PRD is consumed by `prd-to-issues`, which:
-
-- Slices into vertical-bullet child issues.
-- Authors `scripts/verify-issue-<n>.sh` for each child by decomposing your Definition of Done.
-- Builds the wave plan from your Parallelism Analysis.
-- Records Delivery Governance on the parent issue.
-
-If your Definition of Done is weak, the child predicates will be weak, and child closure becomes orchestrator judgment under context pressure. Make the DoD strong here — it pays compound interest downstream.
+`prd-to-issues` slices the PRD into ledger items, assigns rigour classes and sizes, authors proportionate checks, and runs the coverage audit. If your promise-level acceptance is vague, walkthroughs can't verify it; if your promise trace is padded, the coverage audit will bounce it back. Sharpen here — it pays compound interest downstream.
 
 ## See also
 
-- `../_shared/acceptance-predicates.md` — what counts as a mechanically verifiable predicate.
-- `../_shared/templates/prd.md` — canonical template.
+- `../_shared/intent-contract.md` — what you are elaborating.
+- `../_shared/acceptance-predicates.md` — the two acceptance tiers.
+- `../_shared/templates/prd.md` — the template.
 - `prd-to-issues` — the next skill in the pipeline.

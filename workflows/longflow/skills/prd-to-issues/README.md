@@ -2,7 +2,7 @@
 
 **Problem:** large PRDs produce overlapping tasks and unverifiable completion claims.
 
-**Why useful:** this skill slices vertical issues with ownership contracts, waves, and predicates.
+**Why useful:** this skill slices vertical ledger items with promise citations, rigour classes, ownership contracts, and proportionate checks — then a blocking coverage audit before implementation is funded.
 
 **Scope:** issue design from an approved PRD; it does not repair ambiguity hidden in the source plan.
 

@@ -1,28 +1,22 @@
 # continuous-stop-guard
 
-A Stop-event hook that rejects agent stops while a continuous-mode execplan has open work. The strongest non-context lever for ensuring 10+ hour orchestrations don't pause prematurely — because hooks live in harness config, not the model's context window, and survive any compaction.
+A Stop-event hook that rejects agent stops while a continuous-mode run has open promises. **Optional**: modern harnesses rarely stop prematurely, so the default is to rely on `STATE.json.directive` and skip the hook. Wire it only for long unattended runs where an early stop would be expensive — it lives in harness config, not the model's context window, and survives any compaction.
 
 ## What it does
 
 On every Stop event:
 
-1. Looks for `tasks/CONTINUOUS_DIRECTIVE.md` in the current working directory.
-2. If absent → exit 0 (allow stop).
-3. If present and `mode: continuous` → reads `tasks/STATE.json`.
-4. If `STATE.json` shows `status: in_progress` → exits **2** with stderr:
-
-   > `continuous-stop-guard: continuous execplan for parent PRD #<N> is in progress (next_action: <X>). Hard-block conditions are not met. Re-read tasks/CONTINUOUS_DIRECTIVE.md and continue working until parent PRD is closed or a hard-block from _shared/hard-block-conditions.md fires.`
-
-5. If `STATE.json` shows `status: hard_blocked` → exit 0 (legitimate stop; user input needed).
-6. If `STATE.json` shows `status: complete` → exit 0 (legitimate stop; run finished).
-7. If `STATE.json` is missing or malformed → exit 0 with a stderr note (treated as state corruption; let the agent surface the hard-block to the user rather than infinite-looping the stop guard).
-8. If `stop_hook_active: true` in the input payload → exit 0 (prevents infinite loops on re-entry).
+1. Looks for `tasks/STATE.json` in the current working directory.
+2. If absent, malformed, or `mode` is not `continuous` → exit 0 (allow stop; malformed adds a stderr note — state corruption is the agent's hard-block to surface).
+3. If `status: in_progress` → exits **2** with stderr telling the agent to re-read `STATE.json` and `INTENT.md` and continue until every promise is true or a hard block fires.
+4. If `status: hard_blocked` or `complete` → exit 0 (legitimate stop).
+5. If `stop_hook_active: true` in the input payload → exit 0 (prevents infinite loops on re-entry).
 
 ## Wiring (per harness)
 
 The hook script is `continuous-stop-guard.mjs` in this directory. It expects Node.js on PATH.
 
-**Register project-locally, not globally.** The `issues-execution` orchestrator wires this into the target project's settings at Phase 0 of a continuous run and removes it at parent closure. The guard self-scopes via `tasks/CONTINUOUS_DIRECTIVE.md`, so a stale entry is harmless, but run-scoped registration keeps harness config clean. Note: some harnesses snapshot hooks at session start — an entry added mid-session may only arm from the next session.
+**Register project-locally, not globally.** When used, the `issues-execution` orchestrator wires this into the target project's settings at Phase 0 of a continuous run and removes it at closure. The guard self-scopes via `tasks/STATE.json`, so a stale entry is harmless, but run-scoped registration keeps harness config clean. Note: some harnesses snapshot hooks at session start — an entry added mid-session may only arm from the next session.
 
 ### Claude Code
 
@@ -97,8 +91,9 @@ All other input fields are ignored. The hook is read-only against the filesystem
 
 ## When NOT to use
 
-- For interactive sessions where pausing is desirable. (The hook only activates when `CONTINUOUS_DIRECTIVE.md` is present, so this is automatic.)
-- For runs that explicitly want check-ins (use `interactive mode` at dispatch — `CONTINUOUS_DIRECTIVE.md` is never written).
+- By default. Skip it unless the run is long, unattended, and expensive to restart.
+- For interactive sessions where pausing is desirable. (The hook only activates when `STATE.json` says `mode: continuous`, so this is automatic.)
+- For runs that explicitly want check-ins (use `interactive mode` at dispatch — `mode` is never `continuous`).
 
 ## Tuning
 

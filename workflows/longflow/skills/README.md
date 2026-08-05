@@ -9,7 +9,7 @@ MetaWatch Longflow exposes these public skills:
 5. `issues-execution`
 6. `codebase-quality-sweep`
 
-Use global `grilling` before Longflow when rough intent needs stress testing. Longflow skills keep local compatibility references under `skills/_shared` and use canonical shared primitives from `../../../shared`.
+Use global `grilling` before Longflow when rough intent needs stress testing. `skills/_shared` is generated from the canonical `../../../shared` tree by `npm run sync:shared` — edit `shared/`, never `_shared/`.
 
 Recommended order:
 

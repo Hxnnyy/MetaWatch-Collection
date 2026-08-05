@@ -2,7 +2,7 @@
 
 **Problem:** consequential plans can proceed while reviewers still disagree on architecture or risk.
 
-**Why useful:** council forces findings to converge into recorded decisions before implementation.
+**Why useful:** one time-boxed adversarial round turns disagreement into recorded dispositions — with a pragmatist seat arguing the smallest faithful implementation, and spikes instead of debate for empirical questions.
 
 **Scope:** plan review inside Longflow; it does not make product-owner decisions.
 

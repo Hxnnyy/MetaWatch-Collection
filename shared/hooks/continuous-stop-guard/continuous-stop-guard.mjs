@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // continuous-stop-guard
-// Rejects Stop events while a continuous-mode execplan is in progress.
+// Rejects Stop events while a continuous-mode run is in progress.
 // See HOOK.md for the full contract and wiring instructions.
 
 import { readFileSync, existsSync } from 'node:fs';
@@ -19,32 +19,9 @@ if (stopHookActive) {
   process.exit(0);
 }
 
-const directivePath = join(cwd, 'tasks', 'CONTINUOUS_DIRECTIVE.md');
 const statePath = join(cwd, 'tasks', 'STATE.json');
 
-if (!existsSync(directivePath)) {
-  process.exit(0);
-}
-
-let directive = '';
-try {
-  directive = readFileSync(directivePath, 'utf8');
-} catch {
-  process.exit(0);
-}
-
-const modeMatch = directive.match(/^mode:\s*(\S+)/m);
-const mode = modeMatch ? modeMatch[1] : null;
-
-if (mode !== 'continuous') {
-  process.exit(0);
-}
-
 if (!existsSync(statePath)) {
-  process.stderr.write(
-    'continuous-stop-guard: CONTINUOUS_DIRECTIVE.md is present (mode: continuous) but tasks/STATE.json is missing. ' +
-    'This is hard-block condition 8 (state corruption). Surface to the user.\n'
-  );
   process.exit(0);
 }
 
@@ -58,17 +35,23 @@ try {
   process.exit(0);
 }
 
+if (state.mode !== 'continuous') {
+  process.exit(0);
+}
+
 if (state.status === 'complete' || state.status === 'hard_blocked') {
   process.exit(0);
 }
 
 if (state.status === 'in_progress') {
-  const prd = state.parent_prd ?? '<unknown>';
   const next = state.next_action ?? '<unknown>';
+  const open = Array.isArray(state.promises)
+    ? state.promises.filter((p) => p && p.status !== 'true').length
+    : '<unknown>';
   process.stderr.write(
-    `continuous-stop-guard: continuous execplan for parent PRD #${prd} is in progress (next_action: ${next}). ` +
-    `Hard-block conditions are not met. Re-read tasks/CONTINUOUS_DIRECTIVE.md and continue working ` +
-    `until parent PRD is closed or a hard-block from _shared/hard-block-conditions.md fires.\n`
+    `continuous-stop-guard: continuous run is in progress (open promises: ${open}, next_action: ${next}). ` +
+    `Hard-block conditions are not met. Re-read tasks/STATE.json (directive field) and tasks/INTENT.md, ` +
+    `then continue until every promise is true or a hard-block from _shared/hard-block-conditions.md fires.\n`
   );
   process.exit(2);
 }
