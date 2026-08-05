@@ -1,0 +1,15 @@
+{
+  "id": "LF-001",
+  "title": "short imperative title",
+  "promises": [1],
+  "rigor_class": "production-transferable",
+  "size": "M",
+  "status": "ready",
+  "blockedBy": [],
+  "files": [],
+  "acceptance": "what must be true, in one or two sentences",
+  "check": "predicate script path, test command, or 'walkthrough'",
+  "evidence": [],
+  "github": null,
+  "notes": ""
+}

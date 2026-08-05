@@ -15,10 +15,10 @@ Checks item-level predicates in **both directions**: strong enough to capture th
 - Does the predicate's strictness match the item's `rigor_class`? A `dogfood-disposable` item with a predicate script at all is a finding.
 - Does it demand properties the product class doesn't need (given the intent contract's product class — exhaustive edge-case coverage on a demo, perturbation proofs on a fixture)?
 - Would satisfying it as written force work no promise funds?
-- Is it measuring the product, or measuring compliance machinery built to satisfy it (tripwire 2, `../review/intent-audit.md`)?
+- Is it measuring the product, or measuring compliance machinery built to satisfy it (tripwire 2, `intent-audit.md`)?
 
 ## Handling
 
 - **Inadequate** (too weak): blocking finding plus an amber `COURSE_CORRECTION_PROPOSAL`. Strengthening a check on production-transferable work needs independent concurrence like any predicate change.
-- **Disproportionate** (too strong): finding plus a `descope`-action proposal. At T1–T2 an intent-auditor verdict to weaken or drop the check is binding (`../review/intent-audit.md`).
+- **Disproportionate** (too strong): finding plus a `descope`-action proposal. At T1–T2 an intent-auditor verdict to weaken or drop the check is binding (`intent-audit.md`).
 - Either way, implementers never change checks unilaterally or silently — the channel is the proposal, not the edit.

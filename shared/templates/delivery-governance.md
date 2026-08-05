@@ -1,5 +1,11 @@
 ## Delivery Governance
 
+### Intent and tier
+
+- **Intent contract**: `tasks/INTENT.md` (status: drafted-unconfirmed | owner-confirmed)
+- **Tier**: T1 | T2 | T3 — rationale: <one line>
+- **Riskiest assumption**: <what, and the spike that answered it — or why none was needed>
+
 ### Repo standards
 
 - **Status**: ESTABLISHED | PARTIAL | MISSING
@@ -11,37 +17,39 @@
 - **Continuous mode is the default** when this PRD is dispatched via `issues-execution` for full delivery.
 - Interactive override: user must say `interactive mode` explicitly at dispatch.
 - Contract: `_shared/continuous-mode.md`.
-- Stop-hook (recommended): `_shared/hooks/continuous-stop-guard/`.
 
-### Delivery waves
+### Promise gates
 
-- **Wave 1**:
-  - Issues: #...
-  - Parallel group: #...
-  - Sequential tail: #...
-  - Required reviewers: implementation-quality, documentation, ...
-  - Predicates: `scripts/verify-issue-<n>.sh` per child (committed before implementation)
-  - Rationale: ...
-  - Escalation triggers: ...
-- **Wave 2**: ...
+Gates attach to promises, not waves (`_shared/promise-gates.md`). For each promise:
 
-### Final parent closure reviewers
+- **Promise 1** — <restatement>
+  - Ledger items: <ids>
+  - Walkthrough surface: <how the walker reaches the product — URL, command, preview>
+  - Reviewers (risk-routed): <list, or "walkthrough only" at T1>
+  - Escalation triggers: <diff conditions that add reviewers>
+- **Promise 2** — ...
 
-- `implementation-quality-reviewer` (required)
-- `documentation-reviewer` (required)
-- `security-reviewer` (required IFF security risk present in delivery)
-- `product-design-reviewer` (required IFF design risk present in delivery)
-- `performance-reviewer` (required IFF performance risk present in delivery)
+### Scheduling
 
-### Closure rules
+- Parallel groups by disjoint file sets: <groups>
+- Sequential constraints: <ledger blockedBy summary>
+- Scheduling carries no gates and no ceremony — it is throughput only.
 
-- A child closes IFF its predicate exits 0 AND its wave reviewers return verdicts in `{PASS, PASS_WITH_NOTES, NOT_APPLICABLE}`.
-- Wave gates may accept `PASS_WITH_NOTES` for non-structural cleanup. Notes are recorded in the execplan and resolved before final closeout (or converted to follow-up issues).
-- Parent PRD closes IFF every required final reviewer returns `PASS` or `NOT_APPLICABLE` with `blocking_count == 0`.
-- `PASS_WITH_NOTES` is **not accepted at final closeout** (mapped to `BLOCKED`).
+### Item rigour
+
+- `production-transferable`: <ids> — full gate per rigor class table (`_shared/process-calibration.md`)
+- `dogfood-disposable`: <ids> — one honest check, ship and move on
+- `spike`: <ids> — the answer is the deliverable
+
+### Final closeout
+
+- End-to-end walkthrough of the whole journey (`_shared/walkthrough-verification.md`)
+- Intent audit against the full intent contract (`_shared/intent-audit.md`)
+- Reviewers: risk-routed set from the promises above; `PASS_WITH_NOTES` not accepted at final (mapped to `BLOCKED`)
+- Review-cycle budget: 3 per gate, hard, including final
 
 ### Hard-block escalation
 
-- Conditions: `_shared/hard-block-conditions.md` (8 enumerated conditions).
+- Conditions: `_shared/hard-block-conditions.md`.
 - All other "should I check in" impulses are suppressed via `[CHECKIN-SUPPRESSED]` execplan entries.
 - A hard-block is the only legitimate exit from continuous mode short of completion.

@@ -1,3 +1,8 @@
+# PRD: <name>
+
+- **Intent contract**: `tasks/INTENT.md` — this PRD elaborates it and is subordinate to it. Where they disagree, the intent contract wins.
+- **Tier**: <T2 | T3>
+
 ## Problem Statement
 
 The problem the user is facing, from the user's perspective.
@@ -6,34 +11,40 @@ The problem the user is facing, from the user's perspective.
 
 The solution to the problem, from the user's perspective.
 
+## Promise trace
+
+The spine of the PRD. Every requirement below cites a promise number from the intent contract; this table shows the reverse direction — that every promise is funded:
+
+| Promise | Requirements serving it | Riskiest part |
+|---|---|---|
+| 1 — <restatement> | <requirement numbers> | <one line> |
+| 2 — ... | | |
+
+A promise with no requirements is a hollow core forming — fix before this PRD leaves review. A requirement citing no promise does not survive the subtraction pass.
+
 ## User Stories
 
-A long, numbered list of user stories. Format:
+A numbered list of user stories. Format:
 
-> As a <actor>, I want <feature>, so that <benefit>.
+> As a <actor>, I want <feature>, so that <benefit>. *(Promise N)*
 
-Each user story includes a **verifiable hint** — a one-sentence description of how completion would be observed in the running system. This hint feeds predicate authorship downstream.
+Each user story includes a **verifiable hint** — a one-sentence description of how completion would be observed in the running system, feeding item-check authorship downstream.
 
-Example:
-
-> 1. As a mobile bank customer, I want to see balances on my accounts, so that I can make better-informed spending decisions.
+> 1. As a mobile bank customer, I want to see balances on my accounts, so that I can make better-informed spending decisions. *(Promise 1)*
 >    *Verifiable hint: GET /accounts returns a list with `balance` populated for every active account; an integration test asserts this for the demo user.*
 
-The list should be extensive and cover all aspects of the feature.
+## Subtraction pass (record of cuts)
+
+Run before submission, adjudicated by a fresh-context intent auditor when contested:
+
+- **Cut**: <requirements removed because no promise funds them, with one-line reasons>
+- **Later, maybe**: <demoted items — real ideas the intent doesn't fund now; candidates for a future run>
+
+An empty "Cut" list on a PRD of any size is a smell — first drafts always overreach somewhere.
 
 ## Implementation Decisions
 
-A list of decisions. May include:
-
-- Modules built or modified
-- Public interfaces
-- Technical clarifications from the developer
-- Architectural decisions
-- Schema changes
-- API contracts
-- Specific interactions
-
-Do not include file paths or code snippets — they go stale.
+Decisions the developer has made: modules built or modified, public interfaces, architectural decisions, schema changes, API contracts. Do not include file paths or code snippets — they go stale.
 
 ## Module Map
 
@@ -46,42 +57,19 @@ For each major module:
 - **Independently deliverable**: yes / no
 - **File-set hint** (rough — `prd-to-issues` will refine):
 
-Look actively for opportunities to extract **deep** modules — modules that encapsulate substantial functionality behind a simple, testable interface that rarely changes.
+Look actively for opportunities to extract **deep** modules — substantial functionality behind a simple, testable interface that rarely changes.
 
 ## Parallelism Analysis
 
-For each pair of modules:
+For each pair of modules: **Independent** / **Sequential** / **Conflicting** (both touch the same file; merge or sequence). This drives scheduling in `prd-to-issues`. Be explicit — implicit dependencies become scheduling bugs.
 
-- **Independent**: can run in parallel (no shared files, no shared in-flight state).
-- **Sequential**: B depends on A.
-- **Conflicting**: both touch the same file; merge or sequence.
+## Promise-level acceptance
 
-This section drives wave planning in `prd-to-issues`. Be explicit — implicit dependencies become wave-plan bugs.
+The frozen contract (owner-amendable only, like the intent itself). One entry per promise: how we will know, from the running product, that the promise is true. These become the walkthrough briefs at promise gates.
 
-## Definition of Done
+- **Promise 1 holds when**: <a user of type X can do Y end-to-end; observed via Z>
+- **Promise 2 holds when**: ...
 
-A flat list of mechanically verifiable predicates. When ALL pass, the PRD is delivered. Each entry is a one-line statement that maps cleanly to an executable check (test, grep, file-exists, type-check, custom script).
+## Item-check hints
 
-Examples:
-
-- All new endpoints reject unauthenticated requests with 401 (verified by integration test).
-- No `console.log` calls in production code paths (verified by grep-zero).
-- Migration applies cleanly on a fresh database (verified by CI script).
-- Test coverage on new modules ≥ 80% (verified by coverage report).
-- Login flow completes end-to-end on mobile and desktop viewports (verified by E2E test).
-
-This list becomes the spine of the final-closeout audit. If you cannot write a predicate hint for a criterion, the criterion is underspecified — sharpen it before submitting the PRD.
-
-## Testing Decisions
-
-- What makes a good test (external behavior, not implementation details).
-- Which modules will be tested.
-- Prior art in the codebase (similar test types, fixtures, harness).
-
-## Out of Scope
-
-Explicit list of things this PRD does not deliver. Each item should be mechanically distinguishable from in-scope work — i.e. an audit-time grep or test could clearly classify a behaviour as in-scope vs out-of-scope.
-
-## Further Notes
-
-Anything else relevant: deployment considerations, migration timing, rollout strategy, known unknowns.
+Non-frozen, proportionate guidance for `prd-to-issues`: for each area, what kind of check fits (failing-test-turns-green, grep-zero, endpoint-probe, or "walkthrough" for disposable scaffolding). Item checks are renegotiable through the descope channel; promise-level acceptance is not.

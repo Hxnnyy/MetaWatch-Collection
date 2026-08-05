@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { canonicalAgentRoot, homeDir, reviewerPersonas } from "./workflow-paths.mjs";
+import { canonicalAgentRoot, homeDir, reviewerPersonas, staleAgentNames } from "./workflow-paths.mjs";
 
 const claudeAgentRoot = path.join(homeDir, ".claude", "agents");
 
@@ -15,6 +15,11 @@ for (const persona of reviewerPersonas) {
   }
   fs.rmSync(target, { recursive: true, force: true });
   fs.symlinkSync(source, target, "file");
+}
+
+for (const stale of staleAgentNames) {
+  fs.rmSync(path.join(claudeAgentRoot, `${stale}.md`), { force: true });
+  fs.rmSync(path.join(canonicalAgentRoot, `${stale}.md`), { force: true });
 }
 
 console.log(`AGENTS EXPORTED: ${claudeAgentRoot}`);

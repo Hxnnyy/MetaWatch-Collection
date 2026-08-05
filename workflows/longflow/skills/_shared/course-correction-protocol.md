@@ -26,7 +26,7 @@ Any agent may raise a `COURSE_CORRECTION_PROPOSAL` when evidence suggests the wo
 - Amber: pause the specific decision until independent verifier, intent-auditor, or chair concurrence is recorded; continue unrelated safe work if possible.
 - Red: hard block.
 
-Tier parameterises authority levels — see `autonomy-envelope.md`. Descope and de-escalate corrections arising from an intent-audit verdict follow the binding rules in `../review/intent-audit.md`.
+Tier parameterises authority levels — see `autonomy-envelope.md`. Descope and de-escalate corrections arising from an intent-audit verdict follow the binding rules in `intent-audit.md`.
 
 ## Forbidden Silent Changes — both directions
 

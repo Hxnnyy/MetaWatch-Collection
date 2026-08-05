@@ -26,7 +26,7 @@ Council is **one time-boxed adversarial round**: independent reviews from member
    - `defer` — out of scope; recorded on the "later, maybe" list.
    - `accepted-as-residual-risk` — acknowledged and tracked.
    - `spike` — empirical; question + experiment + owner queued before or alongside early implementation.
-4. The chair applies the accepted edit set, records the round (template: `templates/council-round.md`), and writes a three-sentence plain-English summary for the owner: what changed about the plan and why it matters to the product.
+4. The chair applies the accepted edit set, records the round (template: `../templates/council-round.md`), and writes a three-sentence plain-English summary for the owner: what changed about the plan and why it matters to the product.
 
 There is no convergence loop. Findings do not need to vanish; they need an explicit disposition.
 
@@ -38,7 +38,7 @@ A second round may run only at T3, only when the accepted edit set changed the p
 
 - **Severity stability**: a downgrade between draft and disposition requires chair sign-off with logged rationale — findings must not be quietly demoted to escape attention.
 - **Ballot integrity**: the chair watches for gaming patterns (members editing severity after seeing the room).
-- **Chair independence**: lab-independence of the chair is non-negotiable; it is the same cross-provider mechanism used for intent-audit adjudication (`intent-audit.md`), and a run may use the same configured provider for both.
+- **Chair independence**: lab-independence of the chair is non-negotiable; it is the same cross-provider mechanism used for intent-audit adjudication (`../review/intent-audit.md`), and a run may use the same configured provider for both.
 
 ## Output
 

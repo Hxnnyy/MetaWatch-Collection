@@ -1,19 +1,25 @@
 {
-  "schema_version": "metawatch-longflow-2.1",
+  "schema_version": "metawatch-longflow-3.0",
   "mode": "continuous",
   "status": "in_progress",
-  "parent_prd": null,
-  "child_issues": [],
-  "current_wave": 0,
-  "next_action": "phase_0_prepare_state",
+  "directive": "Continue until every promise is true or a hard block fires. Do not stop for routine updates, non-hard-block uncertainty, or check-ins: log [CHECKIN-SUPPRESSED], decide inside the autonomy envelope, continue. Re-read this file and INTENT.md at every promise gate and on every resume.",
+  "tier": null,
+  "intent_authority": "tasks/INTENT.md",
+  "prd": null,
+  "promises": [],
+  "budget": {
+    "estimate": null,
+    "spent_note": null,
+    "items_over_2x": []
+  },
+  "breakglass_log": [],
+  "next_action": "Read INTENT.md, confirm tier, then begin.",
   "agent_pool": {
     "max_threads": null,
     "reserved_slots": 2,
     "last_reconciled_at": null,
     "threads": []
   },
-  "waves": [],
-  "reviewer_verdicts": {},
   "commits": [],
   "block_reason": null,
   "started_at": null,

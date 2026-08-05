@@ -30,7 +30,7 @@ Route by the kind of work, not by habit:
 
 ## Adjudication (cross-provider)
 
-`adjudication.providers` lists headless CLIs available on the machine for second opinions on contested intent-audit verdicts at T3 (e.g. `codex exec`, `cursor-agent`, `grok`), in preference order. If none is available, fall back to a fresh-context same-provider sceptic and record `weaker: same-provider`. See `intent-audit.md`.
+`adjudication.providers` lists headless CLIs available on the machine for second opinions on contested intent-audit verdicts at T3 (e.g. `codex exec`, `cursor-agent`, `grok`), in preference order. If none is available, fall back to a fresh-context same-provider sceptic and record `weaker: same-provider`. See `../review/intent-audit.md`.
 
 ## Default Lead Routing
 
@@ -41,7 +41,7 @@ Route by the kind of work, not by habit:
 
 ## Reviewer Routing
 
-Reviewers are risk-routed by persona (`reviewer-protocol.md`); models per persona come from `routing.reviewersByIssueType`. The intent auditor always resolves via `routing.intentAuditor`.
+Reviewers are risk-routed by persona (`../review/reviewer-protocol.md`); models per persona come from `routing.reviewersByIssueType`. The intent auditor always resolves via `routing.intentAuditor`.
 
 At final closeout, each required persona runs **exactly once**, distributed round-robin across `routing.finalCloseoutModels` so more than one lab audits the result. Escalation: if a final audit returns `BLOCKED`, re-run that persona on a different model after remediation.
 

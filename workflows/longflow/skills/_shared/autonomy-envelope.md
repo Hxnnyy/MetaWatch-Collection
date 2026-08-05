@@ -47,7 +47,7 @@ Agents must stop and request owner input when:
 ## Tier shifts
 
 - **T0–T1**: ambiguity and underspecified acceptance are *not* red — make the pragmatic, under-engineered choice, record it, flag it in the handover. Reslicing and check changes drop to green with a recorded line. Red remains red only for irreversible/destructive actions, credentials, and state corruption.
-- **T3**: skipping any mechanism that guards auth, migration, data loss, or tenant isolation rises to amber even below tier defaults. Contested intent-audit verdicts go to cross-provider adjudication (`../review/intent-audit.md`).
+- **T3**: skipping any mechanism that guards auth, migration, data loss, or tenant isolation rises to amber even below tier defaults. Contested intent-audit verdicts go to cross-provider adjudication (`intent-audit.md`).
 
 ## Decision provenance
 

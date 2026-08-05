@@ -117,11 +117,19 @@ export const staleSkillNames = [
 ];
 
 export const reviewerPersonas = [
+  "implementation-reviewer",
+  "security-reviewer",
+  "product-reviewer",
+  "operations-reviewer",
+  "intent-auditor"
+];
+
+// Retired 2026-08 consolidation: 8 narrow personas -> 4 lenses + intent-auditor.
+export const staleAgentNames = [
   "implementation-quality-reviewer",
   "documentation-reviewer",
   "performance-reviewer",
   "product-design-reviewer",
-  "security-reviewer",
   "architecture-coherence-reviewer",
   "runtime-integration-reviewer",
   "regression-test-reviewer"
