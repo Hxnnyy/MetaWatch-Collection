@@ -16,7 +16,7 @@ All three promises hold in the current working tree: Longflow has one coherent c
 
 - The review loop ran far past its useful point. Repeated fresh walkers kept discovering increasingly peripheral wording seams after the core promises already worked, creating 30+ agent records and substantial orchestration overhead.
 - The final max-effort Fable audit produced no output after roughly eight minutes and was terminated. Waiting longer or restarting it would have repeated the same diminishing-return failure mode.
-- The 82-file diff looks larger than the conceptual change because canonical shared contracts are mirrored into generated skill bundles, but +901/-576 is still a meaningful maintenance cost. Further contract expansion now requires dogfood evidence, not speculative completeness.
+- The final merge candidate spans 96 files and +3,073/-576 lines. Roughly 40 files are generated skill mirrors and about 2,000 additions are the read-only core, CLI, and behavioural tests; the remaining canonical policy, prose, and tooling are still a meaningful maintenance cost. Further contract expansion now requires dogfood evidence, not speculative completeness.
 
 ### Decision and tripwires
 
