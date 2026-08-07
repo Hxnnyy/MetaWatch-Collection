@@ -12,10 +12,10 @@
 - **Source**: `docs/DeliveryStandards.md` (or repo equivalent)
 - **Bootstrap commit**: <sha or n/a>
 
-### Continuous-mode default
+### Execution mode
 
-- **Continuous mode is the default** when this PRD is dispatched via `issues-execution` for full delivery.
-- Interactive override: user must say `interactive mode` explicitly at dispatch.
+- **Mode follows invocation and durable state.** An explicit continuous directive newly activates continuous mode. Otherwise persisted `mode: continuous` remains continuous on resume unless the latest message is an explicit interactive override.
+- Bare `go` never newly activates continuous mode and is not an interactive override; persisted continuous mode survives it. Slicing does not silently choose a new execution mode.
 - Contract: `_shared/continuous-mode.md`.
 
 ### Promise gates
@@ -44,9 +44,9 @@ Gates attach to promises, not waves (`_shared/promise-gates.md`). For each promi
 ### Final closeout
 
 - End-to-end walkthrough of the whole journey (`_shared/walkthrough-verification.md`)
-- Intent audit against the full intent contract (`_shared/intent-audit.md`)
-- Reviewers: risk-routed set from the promises above; `PASS_WITH_NOTES` not accepted at final (mapped to `BLOCKED`)
-- Review-cycle budget: 3 per gate, hard, including final
+- T2+: intent audit against the full intent contract (`_shared/intent-audit.md`)
+- T2+: risk-routed reviewers from the promises above; every gate note has a `fix-now` / `follow-up` / `residual-risk` / `rebutted` disposition. Normal final closure accepts only `PASS` / `NOT_APPLICABLE`; the separate budget-exhausted non-material path records `closed_with_residuals` while preserving raw blocking verdicts unchanged.
+- T2+: review-cycle budget of 3 per gate, hard, including final. T1 closes with checks and the end-to-end walkthrough only.
 
 ### Hard-block escalation
 

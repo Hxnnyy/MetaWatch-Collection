@@ -18,21 +18,23 @@ None of this is fixed by telling the model to "be pragmatic" — under pressure,
 
 ## Ceremony tiers
 
-The tier is a *default bundle* of mechanisms, not a straitjacket. Recorded in `STATE.json` as `tier`.
+The tier is a *default bundle* of mechanisms, not a straitjacket. At T1+ it is recorded in `STATE.json`; T0 remains conversational and creates no state file. The machine-readable conformance fixture is `tier-policy.json`; this table is its human explanation.
 
 | | T0 — just build | T1 — lite | T2 — standard | T3 — fortress |
 |---|---|---|---|---|
 | Typical work | prospect demo, spike, one-file fix | content site, small internal tool, simple CRUD | multi-module feature on a production codebase | complex distributed system, migration-heavy or high-blast-radius work |
 | Intent contract | optional one-liner in chat | required, may be `drafted-unconfirmed` | required, owner-converged | required, owner-signed (blocks until signed) |
-| Council | none | none | optional single round if plan-level disagreement | single round default; convergence loop available |
+| Council | none | none | one round only for genuine plan-level disagreement | one round by default; a second only after a shape-changing exception |
 | PRD | none | none — a short plan in the execplan | required, with subtraction pass | required, with subtraction pass |
-| Slicing | informal todo list | ledger items, coverage check | ledger + coverage audit + sizing | ledger + coverage audit + sizing |
+| Slicing | informal todo list | local ledger + coverage audit, no sizing | local ledger + coverage audit + sizing | local ledger + coverage audit + sizing |
 | Item verification | it visibly works | one honest check per item | predicates by rigour class | predicates by rigour class, strict review bar |
-| Gates | final walkthrough only | walkthrough per promise | promise gates: walkthrough + intent audit + risk-routed reviewers | promise gates: full panel + intent audit + cross-provider adjudication on contested verdicts |
+| Gates | final walkthrough only | walkthrough per promise | promise gates: walkthrough + intent audit + risk-routed reviewers | promise gates: walkthrough + intent audit + risk-routed reviewers + cross-provider adjudication on contested verdicts |
 | Reporting | normal conversation | plain-English execplan | plain-English execplan + promise status | plain-English execplan + promise status |
 | Tier sign-off when owner absent | proceed | proceed under proposed tier | proceed under proposed tier | **hard-block for approval** |
 
-At T0, the honest output of calibration is: *"this doesn't need Longflow — I'm going to build it."* That is a success of the process, not an evasion of it.
+At T0, the honest output of calibration is: *"this doesn't need Longflow — I'm going to build it."* Perform the final walkthrough as an ordinary product check, not a durable promise gate. That is a success of the process, not an evasion of it.
+
+T1 and T2 may begin owner-absent with an intent marked `drafted-unconfirmed`. Their promise acceptance is operationally frozen for agents, but visibly provisional until the owner confirms it; agents must not silently broaden or reinterpret it. T3 cannot begin until the owner signs both the intent and tier.
 
 ### Choosing the tier
 
@@ -44,7 +46,7 @@ Either direction requires **intent-auditor concurrence** — one fresh-context r
 
 ## Per-item rigour classes
 
-The tier sets defaults; the item's rigour class sets the actual gate. Assigned at slicing, recorded on each ledger item as `rigor_class`, and policed by the intent auditor **in both directions** — under-rigour on production code and over-rigour on disposable code are both findings.
+The tier sets defaults; at T2+ the item's rigour class sets the actual item gate. At T1, every item gets one honest check regardless of class: no frozen predicate scripts and no item reviewer apparatus. The class is still recorded on each ledger item as `rigor_class` so the work's intended durability is visible. At T2+, it is policed by the intent auditor **in both directions** — under-rigour on production code and over-rigour on disposable code are both findings.
 
 | rigor_class | meaning | gate |
 |---|---|---|
@@ -56,7 +58,7 @@ A disposable fixture that took three corrective dispatches to perfect is a proce
 
 ## Spike-first rule
 
-Calibration names the run's **riskiest assumption** — the thing that, if false, invalidates the plan. If a cheap spike can answer it, the spike runs before slicing funds the full tree, and its answer feeds the PRD. Empirical disagreements discovered later (in council, in review) are also settled by spikes, not by argument cycles.
+Calibration names the run's **riskiest assumption** — the thing that, if false, invalidates the plan. If a cheap spike can answer it, the spike runs before slicing funds the full tree, and its answer feeds the short execplan at T1 or the PRD at T2+. Empirical disagreements discovered later (in council, in review) are also settled by spikes, not by argument cycles.
 
 ## Breakglass — deviating from tier defaults
 
@@ -69,13 +71,19 @@ This inverts the historical ratchet where grinding onward was free and descoping
 
 ## Run budget
 
-Calibration sets a rough token/effort budget for the run, and slicing sizes each item `S`/`M`/`L`. Neither is a precision estimate — they exist to give drift detection a denominator:
+Calibration sets a rough token/effort budget for the run. At T2+, slicing also sizes each item `S`/`M`/`L`. Neither is a precision estimate — they exist to give drift detection a denominator:
 
-- an item at ~2× its size estimate is a tripwire (see `intent-audit.md`);
+- at T2+, an item at ~2× its size estimate is a tripwire (see `intent-audit.md`);
 - the intent auditor reads the spend-versus-promises curve: spend without promises moving is the classic lost-in-the-sauce signature;
 - the handover reports what the run cost and where it went.
 
-Budget state lives in `STATE.json` under `budget`.
+At T1+, budget state lives in `STATE.json` under `budget`; T0 keeps its rough bound in conversation.
+
+At T1, ledger items use `size: null`; there is deliberately no item-size denominator. At T2+, size is one of `S`, `M`, or `L`.
+
+### Size language (T2+)
+
+`S` is one bounded vertical change with a known path; `M` is a small set of connected changes whose interfaces are understood; `L` is a bounded discovery-and-delivery slice with multiple modules or one material uncertainty. A size is a drift denominator, not a commitment to complexity: split an L when independent outcomes emerge.
 
 ## See also
 

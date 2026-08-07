@@ -42,7 +42,7 @@ Do not close user-owned tasks or agents from another run.
 5. Reviewers close as soon as a valid verdict is stored. A malformed verdict may be corrected once in the same thread; then close it.
 6. Corrective agents follow the same return-and-close path as implementers.
 
-At a wave gate, no returned agent may remain open merely because its output has already been consumed.
+At a promise gate, no returned agent may remain open merely because its output has already been consumed.
 
 ## Capacity and close failures
 

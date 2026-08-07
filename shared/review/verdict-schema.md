@@ -15,7 +15,8 @@ Use this shape for reviewer outputs. Invariants and handling: `reviewer-protocol
       "title": "short finding title",
       "evidence": ["file:line", "command output", "diff hunk"],
       "explanation": "why this matters",
-      "required_resolution": "what must change before closure"
+      "required_resolution": "what must change before closure",
+      "disposition": "fix-now | follow-up | residual-risk | rebutted"
     }
   ],
   "predicate_adequacy": "adequate | inadequate | disproportionate | not_applicable",
@@ -25,3 +26,5 @@ Use this shape for reviewer outputs. Invariants and handling: `reviewer-protocol
   "recommended_next_action": "continue | remediate | rerun_tests | course_correction | hard_block"
 }
 ```
+
+Store this object as the reviewer's raw verdict and never rewrite it. The finding-level `disposition` is the reviewer's recommended handling; the orchestrator records the applied disposition separately in gate state. If the 3-cycle budget closes a gate with non-material findings still open, preserve this raw verdict and record the separate gate-level `review_outcome: closed_with_residuals`.

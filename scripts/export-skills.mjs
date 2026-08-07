@@ -9,6 +9,7 @@ import {
   repoRoot,
   staleSkillNames
 } from "./workflow-paths.mjs";
+import { rewriteSkillSource } from "./skill-export-content.mjs";
 
 const installedRoot = process.argv[2] ? path.resolve(process.argv[2]) : installedSkillRoot;
 const safeRoot = normalizeForCompare(path.join(homeDir, ".agents", "skills"));
@@ -44,12 +45,6 @@ function copyDir(source, target, transformFile) {
       fs.writeFileSync(to, contents, "utf8");
     }
   }
-}
-
-function rewriteSkillSource(from, contents, workflow) {
-  if (!from.endsWith("SKILL.md")) return contents;
-  if (workflow === "longflow") return contents.replaceAll("../_shared/", "_shared/");
-  return contents;
 }
 
 function createHarnessLink(harnessRoot, skillName) {

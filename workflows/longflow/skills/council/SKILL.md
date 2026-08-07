@@ -5,7 +5,7 @@ description: Run one time-boxed adversarial council round over a proposal — in
 
 # Council (MetaWatch Longflow)
 
-Use after the intent contract exists and before `write-a-prd`, when there is genuine plan-level disagreement, architecture risk, or broad multi-system scope. A settled plan does not need a council. T0–T1: never.
+Use after the intent contract exists and before `write-a-prd`. At T2, run only when genuine plan-level disagreement exists. Architecture risk and broad multi-system scope may surface that disagreement, but they are not independent triggers. A settled plan does not need a council. T3 runs one round by default. T0–T1: never.
 
 Shared contract: `../_shared/council-protocol.md`
 
@@ -22,11 +22,11 @@ Shared contract: `../_shared/council-protocol.md`
 ## Roles
 
 - **Members** — `models.council` (config). Independent reviews; no member sees another's review before writing its own. Each carries a lens covering one of the plan's risk areas; one carries the pragmatist brief.
-- **Chair** — `models.councilChair` (default `frontier-oss`), drawn from a lab not represented among members. Owns dispositions, tie-breaks, and downgrade sign-off.
+- **Chair** — `models.councilChair` (default `frontier-google`), drawn from a lab not represented among members. Owns dispositions, tie-breaks, and downgrade sign-off.
 
 ## The round
 
-1. Freeze the proposal version. Distribute the intent contract, proposal, and packet to every member.
+1. Freeze the proposal version. Distribute the intent contract, proposal, and packet to every member. The packet contains the proposal version, promises/non-goals, product class, constraints, assumptions, decision questions, alternatives, and available evidence — never another member's review.
 2. Collect independent reviews: findings classified `objective` / `tradeoff` / `preference` / `empirical`.
 3. Chair merges duplicates and dispositions every finding in one pass; empirical → spike queue.
 4. Apply the accepted edit set → proposal vNext. Record the round with `../_shared/templates/council-round.md`.

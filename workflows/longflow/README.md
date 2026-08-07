@@ -1,17 +1,19 @@
 # MetaWatch Longflow
 
-MetaWatch Longflow turns rough intent into audited delivery — but it is a **toolkit, not a liturgy**. Every run starts by capturing the owner's intent as a frozen contract and calibrating how much of the toolkit the task deserves. A prospect demo gets almost none of it; a complex distributed system gets all of it. "Just build it" is a legitimate calibration outcome.
+MetaWatch Longflow turns rough intent into audited delivery — but it is a **toolkit, not a liturgy**. Every run starts by capturing the owner's intent in conversation and calibrating how much of the toolkit the task deserves. At T1+ that capture becomes the frozen `tasks/INTENT.md` contract; T0 creates no Longflow artifacts. A prospect demo gets almost none of it; a complex distributed system gets all of it. "Just build it" is a legitimate calibration outcome.
 
 ## Flow
 
-1. **Intent and calibration** (always): capture `tasks/INTENT.md` — numbered product promises, non-goals, product class, in the owner's plain language — stress-tested with global `grilling`. Propose a ceremony tier (T0–T3) and get the owner's sign-off. Name the riskiest assumption; spike it if a cheap experiment answers it.
-2. **Council** (T2 when plans genuinely disagree; T3 default): one time-boxed adversarial round with a pragmatist seat. Empirical disagreements become spikes, not debate cycles.
-3. **`write-a-prd`**: a PRD subordinate to the intent contract — promise trace, module map, frozen promise-level acceptance, and a subtraction pass that cuts everything no promise funds.
-4. **`prd-to-issues`**: local ledger items with promise citations, rigour classes, sizes, and proportionate checks — then a blocking coverage audit: every promise funded, every item cites a promise.
-5. **`issues-execution`**: continuous delivery. Waves schedule silently; **promises gate** — each gate opens with a fresh-agent walkthrough of the user journey, adds a fresh-context intent audit at T2+, and risk-routes reviewers over production items only.
-6. **Closeout**: end-to-end walkthrough, final intent audit, final reviewer panel, plain-English handover, and a retro appended to `RUNS.md` so the next run starts smarter.
+1. **Intent and calibration** (always): capture numbered product promises, non-goals, and product class in the owner's plain language, stress-tested with global `grilling`. Propose a ceremony tier (T0–T3) and seek the owner's sign-off. Owner absent: T1–T2 may proceed as `drafted-unconfirmed`; T3 blocks until the owner signs the tier and intent. Persist `tasks/INTENT.md` only at T1+. Name the riskiest assumption; spike it if a cheap experiment answers it.
+2. **Council** (T2 when plans genuinely disagree; T3 default): one time-boxed adversarial round with a pragmatist seat. Architecture risk or broad scope may surface disagreement at T2 but is not an independent trigger. Empirical disagreements become spikes, not debate cycles.
+3. **`write-a-prd`** (T2+): a PRD subordinate to the intent contract — promise trace, module map, frozen promise-level acceptance, and a subtraction pass that cuts everything no promise funds.
+4. **`prd-to-issues`** (T1+): local ledger items with promise citations, rigour classes, and proportionate checks — then a blocking coverage audit: every promise funded, every item cites a promise. At T1, use `size: null` and one honest check per item: no PRD and no predicate scripts. T2+ adds a PRD, S/M/L sizes, and classed predicates.
+5. **`issues-execution`** (T1+, in the mode selected by the activation contract): waves schedule silently; **promises gate**. Each gate opens with a fresh-agent walkthrough of the user journey, then adds a fresh-context intent audit and risk-routed reviewers over production items at T2+ only. Continuous mode activates from an explicit directive or persisted `mode: continuous`; the latest explicit interactive override wins, and bare `go` never newly activates it.
+6. **Closeout**: end-to-end walkthrough at T1+; final intent audit and reviewer panel at T2+; then a plain-English handover and a retro appended to `RUNS.md` so the next run starts smarter.
 
 Throughout: tripwires (a gate burning review cycles, checks satisfied by check-shaped machinery, spend without promises moving) fire intent audits mid-run, and the auditor's descope verdicts are binding at T1–T2.
+
+`shared/orchestration/tier-policy.json` is the machine-readable tier conformance fixture; the shared prose explains it. The five repository-owned reviewer prompts live in `agents/` and `npm run export:agents` links them into both supported harness locations.
 
 ## Shared Dependencies
 
@@ -48,10 +50,23 @@ Longflow uses the shared tier-parameterised green/amber/red envelope. The asymme
 
 ## Continuity Rules
 
-- State is updated after meaningful events; `STATE.json` carries the continuous directive in its `directive` field.
+- At T1+, state is updated after meaningful events; `STATE.json` carries any continuous directive in its `directive` field.
 - Every spawned agent is tracked; consumed threads are closed and two slots remain reserved for corrections and reviews.
 - `STATE.json` and `INTENT.md` are re-read at every promise gate and on every resume.
-- Non-hard-block check-ins are suppressed, logged plain-English in the execplan, and execution continues.
+- In continuous mode, non-hard-block check-ins are suppressed, logged plain-English in the execplan, and execution continues. In interactive mode, permitted checkpoints are surfaced.
+
+## Read-only run mechanics
+
+From a T1+ run repository, the portable JSON command surface can validate durable state, audit bidirectional promise coverage, detect evidence made stale by later Git changes, and project a compact cold-resume context:
+
+```sh
+npm run --silent longflow -- validate
+npm run --silent longflow -- coverage
+npm run --silent longflow -- stale-scan
+npm run --silent longflow -- resume-context --tail 100
+```
+
+Use `--root <path>` when the run is not the current directory. Exit codes are `0` for a clean result, `1` for semantic invalidity, missing coverage, staleness, or indeterminate freshness, and `2` for misuse or an unreadable root. These mechanics are intentionally read-only: a `needs_recheck` result is a recommendation for the orchestrator to judge and record, not an automatic transition.
 
 ## Config
 

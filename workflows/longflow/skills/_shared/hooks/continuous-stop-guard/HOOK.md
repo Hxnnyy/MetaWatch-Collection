@@ -8,19 +8,21 @@ On every Stop event:
 
 1. Looks for `tasks/STATE.json` in the current working directory.
 2. If absent, malformed, or `mode` is not `continuous` → exit 0 (allow stop; malformed adds a stderr note — state corruption is the agent's hard-block to surface).
-3. If `status: in_progress` → exits **2** with stderr telling the agent to re-read `STATE.json` and `INTENT.md` and continue until every promise is true or a hard block fires.
+3. If `status: in_progress` → counts every promise whose status is not `verified`, then exits **2** with stderr telling the agent to re-read `STATE.json` and `INTENT.md` and continue until every promise is verified or a hard block fires. Legacy `true` is not a verified status and is counted as open.
 4. If `status: hard_blocked` or `complete` → exit 0 (legitimate stop).
 5. If `stop_hook_active: true` in the input payload → exit 0 (prevents infinite loops on re-entry).
 
 ## Wiring (per harness)
 
-The hook script is `continuous-stop-guard.mjs` in this directory. It expects Node.js on PATH.
+The hook script is `continuous-stop-guard.mjs` in this directory. It expects Node.js on PATH. Automatic wiring may use repo-local configuration only where the harness supports repository-local hooks. Never mutate user-global harness configuration automatically. If a harness exposes hooks only through global configuration, skip automatic wiring and retain the default of no hook; installation then requires a deliberate owner/manual opt-in outside the run.
 
-**Register project-locally, not globally.** When used, the `issues-execution` orchestrator wires this into the target project's settings at Phase 0 of a continuous run and removes it at closure. The guard self-scopes via `tasks/STATE.json`, so a stale entry is harmless, but run-scoped registration keeps harness config clean. Note: some harnesses snapshot hooks at session start — an entry added mid-session may only arm from the next session.
+The guard self-scopes via `tasks/STATE.json`, so a stale repo-local entry is harmless, but run-scoped registration keeps harness config clean. Some harnesses snapshot hooks at session start, so an entry added mid-session may only arm from the next session.
 
 ### Claude Code
 
 `<project>/.claude/settings.json`:
+
+This is repository-local, so an opted-in continuous run may wire it during initial calibrated preparation and remove it at closure.
 
 ```json
 {
@@ -41,32 +43,15 @@ Timeout unit: **seconds**.
 
 ### Codex CLI
 
-`~/.codex/hooks.json` — same JSON shape as Claude Code. Timeout unit: **seconds**. Requires `codex_hooks = true` in `~/.codex/config.toml`.
+If the installed Codex CLI exposes this hook only through user-global `~/.codex/hooks.json` and `~/.codex/config.toml`, skip automatic wiring. A deliberate owner/manual opt-in may configure it outside the run; the orchestrator must not edit either file. Timeout unit: **seconds**.
 
 ### Gemini CLI
 
-`~/.gemini/settings.json`:
-
-```json
-{
-  "hooks": {
-    "AfterAgent": [{
-      "hooks": [{
-        "type": "command",
-        "command": "node \"<absolute-path>/continuous-stop-guard.mjs\"",
-        "timeout": 5000,
-        "name": "continuous-stop-guard"
-      }]
-    }]
-  }
-}
-```
-
-Timeout unit: **milliseconds**. Event name: `AfterAgent` (Gemini's equivalent of Stop).
+If the installed Gemini CLI exposes this hook only through user-global `~/.gemini/settings.json`, skip automatic wiring. A deliberate owner/manual opt-in may configure it outside the run; the orchestrator must not edit that file. Timeout unit: **milliseconds**. Event name: `AfterAgent` (Gemini's equivalent of Stop).
 
 ### Other harnesses
 
-The hook contract is generic: stdin JSON in, exit codes out, stderr surfaces feedback to the agent. Wire it to whatever event represents "agent finished its turn".
+The hook contract is generic: stdin JSON in, exit codes out, stderr surfaces feedback to the agent. Wire it automatically to the event representing "agent finished its turn" only when that wiring lives in the repository; otherwise require the same deliberate owner/manual opt-in described above.
 
 ## Input contract
 

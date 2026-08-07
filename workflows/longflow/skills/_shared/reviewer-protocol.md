@@ -44,7 +44,8 @@ Every reviewer must return exactly this JSON shape (also in `verdict-schema.md`)
       "title": "short finding title",
       "evidence": ["file:line", "command output", "diff hunk"],
       "explanation": "why this matters",
-      "required_resolution": "what must change before closure"
+      "required_resolution": "what must change before closure",
+      "disposition": "fix-now | follow-up | residual-risk | rebutted"
     }
   ],
   "predicate_adequacy": "adequate | inadequate | disproportionate | not_applicable",
@@ -70,27 +71,27 @@ If a reviewer returns malformed JSON, re-dispatch once with an explicit "return 
 
 ## Gate closure
 
-A promise gate closes when (see `promise-gates.md` for the full composition):
+A promise gate closes normally when (see `promise-gates.md` for the full composition):
 
 - the walkthrough holds;
-- every required reviewer is in `{PASS, PASS_WITH_NOTES, NOT_APPLICABLE}`;
-- the intent audit (T2+) is not `misaligned`.
+- every required reviewer is in `{PASS, PASS_WITH_NOTES, NOT_APPLICABLE}` and every note has an explicit disposition;
+- the intent audit (T2+) is `aligned`.
 
-`PASS_WITH_NOTES` is allowed at promise gates only for non-structural, low-risk cleanup. Record each note in the execplan and resolve before final closeout (or convert to a follow-up ledger item if genuinely out-of-scope). A structural `PASS_WITH_NOTES` finding (architecture, type system, security boundary, public-API surface) escalates to `BLOCKED` and is fixed within the gate.
+`PASS_WITH_NOTES` is allowed at promise gates only for non-structural, low-risk cleanup. Before the gate closes, every note has one explicit disposition: `fix-now`, `follow-up` (a ledger item), `residual-risk` (named and accepted), or `rebutted` (evidence-backed). A structural finding — architecture, type system, security boundary, or public-API surface — escalates to `BLOCKED` and is fixed within the gate. Notes without a disposition keep the gate open.
 
-A gate may also close with its review-cycle budget exhausted and only residual (non-material) findings open, per the budget rules below. Material findings never close a gate this way — they hard-block.
+A gate may instead close after exhausting its review-cycle budget when only residual (non-material) findings remain, per the budget rules below. Raw reviewer verdicts remain unchanged; dispose each remaining finding and record the separate gate-level `review_outcome: closed_with_residuals`. Material findings never close a gate this way — they hard-block.
 
-## Final-closeout closure
+## Final-closeout closure (T2+)
 
-The run closes when, for every required final reviewer:
+For normal final closure, the run closes when, for every required final reviewer:
 
 ```
 verdict ∈ {PASS, NOT_APPLICABLE} AND blocking_count == 0
 ```
 
-plus the end-to-end walkthrough and a final `aligned` intent audit. `PASS_WITH_NOTES` is **not accepted at final closeout** — treated as `BLOCKED` and fixed, or the notes convert to follow-up items *before* the final panel runs.
+plus the end-to-end walkthrough and a final `aligned` intent audit. `PASS_WITH_NOTES` is **not accepted as a normal final-closeout pass**. Convert or dispose every prior note before the final panel runs; that panel accepts only `PASS` or `NOT_APPLICABLE` on the normal path.
 
-The final panel has the same 3-cycle budget as any gate. At the budget with only non-material findings open: record them as residual findings, convert genuinely out-of-scope ones to follow-up items, and close — `merge-train` re-reviews the full branch pre-merge and is the designated backstop.
+The exceptional budget-exhaustion path is separate: the final panel has the same 3-cycle budget as any gate. At the budget with only non-material findings open, preserve the raw reviewer verdicts unchanged, record the separate final-gate `review_outcome: closed_with_residuals`, dispose in-scope findings as residual risks, convert genuinely out-of-scope ones to follow-up items, and close. A material finding still hard-blocks. `merge-train` re-reviews the full branch pre-merge and is the designated backstop.
 
 ## Iterate-on-blocked
 
@@ -105,7 +106,7 @@ When any reviewer returns `BLOCKED`:
 
 ### Review-cycle budget (hard limit)
 
-A **review cycle** is one reviewer dispatch against a gate — full panel or any subset, including re-runs and re-verifications — plus the remediation that follows it. Every gate (each promise gate, and the final panel) has a hard budget of **3 review cycles**. The initial review is cycle 1; at most two remediate-and-re-review rounds follow.
+A **review cycle** is one complete required-reviewer pass for a gate (the whole risk-routed panel, or the final panel), followed by the remediation it causes. A re-run of any required reviewer after that remediation is the next cycle; re-verification and renamed panels count the same way. Every gate (each promise gate, and the final panel) has a hard budget of **3 review cycles**. The initial pass is cycle 1; at most two remediate-and-re-review rounds follow.
 
 Counting rules:
 
@@ -117,7 +118,7 @@ Counting rules:
 When the budget is exhausted, the gate settles on the evidence in hand:
 
 - An open finding is **material** only if it is an exploitable security vulnerability, data loss or corruption, a tenant-isolation breach, or a failing predicate/test. A material finding open at the budget fires hard-block 4.
-- Every other open finding — including `blocking: true` findings — is downgraded to a **residual finding**: record it in the execplan, then close the gate and continue. `merge-train` is the pre-merge backstop.
+- Every other open finding — including one whose raw record has `blocking: true` — is classified by the orchestrator as a **residual finding**: give it a `residual-risk` or `follow-up` disposition, record it in the execplan, set the gate's `review_outcome` to `closed_with_residuals`, then close and continue. The raw reviewer verdict and finding fields remain immutable; the gate outcome is a separate decision record. `merge-train` is the pre-merge backstop.
 - Dispatching a fourth cycle against a gate is a protocol violation regardless of what the panel is called.
 
 ## No rationalising findings

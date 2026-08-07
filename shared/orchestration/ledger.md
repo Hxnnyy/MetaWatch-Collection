@@ -1,6 +1,6 @@
 # Delivery Ledger
 
-Work items live in a **local ledger** — one JSON file per item under `tasks/ledger/` — not in GitHub issues. The ledger is canonical at every tier. GitHub is an optional projection.
+At T1 and above, work items live in a **local ledger** — one JSON file per item under `tasks/ledger/` — not in GitHub issues. The ledger is canonical for those tiers; T0 creates no Longflow files. GitHub is an optional projection.
 
 ## Why local-first
 
@@ -18,7 +18,8 @@ One file per item: `tasks/ledger/<ID>.json` (template: `../templates/ledger-item
   "title": "short imperative title",
   "promises": [1],
   "rigor_class": "production-transferable | dogfood-disposable | spike",
-  "size": "S | M | L",
+  "risk_tags": [],
+  "size": "null at T1 | S | M | L at T2+",
   "status": "ready | blocked | in_progress | implemented | gated | closed | cancelled",
   "blockedBy": [],
   "files": ["expected file-ownership list"],
@@ -32,7 +33,9 @@ One file per item: `tasks/ledger/<ID>.json` (template: `../templates/ledger-item
 Rules:
 
 - **`promises` is mandatory and non-empty.** An item that serves no promise does not get created — that is the coverage audit's contract (`../review/intent-audit.md`). Enabling work (build plumbing, shared fixtures) cites the promise it unblocks.
-- `rigor_class` sets the item's gate (`process-calibration.md`). `check` must be proportionate to it: a `dogfood-disposable` item's check is one honest command or a walkthrough note, never a frozen predicate script.
+- **`risk_tags` is the canonical reviewer routing input.** Use only risks the item actually introduces or changes: `security`, `design`, `docs`, `performance`, or another tag explicitly mapped by reviewer policy. An empty list means no specialist domain beyond the tier-scaled defaults.
+- `size` is `null` at T1 and one of `S` / `M` / `L` at T2+. T1 does not invent a drift denominator it will not use.
+- At T1, `check` is one honest command, test, or walkthrough note for every item; there are no frozen predicate scripts. At T2+, `rigor_class` sets the item's gate (`process-calibration.md`) and the check is proportionate to it.
 - `status: cancelled` keeps the file — cancelled items are part of the audit trail, with a one-line reason in `notes`. Cancelling unstarted work is the cheapest correction available.
 - `evidence` accumulates check output references, commit SHAs, and walkthrough pointers as the item moves.
 

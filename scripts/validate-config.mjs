@@ -68,32 +68,53 @@ function requireAliasArray(config, names, keyPath) {
   });
 }
 
+function aliasLab(alias) {
+  const match = alias.match(/^frontier-([^-]+)/);
+  return match ? match[1] : alias;
+}
+
 function validateCommon(config) {
   requireString(config, "version");
   requireString(config, "workflow.name");
-  requireBoolean(config, "workflow.continuousModeDefault");
-  requireBoolean(config, "workflow.pauseOnlyOnHardBlocks");
   requireString(config, "harness.orchestrator");
   requireString(config, "harness.subagentDispatchStyle");
   requireBoolean(config, "harness.supportsParallelSubagents");
   return aliasNames(config);
 }
 
-const validTiers = ["T0", "T1", "T2", "T3"];
-
 function validateLongflow(config, names) {
   const tierDefault = getAt(config, "tier.default");
-  if (tierDefault !== "propose" && !validTiers.includes(tierDefault)) {
-    fail(`tier.default must be "propose" or one of ${validTiers.join(", ")}`);
+  if (tierDefault !== "propose") {
+    fail('tier.default must be exactly "propose"');
   }
   const blockAt = getAt(config, "tier.blockForApprovalAt");
-  if (!Array.isArray(blockAt) || blockAt.some((tier) => !validTiers.includes(tier))) {
-    fail(`tier.blockForApprovalAt must be an array of tiers from ${validTiers.join(", ")}`);
+  if (!Array.isArray(blockAt) || blockAt.length !== 1 || blockAt[0] !== "T3") {
+    fail('tier.blockForApprovalAt must be exactly ["T3"]');
+  }
+  if (getAt(config, "tier.policyFixture") !== "shared/orchestration/tier-policy.json") {
+    fail("tier.policyFixture must name shared/orchestration/tier-policy.json");
+  }
+  if (!fs.existsSync(path.resolve(getAt(config, "tier.policyFixture")))) {
+    fail(`tier.policyFixture does not exist: ${getAt(config, "tier.policyFixture")}`);
+  }
+  for (const obsolete of ["autonomyEnvelope", "closurePolicy"]) {
+    if (obsolete in config) fail(`${obsolete} is documentation, not executable config; remove it`);
+  }
+  for (const obsolete of ["continuousModeDefault", "pauseOnlyOnHardBlocks"]) {
+    if (obsolete in config.workflow) fail(`workflow.${obsolete} is canonical continuous-mode policy, not Longflow config`);
   }
 
   requireAlias(config, names, "models.councilChair.alias");
   requireString(config, "models.councilChair.reasoning");
   requireAliasArray(config, names, "models.council");
+  const chair = getAt(config, "models.councilChair.alias");
+  const members = getAt(config, "models.council");
+  if (members.includes(chair)) {
+    fail("models.councilChair.alias must not also be a council member");
+  }
+  if (members.some((member) => aliasLab(member) === aliasLab(chair))) {
+    fail("models.councilChair.alias must be from a lab not represented among council members");
+  }
 
   requireAlias(config, names, "routing.intentAuditor");
   requireAlias(config, names, "routing.leadByIssueType.frontend");
@@ -111,10 +132,13 @@ function validateLongflow(config, names) {
   requireArray(config, "adjudication.providers");
   requireString(config, "adjudication.fallback");
 
-  requireInteger(config, "council.maxRounds", 1);
-  requireInteger(config, "council.t3MaxRounds", 1);
-  if (getAt(config, "council.maxRounds") > 2 || getAt(config, "council.t3MaxRounds") > 2) {
-    fail("council rounds are capped at 2 (one round default, second is a T3 exception)");
+  for (const [keyPath, expected] of [
+    ["council.maxRounds", 1],
+    ["council.t3MaxRounds", 2],
+    ["guardrails.maxImplementerRetryPerIssue", 3],
+    ["guardrails.reviewCycleBudgetPerGate", 3]
+  ]) {
+    if (getAt(config, keyPath) !== expected) fail(`${keyPath} must be exactly ${expected}`);
   }
   requireBoolean(config, "council.severityDowngradeRequiresChairSignoff");
 
@@ -122,15 +146,12 @@ function validateLongflow(config, names) {
   requireBoolean(config, "guardrails.requireFreshWorktree");
   requireArray(config, "guardrails.protectedEnvironment");
   requireBoolean(config, "guardrails.orchestratorDelegationDefault");
-  requireInteger(config, "guardrails.maxImplementerRetryPerIssue", 1);
-  requireInteger(config, "guardrails.reviewCycleBudgetPerGate", 1);
-  if (getAt(config, "guardrails.reviewCycleBudgetPerGate") > 3) {
-    fail("guardrails.reviewCycleBudgetPerGate cannot exceed the hard budget of 3");
-  }
 }
 
 function validateMergeTrain(config, names) {
   requireString(config, "workflow.type");
+  requireBoolean(config, "workflow.continuousModeDefault");
+  requireBoolean(config, "workflow.pauseOnlyOnHardBlocks");
   for (const key of [
     "models.childAuditModel",
     "models.childRemediationModel",

@@ -15,6 +15,7 @@
     "validate:agents": "node scripts/validate-agents.mjs",
     "validate:install": "node scripts/validate-install.mjs",
     "export:skills": "node scripts/export-skills.mjs",
-    "export:agents": "node scripts/export-agents.mjs"
+    "export:agents": "node scripts/export-agents.mjs",
+    "longflow": "node scripts/longflow.mjs"
   }
 }

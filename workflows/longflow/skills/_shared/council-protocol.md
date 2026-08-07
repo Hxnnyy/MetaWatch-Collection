@@ -6,7 +6,7 @@ Council is **one time-boxed adversarial round**: independent reviews from member
 
 ## When council runs
 
-- T2: only when there is genuine plan-level disagreement, architecture risk, or broad multi-system scope. A settled plan goes straight to `write-a-prd`.
+- T2: only when genuine plan-level disagreement exists. Architecture risk and broad multi-system scope may surface that disagreement during planning, but they are not independent triggers. A settled plan goes straight to `write-a-prd`.
 - T3: default before the PRD.
 - T0–T1: never.
 
@@ -28,13 +28,13 @@ Council is **one time-boxed adversarial round**: independent reviews from member
    - `spike` — empirical; question + experiment + owner queued before or alongside early implementation.
 4. The chair applies the accepted edit set, records the round (template: `templates/council-round.md`), and writes a three-sentence plain-English summary for the owner: what changed about the plan and why it matters to the product.
 
-There is no convergence loop. Findings do not need to vanish; they need an explicit disposition.
+Findings do not need to vanish; they need an explicit disposition. A second round is T3-only and requires the first round's accepted edits to change the proposal's shape, plus a logged chair justification.
 
 ## Second round (T3 only, exception)
 
 A second round may run only at T3, only when the accepted edit set changed the proposal's *shape* (module boundaries, ownership, public contracts — not wording), and only with chair justification recorded. Two rounds is the ceiling at any tier. What used to take five cycles of ballot tables is either settled by the chair's disposition authority or was empirical all along — in which case it is a spike.
 
-## Guardrails kept from the convergence-loop era
+## Guardrails
 
 - **Severity stability**: a downgrade between draft and disposition requires chair sign-off with logged rationale — findings must not be quietly demoted to escape attention.
 - **Ballot integrity**: the chair watches for gaming patterns (members editing severity after seeing the room).

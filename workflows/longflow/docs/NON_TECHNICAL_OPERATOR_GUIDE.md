@@ -54,7 +54,7 @@ Confirm that slices look understandable and complete. Ask for changes if somethi
 
 ### Execution
 
-Let continuous mode run unless the orchestrator reports a hard block.
+If you explicitly selected continuous mode, let it run unless the orchestrator reports a hard block. Otherwise the run remains interactive.
 
 ### Closeout
 

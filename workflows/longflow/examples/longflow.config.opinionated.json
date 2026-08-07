@@ -1,9 +1,7 @@
 {
-  "version": "2.0",
+  "version": "3.0",
   "workflow": {
-    "name": "MetaWatch Longflow (opinionated)",
-    "continuousModeDefault": true,
-    "pauseOnlyOnHardBlocks": true
+    "name": "MetaWatch Longflow (opinionated)"
   },
   "harness": {
     "orchestrator": "claude-code",
@@ -12,9 +10,8 @@
   },
   "tier": {
     "default": "propose",
-    "blockForApprovalAt": [
-      "T3"
-    ]
+    "blockForApprovalAt": ["T3"],
+    "policyFixture": "shared/orchestration/tier-policy.json"
   },
   "modelAliases": {
     "frontier-anthropic-strong": "Claude Fable 5",
@@ -22,19 +19,17 @@
     "frontier-openai-strong": "GPT-5.6-Sol",
     "frontier-openai-fast": "GPT-5.6-Terra",
     "frontier-google": "Gemini 3.1 Pro",
-    "frontier-xai": "Grok 4.5",
-    "frontier-oss": "OSS-frontier"
+    "frontier-xai": "Grok 4.5"
   },
   "models": {
     "councilChair": {
-      "alias": "frontier-oss",
+      "alias": "frontier-google",
       "reasoning": "high",
       "rationale": "Independent of any council member's lab to avoid intra-lab homogenization on dispositions."
     },
     "council": [
       "frontier-anthropic-strong",
       "frontier-openai-strong",
-      "frontier-google",
       "frontier-xai"
     ]
   },
@@ -106,16 +101,5 @@
     "orchestratorDelegationDefault": true,
     "maxImplementerRetryPerIssue": 3,
     "reviewCycleBudgetPerGate": 3
-  },
-  "closurePolicy": {
-    "walkthroughRequiredAtEveryGate": true,
-    "intentAuditRequiredAtGatesFromTier": "T2",
-    "predicatePassRequired": true,
-    "predicatePassSufficient": false,
-    "predicateAdequacyReviewRequired": true,
-    "testAdequacyReviewRequired": true,
-    "allowPassWithNotesAtFinalCloseout": false,
-    "courseCorrectionProposalRequiredForCheckChanges": true,
-    "retroRequiredAtCloseout": true
   }
 }

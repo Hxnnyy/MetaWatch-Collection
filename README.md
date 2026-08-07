@@ -34,6 +34,17 @@ npm run prompt:kickoff -- workflows/longflow/longflow.config.json
 
 PowerShell users can replace `cp` with `Copy-Item`.
 
+Once a T1+ Longflow run has its durable artifacts, four read-only checks are available without installing another package:
+
+```sh
+npm run --silent longflow -- validate
+npm run --silent longflow -- coverage
+npm run --silent longflow -- stale-scan
+npm run --silent longflow -- resume-context
+```
+
+They emit compact JSON and only recommend lifecycle changes; agents remain responsible for judgement and state updates. See [the scripts guide](scripts/README.md#inspect-a-longflow-run) for options, result fields, and exit codes.
+
 ## Repository map
 
 | Path | Purpose |

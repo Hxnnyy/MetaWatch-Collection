@@ -37,6 +37,7 @@ Tripwire audits are cheap relative to what they prevent. Suppressing one because
 The auditor receives, and nothing more:
 
 - `INTENT.md` in full.
+- The `STATE.json` promise roll-up with evidence freshness, plus active decisions, open assumptions, binding actions, and residual risks. These are the run's operative judgements, not claims to reconstruct from git.
 - The ledger roll-up: items by promise, status, rigour class, size, spend-versus-size where known.
 - The execplan tail (recent decisions, course corrections, suppressed check-ins).
 - For gate audits: the walkthrough narrative for the promise under review.
@@ -73,6 +74,8 @@ The base reviewer schema (`reviewer-protocol.md`) extended with:
 ```
 
 `intent_alignment: "misaligned"` or a blocking `hollow_promises` entry blocks the gate. `proportionality: "over_engineered"` obliges the orchestrator to act on `descope_recommendations` — it is not a note.
+
+At a promise gate, store the auditor's complete raw verdict unchanged in the gate's append-only `raw_reviewer_verdicts`. Record any applied dispositions separately in `applied_dispositions`; a binding descope changes the plan, not the historical verdict.
 
 ## Authority
 

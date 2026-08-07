@@ -7,7 +7,8 @@ export const homeDir = os.homedir();
 
 export const skillGroupName = "metawatch";
 export const installedSkillRoot = path.join(homeDir, ".agents", "skills", skillGroupName);
-export const canonicalAgentRoot = path.join(homeDir, ".agents", "agents");
+export const workflowAgentRoot = repoPath("workflows/longflow/agents");
+export const installedAgentRoot = path.join(homeDir, ".agents", "agents");
 
 export const publicSkills = [
   {

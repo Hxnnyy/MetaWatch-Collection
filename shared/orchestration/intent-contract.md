@@ -1,6 +1,6 @@
 # Intent Contract
 
-`INTENT.md` is the fixed point every drift check compares against. It is the highest-authority document in a run: the PRD elaborates it, issues trace to it, and gates judge work against it. Where any downstream artifact disagrees with the intent contract, the intent contract wins.
+At T1+, `INTENT.md` is the fixed point every drift check compares against. It is the highest-authority document in a durable run: the PRD elaborates it, issues trace to it, and gates judge work against it. Where any downstream artifact disagrees with the intent contract, the intent contract wins. T0 captures the same intent in conversation and creates no Longflow artifact.
 
 Resolution order: **intent contract > PRD > issues > code**.
 
@@ -18,7 +18,7 @@ Required sections (template: `../templates/INTENT.md`):
 
 ## How it is written
 
-The orchestrator drafts it during intent stress-testing (`grilling` or equivalent), in the owner's own vocabulary, and iterates with the owner until they confirm it says what they mean. Quote the owner verbatim where their words are already precise — an intent contract that preserves the owner's phrasing survives reinterpretation far better than a paraphrase.
+The orchestrator captures intent during stress-testing (`grilling` or equivalent), in the owner's own vocabulary, and iterates with the owner until they confirm it says what they mean. After calibration, persist that capture as `tasks/INTENT.md` at T1+; at T0 leave it in conversation. Quote the owner verbatim where their words are already precise — an intent contract that preserves the owner's phrasing survives reinterpretation far better than a paraphrase.
 
 For a fully autonomous kickoff where the owner is not present, the orchestrator drafts the contract from the kickoff message, records it as `drafted-unconfirmed`, and proceeds — except at T3, which blocks for sign-off (see `process-calibration.md`).
 

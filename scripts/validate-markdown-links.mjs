@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const root = process.cwd();
+const root = path.resolve(process.argv[2] || process.cwd());
 const ignoredDirs = new Set([".git", "node_modules", "outputs"]);
 const failures = [];
 
@@ -33,6 +33,14 @@ function validateFile(filePath) {
     if (!fs.existsSync(target)) {
       failures.push(`${path.relative(root, filePath)} -> ${raw}`);
     }
+  }
+  for (const match of text.matchAll(/`([^`\r\n]+)`/g)) {
+    const raw = match[1].trim();
+    if (!raw.startsWith("./") && !raw.startsWith("../") && !raw.startsWith("_shared/")) continue;
+    const target = raw.startsWith("_shared/")
+      ? path.resolve(root, "workflows/longflow/skills", raw)
+      : path.resolve(path.dirname(filePath), stripAnchor(raw));
+    if (!fs.existsSync(target)) failures.push(`${path.relative(root, filePath)} -> ${raw}`);
   }
 }
 

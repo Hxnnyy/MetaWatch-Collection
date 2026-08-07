@@ -19,6 +19,7 @@ Checks item-level predicates in **both directions**: strong enough to capture th
 
 ## Handling
 
-- **Inadequate** (too weak): blocking finding plus an amber `COURSE_CORRECTION_PROPOSAL`. Strengthening a check on production-transferable work needs independent concurrence like any predicate change.
+- **Inadequate at T1** (too weak): change the check or reslice the item, add one recorded line explaining why, and continue green. T1 checks are not frozen predicates and need no independent concurrence.
+- **Inadequate T2+ production predicate** (too weak): blocking finding plus an amber `COURSE_CORRECTION_PROPOSAL`. Strengthening a `production-transferable` predicate at T2+ needs independent concurrence.
 - **Disproportionate** (too strong): finding plus a `descope`-action proposal. At T1–T2 an intent-auditor verdict to weaken or drop the check is binding (`intent-audit.md`).
 - Either way, implementers never change checks unilaterally or silently — the channel is the proposal, not the edit.

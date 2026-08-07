@@ -6,12 +6,13 @@ Runs have historically discovered their real gaps in a late "dogfood" phase — 
 
 ## When
 
-- **Every promise gate, every tier.** At T0–T1 the walkthrough may be the entire gate.
+- **Every promise gate at T1+.** At T1 the walkthrough may be the entire gate.
+- **T0 final check.** Use the same product-first standard once at the end, in normal conversation, without creating a promise-gate artifact or durable state.
 - Final closeout walks the whole journey end-to-end, not promise-by-promise.
 
 ## How
 
-1. Dispatch a fresh agent (no implementation context) with: the promise text from `INTENT.md`, who its user is, and how to reach the product surface (dev server URL, preview, CLI entry point, simulator). Not the code, not the diffs, not the item list.
+1. At T1+, dispatch a fresh agent (no implementation context) with: the promise text from `INTENT.md`, who its user is, and how to reach the product surface (dev server URL, preview, CLI entry point, simulator). Not the code, not the diffs, not the item list. At T0, the implementing agent may run the single final check directly from the conversational intent.
 2. The agent does what the user would do — clicks, types, runs, reads — using whatever drive mechanism the surface supports (browser automation, CLI invocation, HTTP). Screenshots or transcripts where the harness allows.
 3. It narrates plainly: what it tried, what happened, where it stumbled, what a real user would feel at each step. Jank counts — "the page works but takes eleven seconds and the button reads `undefined`" is a walkthrough finding even when every test is green.
 
