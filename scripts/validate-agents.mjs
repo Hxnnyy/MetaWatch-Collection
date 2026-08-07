@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { canonicalAgentRoot, homeDir, repoPath, reviewerPersonas } from "./workflow-paths.mjs";
+import { homeDir, installedAgentRoot, repoPath, reviewerPersonas, workflowAgentRoot } from "./workflow-paths.mjs";
 
 const failures = [];
 
@@ -20,9 +20,9 @@ function frontmatterName(text) {
 }
 
 for (const persona of reviewerPersonas) {
-  const filePath = path.join(canonicalAgentRoot, `${persona}.md`);
+  const filePath = path.join(workflowAgentRoot, `${persona}.md`);
   if (!fs.existsSync(filePath)) {
-    fail(`missing canonical reviewer persona: ${filePath}`);
+    fail(`missing repository reviewer persona: ${filePath}`);
     continue;
   }
   const text = fs.readFileSync(filePath, "utf8");
@@ -34,16 +34,21 @@ for (const persona of reviewerPersonas) {
 }
 
 for (const persona of reviewerPersonas) {
-  const source = path.join(canonicalAgentRoot, `${persona}.md`);
+  const source = path.join(workflowAgentRoot, `${persona}.md`);
+  const installedPath = path.join(installedAgentRoot, `${persona}.md`);
   const claudePath = path.join(homeDir, ".claude", "agents", `${persona}.md`);
   try {
     const sourceReal = fs.realpathSync.native(source);
+    const installedReal = fs.realpathSync.native(installedPath);
     const claudeReal = fs.realpathSync.native(claudePath);
+    if (sourceReal.toLowerCase() !== installedReal.toLowerCase()) {
+      fail(`Installed agent link for ${persona} points to ${installedReal}, expected ${sourceReal}`);
+    }
     if (sourceReal.toLowerCase() !== claudeReal.toLowerCase()) {
       fail(`Claude agent link for ${persona} points to ${claudeReal}, expected ${sourceReal}`);
     }
   } catch {
-    fail(`Claude agent link missing for ${persona}: ${claudePath}`);
+    fail(`Agent export missing for ${persona}`);
   }
 }
 

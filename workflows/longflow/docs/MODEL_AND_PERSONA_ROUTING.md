@@ -10,9 +10,8 @@ The default opinionated profile defines:
 - `frontier-anthropic-fast` — Anthropic's fast frontier.
 - `frontier-openai-strong` — OpenAI's strongest reasoning model.
 - `frontier-openai-fast` — OpenAI's fast frontier (implementer leads, reviewer panels).
-- `frontier-google` — Google's frontier.
+- `frontier-google` — Google's frontier and the default council chair.
 - `frontier-xai` — xAI's frontier.
-- `frontier-oss` — strongest open-source model, used as council chair.
 
 ## The Judgment Rule
 
@@ -23,8 +22,8 @@ Route by the kind of work:
 
 ## Council Composition
 
-- Members are drawn from four labs (Anthropic, OpenAI, Google, xAI by default) for independent signal; one member carries the pragmatist seat on the strongest model.
-- The chair is `frontier-oss` — deliberately from a lab not represented among members, so dispositions and severity-downgrade sign-offs are not subject to intra-lab homogenization. The chair does not vote; it adjudicates. See `../../../shared/orchestration/council-protocol.md`.
+- Members are drawn from Anthropic, OpenAI, and xAI for independent signal; one member carries the pragmatist seat on the strongest model.
+- The chair is `frontier-google` — deliberately excluded from membership so dispositions and severity-downgrade sign-offs remain lab-independent. The chair does not vote; it adjudicates. See `../../../shared/orchestration/council-protocol.md`.
 
 ## Cross-Provider Adjudication
 
@@ -39,6 +38,8 @@ Route by the kind of work:
 
 ## Default Issue Review Routing
 
+Issue-level reviews take their models from `routing.reviewersByIssueType`:
+
 - Frontend-heavy issue reviewers:
   - `frontier-google` for UI and UX quality
   - `frontier-openai-fast` for engineering robustness
@@ -50,7 +51,7 @@ Route by the kind of work:
 
 Reviewers are **risk-routed by persona** (`../../../shared/review/reviewer-protocol.md`): only personas whose domain the promise's items touch are dispatched, on models from `routing.promiseGateReviewers`. A gate whose items are all disposable gets no panel — its gate is the walkthrough. The intent auditor attends every T2+ gate regardless, via `routing.intentAuditor`.
 
-## Default Final Closeout Panel
+## Default Final Closeout Panel (T2+)
 
 Models: `routing.finalCloseoutModels` (three labs by default).
 
@@ -61,9 +62,9 @@ Personas (`routing.finalCloseoutPersonas` — the consolidated roster):
 - operations-reviewer
 - security-reviewer
 
-Each persona runs exactly once, distributed round-robin across the closeout models so every lab audits at least one domain. If an audit returns `BLOCKED`, re-run that persona on a different closeout model after remediation. The full persona x model cross-product is reserved for elevated risk tags (`security`, `data`, migration/irreversible change) at T3.
+In the initial cycle each persona runs exactly once, distributed round-robin across the closeout models so every lab audits at least one domain. If an audit returns `BLOCKED`, re-run that persona on a different closeout model after remediation. The full persona x model cross-product is reserved for elevated risk tags (`security`, `data`, migration/irreversible change) at T3. T1 has no final reviewer panel.
 
-Run closure condition: every required persona audit reports no blocking findings, the end-to-end walkthrough holds, and the final intent audit is `aligned`.
+Normal closure requires every required persona audit to report no blocking findings, the end-to-end walkthrough to hold, and the final intent audit to be `aligned`. The budget-exhausted exception is separate: after cycle 3, only non-material findings may close as `closed_with_residuals`. Preserve raw blocking verdicts unchanged and record dispositions separately; a material finding still hard-blocks.
 
 ## Editing Routing
 

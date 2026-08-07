@@ -26,23 +26,12 @@ function buildLongflowPrompt(config, resolve) {
   const council = config.council || {};
   const adjudication = config.adjudication || {};
 
+  const canonicalKickoff = fs.readFileSync(path.resolve("shared/templates/orchestrator-kickoff.md"), "utf8").trim();
   return [
-    `You are the implementation orchestrator for ${config.workflow.name}.`,
+    canonicalKickoff,
     "",
-    "Phase 0 — intent and calibration:",
-    "1. Capture the intent contract (tasks/INTENT.md): numbered promises, non-goals, product class, owner's words.",
-    `2. Propose a ceremony tier with a plain-English rationale (tier.default: ${tier.default || "propose"}); block for owner approval at: ${(tier.blockForApprovalAt || ["T3"]).join(", ")}.`,
-    "3. Name the riskiest assumption; spike it if a cheap experiment can answer it.",
-    "4. T0 means just build it — no Longflow artifacts. That is a valid outcome.",
-    "",
-    "Execution constraints:",
-    `1. Continuous mode default: ${config.workflow.continuousModeDefault}.`,
-    `2. Pause only on hard blocks: ${config.workflow.pauseOnlyOnHardBlocks}.`,
-    "3. Err toward under-engineering: flag follow-ups instead of building them.",
-    "4. Gates attach to promises, not waves. Every gate opens with a walkthrough.",
-    "5. Rigour follows the item: production-transferable gets the full gate; dogfood-disposable gets one honest check; a spike delivers an answer.",
-    "6. Re-read STATE.json (directive field) and INTENT.md at every promise gate and on every resume.",
-    "7. Every recorded decision carries: serves promise #N because <...>.",
+    "## Resolved routing",
+    `Workflow: ${config.workflow.name}. Tier default: ${tier.default || "propose"}; owner approval blocks at ${(tier.blockForApprovalAt || ["T3"]).join(", ")}.`,
     "",
     "Intent auditor (fresh-context, binding descope authority at T1-T2):",
     `- ${resolve(config.routing.intentAuditor)}`,
@@ -69,17 +58,11 @@ function buildLongflowPrompt(config, resolve) {
     "Promise-gate reviewers (risk-routed; disposable-only gates get walkthrough only):",
     list(config.routing.promiseGateReviewers.map(resolve)),
     "",
-    "Final closeout panel:",
+    "Final closeout panel (T2+):",
     `Models: ${config.routing.finalCloseoutModels.map(resolve).join(", ")}`,
     `Personas: ${config.routing.finalCloseoutPersonas.join(", ")}`,
     "",
-    "Closure rules:",
-    "1. A promise is true only when its walkthrough holds and required reviewers are no-blocking.",
-    "2. Review-cycle budget: 3 per gate, hard, however panels are named.",
-    "3. Final closeout: end-to-end walkthrough, aligned intent audit, no PASS_WITH_NOTES.",
-    "4. Report plain-English first: what happened, what was decided, what it means for the product.",
-    "5. Append the retro to RUNS.md before declaring the run complete.",
-    "6. Do not stop for routine progress updates."
+    "This section resolves routing only. The shared contracts and durable run state govern activation, gates, and closure."
   ].join("\n");
 }
 

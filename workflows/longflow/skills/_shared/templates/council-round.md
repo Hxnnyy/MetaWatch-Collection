@@ -8,7 +8,7 @@
 
 - Intent contract: `tasks/INTENT.md`
 - Proposal: <path>
-- Packet: <path>
+- Packet: <path> containing the frozen proposal version, promise list and non-goals, product class, relevant repository constraints, known risks/assumptions, decision questions, alternatives already considered, and evidence links (spike results or measurements where available). It excludes member reviews so the first pass remains blind.
 
 ## Independent reviews
 

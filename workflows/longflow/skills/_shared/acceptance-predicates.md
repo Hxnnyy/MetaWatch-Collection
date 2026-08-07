@@ -6,13 +6,15 @@ Mechanically verifiable acceptance criteria, applied in **two tiers with differe
 
 ### Promise-level acceptance (frozen)
 
-One entry per intent-contract promise, authored in the PRD (`templates/prd.md`, "Promise-level acceptance"): how the running product shows the promise is true. These are **frozen like the intent contract itself — only the owner amends them.** They are verified by walkthrough at promise gates (`walkthrough-verification.md`), not by scripts.
+One entry per intent-contract promise describes how the running product shows the promise is true. At T1 it lives with the intent and short execplan; at T2+ it is authored in the PRD (`templates/prd.md`, "Promise-level acceptance"). These are **frozen like the intent contract itself — only the owner amends them.** They are verified by walkthrough at promise gates (`walkthrough-verification.md`), not by scripts.
 
 This is where the anti-goalpost-moving guarantee lives now: at the level where slicing-time judgement is trustworthy, over criteria few enough to hold in one head.
 
 ### Item-level checks (proportionate, renegotiable)
 
-Each ledger item carries a check proportionate to its `rigor_class` (`process-calibration.md`):
+T1 uses **one honest check per item**: a command, test, walkthrough note, or recorded spike answer. T1 has no frozen predicate scripts, including for `production-transferable` items.
+
+At T2+, each ledger item carries a check proportionate to its `rigor_class` (`process-calibration.md`):
 
 - `production-transferable` → a deterministic predicate script, authored at slicing time by `prd-to-issues`.
 - `dogfood-disposable` → **one honest check** — a single command, test, or walkthrough note. No predicate script, no perturbation, no adversarial review.
@@ -117,13 +119,15 @@ Template: `_shared/templates/verify-issue.sh`.
 
 ## Close gate
 
-A `production-transferable` item may not close unless its script exits 0 on the integration branch. Before final closeout, run the full roll-up:
+At T2+, a `production-transferable` item may not close unless its script exits 0 on the integration branch. Before final closeout, run the full roll-up:
 
 ```bash
 for f in scripts/verify-issue-*.sh; do bash "$f"; done
 ```
 
 A regression that breaks a previously-green predicate is a `BLOCKED` finding. The roll-up is an evidence floor, not the closure ceiling — the final gate is the end-to-end walkthrough plus intent audit (`promise-gates.md`).
+
+The production predicate roll-up is T2+ only. T1 closeout runs the ledger's honest checks directly.
 
 ## Maintenance
 

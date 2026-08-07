@@ -137,9 +137,10 @@ test("pragmatic-longflow contracts are present and coherent", () => {
     "scripts/heartbeat-watch.mjs"
   ]) assert.ok(!fs.existsSync(path.join(repoRoot, gone)), `${gone} should be deleted`);
 
-  // STATE template carries the directive and promise structure.
+  // STATE template is mode-neutral until invocation, and carries the promise structure.
   const state = JSON.parse(read("shared/templates/STATE.json"));
-  assert.ok(state.directive && state.directive.length > 50);
+  assert.equal(state.mode, null);
+  assert.equal(state.directive, null);
   assert.ok(Array.isArray(state.promises));
   assert.equal(state.intent_authority, "tasks/INTENT.md");
 });

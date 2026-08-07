@@ -4,24 +4,28 @@ The canonical contract for long-running, hands-off orchestration. Referenced by 
 
 ## Activation
 
+An explicit interactive instruction in the user's latest message takes precedence over every activation source below. It makes the run interactive even when `STATE.json` still says `mode: continuous` or an earlier turn was continuous. At T1+, record `mode: interactive_override`, keep `status: in_progress`, and leave the previous continuous `directive` unchanged as durable history.
+
 Continuous mode is **active** when any of:
 
-1. The user's invoking message contains an unambiguous continuous directive: "until done", "until parent closed", "no pause", "AFK", "run to completion", "don't stop", "fully autonomous", "go".
+1. The user's invoking message contains an unambiguous continuous directive: "until done", "until parent closed", "no pause", "AFK", "run to completion", "don't stop", or "fully autonomous". Bare `go` is not a continuous directive.
 2. `tasks/STATE.json` exists with `"mode": "continuous"`.
-3. The orchestrator was previously in continuous mode and has not seen an explicit `interactive mode` instruction since.
+3. The orchestrator was previously in continuous mode and no later explicit interactive override exists.
 
 Otherwise the skill runs in **interactive mode**, and calibration (`process-calibration.md`) may set explicit human checkpoints — e.g. "surface each promise gate to the owner" at T1–T2 when the owner is around.
 
-When continuous mode activates, the orchestrator MUST write `tasks/STATE.json` (template: `_shared/templates/STATE.json`) before any other action. STATE.json carries the continuous directive in its `directive` field — there is no separate directive file.
+**T0 exception:** T0 is outside durable Longflow orchestration. A continuous directive at T0 means keep working in normal conversation until the small task is done; create no Longflow artifacts and no `STATE.json`. The rest of this contract applies at T1+.
+
+At T1+, when continuous mode activates, the orchestrator MUST write `tasks/STATE.json` (template: `templates/STATE.json`) before the first execution action. STATE.json carries the continuous directive in its `directive` field — there is no separate directive file.
 
 ## What changes
 
 | Behaviour | Interactive | Continuous |
 |---|---|---|
 | Promise gates | Surface gate summary to user | Append plain-English gate summary to execplan, proceed |
-| Reviewer verdict surfacing | Orchestrator may surface ambiguous findings | Mapped to `PASS` / `BLOCKED` / `NOT_APPLICABLE` only |
+| Reviewer verdict surfacing | Orchestrator may surface ambiguous findings | Store raw verdicts unchanged; act without a routine user check-in |
 | Subagent return | Surface a summary | Append to execplan, run check, dispatch next |
-| `PASS_WITH_NOTES` at final closeout | Allowed with user check | Disallowed; mapped to `BLOCKED` |
+| `PASS_WITH_NOTES` at final closeout | Not a normal pass; dispose notes before the panel | Not a normal pass; only the budget-exhaustion residual path may close |
 | Off-scope work discovered | Surface for user input | Open a follow-up ledger item, continue |
 | Acceptance ambiguity | Ask user | Tier-dependent: T0–T1 decide small and flag; T2+ hard-block 6 (see `hard-block-conditions.md`) |
 | End-of-turn check-ins | Allowed | Suppressed via execplan |
@@ -48,16 +52,17 @@ If the orchestrator arrives in a conversation without context (post-compaction, 
 
 1. Read `tasks/STATE.json` in full, including `directive`.
 2. Read `tasks/INTENT.md` — the intent contract is part of resume context, not an optional extra.
-3. Read the tail of the execplan for recent decisions.
-4. Reconcile and reap `agent_pool.threads` per `agent-lifecycle.md`.
-5. Resume from `next_action`; do not re-derive state from the ledger files or `git log` unless `STATE.json` is missing or malformed (hard-block 8).
+3. Adopt its `active_decisions`, `open_assumptions`, `binding_actions`, and `residual_risks`, then read the execplan tail for narrative context.
+4. Check evidence freshness per `state-files.md`; transition any affected verified promise to `needs_recheck` before relying on it.
+5. Reconcile and reap `agent_pool.threads` per `agent-lifecycle.md`.
+6. Resume from `next_action`; use the ledger and git only to verify detail and freshness, not to reconstruct operative judgement (missing or malformed state fires hard-block 8).
 
 ## Exit
 
 Continuous mode ends only when:
 
-1. **Complete**: every promise in `STATE.json.promises` is true, the final closeout gate passed, and the retro entry is written (`templates/RUNS.md`).
+1. **Complete**: every promise in `STATE.json.promises` is `verified`, the tier-scaled final closeout passed, and the retro entry is written (`templates/RUNS.md`). At T1 that means the end-to-end walkthrough holds; at T2+ it also means the final intent audit is aligned and the final reviewer gate closed by its normal or documented residual path.
 2. **Hard-block**: a condition from `hard-block-conditions.md` fired.
 3. **Explicit override**: user said `interactive mode` or equivalent during the run.
 
-On exit, set `STATE.json.mode` to `complete` / `hard_blocked` / `interactive_override` and `status` to match (do not delete state — it's part of the audit trail). Then report once to the user, plain-English first: which promises are true, what it cost, what was flagged for follow-up.
+On complete or hard-block exit, set both `STATE.json.mode` and `status` to `complete` or `hard_blocked`. On an explicit interactive override, set `mode: interactive_override` and keep `status: in_progress`. Do not delete state — it is part of the audit trail. Then report once to the user, plain-English first: which promises are verified, what it cost, what was flagged for follow-up.

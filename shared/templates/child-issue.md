@@ -1,6 +1,6 @@
-## Parent PRD
+## Parent plan
 
-<PRD reference — ledger id, path, or #issue when the parent is projected to GitHub>
+<T1: short execplan reference. T2+: PRD path, ledger id, or #issue when projected to GitHub.>
 
 ## Promise
 
@@ -9,11 +9,11 @@ Serves promise <N> of the intent contract: <one-line restatement>. (`promises` f
 ## Rigour and size
 
 - **rigor_class**: production-transferable | dogfood-disposable | spike
-- **size**: S | M | L
+- **size**: T1: `null`; T2+: S | M | L
 
 ## What to build
 
-End-to-end behaviour of this vertical slice. Reference parent PRD sections; do not duplicate content.
+End-to-end behaviour of this vertical slice. Reference the T1 intent/execplan or T2+ PRD; do not duplicate content.
 
 ## Acceptance
 
@@ -22,7 +22,9 @@ End-to-end behaviour of this vertical slice. Reference parent PRD sections; do n
 
 ## Check
 
-Proportionate to rigor_class (`_shared/process-calibration.md`):
+At T1, use one honest command, test, or walkthrough note for every item. Do not create predicate scripts.
+
+At T2+, make the check proportionate to rigor_class (`_shared/process-calibration.md`):
 
 - `production-transferable` → `scripts/verify-issue-<id>.sh`, authored at slicing time. Each criterion maps to a deterministic check (`_shared/acceptance-predicates.md`). Implementers receive the script as input and **must not modify it**; a needed change goes through the descope/course-correction channel, not a quiet edit.
 - `dogfood-disposable` → one honest command or walkthrough note: <command>

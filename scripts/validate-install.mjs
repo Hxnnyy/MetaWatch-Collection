@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { homeDir, installedSkillRoot, publicSkills, staleSkillNames } from "./workflow-paths.mjs";
+import { compareInstalledSkill } from "./skill-export-content.mjs";
 
 const installedRoot = process.argv[2] ? path.resolve(process.argv[2]) : installedSkillRoot;
 const failures = [];
@@ -23,6 +24,7 @@ for (const skill of publicSkills) {
   if (skill.workflow === "longflow" && !fs.existsSync(path.join(skillDir, "_shared", "reviewer-protocol.md"))) {
     fail(`installed longflow skill missing generated _shared bundle: ${skill.name}`);
   }
+  for (const mismatch of compareInstalledSkill(installedRoot, skill)) fail(mismatch);
 }
 
 for (const stale of staleSkillNames) {

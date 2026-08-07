@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "promiseStatusVocabulary": ["open", "in_progress", "verifying", "verified", "needs_recheck"],
+  "tiers": {
+    "T0": {
+      "artifacts": [],
+      "intent": "conversation",
+      "ownerAbsence": "proceed",
+      "prd": false,
+      "council": "never",
+      "gates": ["final-walkthrough"]
+    },
+    "T1": {
+      "artifacts": ["INTENT.md", "STATE.json", "execplan", "ledger"],
+      "intent": "required",
+      "ownerAbsence": "drafted-unconfirmed",
+      "prd": false,
+      "council": "never",
+      "coverageAudit": true,
+      "gates": ["walkthrough"]
+    },
+    "T2": {
+      "artifacts": ["INTENT.md", "STATE.json", "execplan", "ledger", "PRD"],
+      "intent": "required",
+      "ownerAbsence": "drafted-unconfirmed",
+      "prd": true,
+      "council": "genuine-disagreement-only",
+      "coverageAudit": true,
+      "gates": ["walkthrough", "intent-audit", "risk-routed-reviewers"]
+    },
+    "T3": {
+      "artifacts": ["INTENT.md", "STATE.json", "execplan", "ledger", "PRD"],
+      "intent": "owner-signed",
+      "ownerApproval": "required-before-start",
+      "prd": true,
+      "council": "one-round-default; second-round-shape-changing-exception",
+      "coverageAudit": true,
+      "gates": ["walkthrough", "intent-audit", "risk-routed-reviewers"]
+    }
+  },
+  "unconfirmedAcceptance": "operationally-frozen-and-visibly-provisional-until-owner-confirmation"
+}

@@ -20,7 +20,7 @@ Some conditions are tier-dependent (`process-calibration.md`): at low tiers the 
 
 7. **External-system dependency** the orchestrator has no path to satisfy — a third-party API key, a paid service, a manual deploy step, an out-of-band human approval.
 
-8. **State corruption** — `tasks/STATE.json` is missing or malformed mid-run and cannot be reconstructed safely.
+8. **State corruption** — `tasks/STATE.json` is missing or malformed mid-run (including on resume). This condition is categorical: fire hard-block 8 and never reconstruct operative state from the ledger, git, or other artifacts. Only a new run's initial calibrated preparation may create a missing state file.
 
 9. **T3 tier sign-off** — a T3 run was started without the owner present; block until the tier and intent contract are approved (`process-calibration.md`).
 
@@ -50,7 +50,7 @@ When the impulse to stop arises and no listed condition applies, the impulse its
 
 When a hard-block fires:
 
-1. Update `tasks/STATE.json`: `status: "hard_blocked"`, `block_reason: "<numbered condition>"`, `updated_at`.
+1. Update `tasks/STATE.json`: `status: "hard_blocked"`, `block_reason: "<numbered condition>"`, `updated_at`. Under condition 8, preserve the missing or malformed snapshot as evidence and record the block in the execplan instead; do not create or reconstruct state.
 
 2. Append a `[HARD_BLOCK]` entry to the execplan with the numbered condition, the relevant evidence (last subagent output, reviewer verdict, or git status), file paths, and the minimal information required from the user to resume.
 

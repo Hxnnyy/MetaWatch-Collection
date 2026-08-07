@@ -14,7 +14,6 @@ Standard aliases:
 - `frontier-openai-fast` — OpenAI's fast frontier.
 - `frontier-google` — Google's frontier.
 - `frontier-xai` — xAI's frontier.
-- `frontier-oss` — strongest available open-source model.
 
 ## The judgment rule
 
@@ -26,7 +25,7 @@ Route by the kind of work, not by habit:
 ## Council
 
 - `models.council` — the member set, mixed labs, one member briefed as the pragmatist seat (strongest model).
-- `models.councilChair` — from a lab not represented among members. Default: `frontier-oss`. Owns dispositions, tie-breaks, and severity-downgrade sign-off. Does not vote. See `council-protocol.md`.
+- `models.councilChair` — Google by default, excluded from council membership so it remains lab-independent. Owns dispositions, tie-breaks, and severity-downgrade sign-off. Does not vote. See `council-protocol.md`.
 
 ## Adjudication (cross-provider)
 
@@ -41,16 +40,16 @@ Route by the kind of work, not by habit:
 
 ## Reviewer Routing
 
-Reviewers are risk-routed by persona (`reviewer-protocol.md`); models per persona come from `routing.reviewersByIssueType`. The intent auditor always resolves via `routing.intentAuditor`.
+Issue-level reviews use models from `routing.reviewersByIssueType`. Promise-gate panels are risk-routed by persona (`reviewer-protocol.md`) and use models from `routing.promiseGateReviewers`. The intent auditor always resolves via `routing.intentAuditor`.
 
-At final closeout, each required persona runs **exactly once**, distributed round-robin across `routing.finalCloseoutModels` so more than one lab audits the result. Escalation: if a final audit returns `BLOCKED`, re-run that persona on a different model after remediation.
+At T2+, in the initial final-closeout cycle, each required persona runs **exactly once**, distributed round-robin across `routing.finalCloseoutModels` so more than one lab audits the result. If a final audit returns `BLOCKED`, remediate and re-run only the affected persona on a different model; that is the next review cycle and counts against the shared 3-cycle budget. T1 has no reviewer panel.
 
 ## Fallback Rules
 
 If a configured alias resolves to an unavailable physical model:
 
 1. Use the designated backup from config if present.
-2. If no backup is configured, stop at hard block for model substitution approval.
+2. If no backup is configured and no approved substitute is available, fire hard-block 7 (unsatisfied external-system dependency) for model substitution approval.
 3. Record substitution rationale in the execplan.
 
 ## Routing Integrity Rule

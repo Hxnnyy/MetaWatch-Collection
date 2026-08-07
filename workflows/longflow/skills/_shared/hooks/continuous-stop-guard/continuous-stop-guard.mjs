@@ -46,12 +46,12 @@ if (state.status === 'complete' || state.status === 'hard_blocked') {
 if (state.status === 'in_progress') {
   const next = state.next_action ?? '<unknown>';
   const open = Array.isArray(state.promises)
-    ? state.promises.filter((p) => p && p.status !== 'true').length
+    ? state.promises.filter((p) => p && p.status !== 'verified').length
     : '<unknown>';
   process.stderr.write(
     `continuous-stop-guard: continuous run is in progress (open promises: ${open}, next_action: ${next}). ` +
     `Hard-block conditions are not met. Re-read tasks/STATE.json (directive field) and tasks/INTENT.md, ` +
-    `then continue until every promise is true or a hard-block from _shared/hard-block-conditions.md fires.\n`
+    `then continue until every promise is verified or a hard-block from _shared/hard-block-conditions.md fires.\n`
   );
   process.exit(2);
 }
