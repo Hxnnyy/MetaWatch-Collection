@@ -11,7 +11,7 @@ MetaWatch Longflow turns rough intent into audited delivery — but it is a **to
 5. **`issues-execution`** (T1+, in the mode selected by the activation contract): waves schedule silently; **promises gate**. Each gate opens with a fresh-agent walkthrough of the user journey, then adds a fresh-context intent audit and risk-routed reviewers over production items at T2+ only. Continuous mode activates from an explicit directive or persisted `mode: continuous`; the latest explicit interactive override wins, and bare `go` never newly activates it.
 6. **Closeout**: end-to-end walkthrough at T1+; final intent audit and reviewer panel at T2+; then a plain-English handover and a retro appended to `RUNS.md` so the next run starts smarter.
 
-Throughout: tripwires (a gate burning review cycles, checks satisfied by check-shaped machinery, spend without promises moving) fire intent audits mid-run, and the auditor's descope verdicts are binding at T1–T2.
+Throughout: tripwires (a gate burning review cycles, checks satisfied by check-shaped machinery, spend without promises moving, verification effort overtaking building) fire intent audits mid-run, and the auditor's descope verdicts are binding at T1–T2.
 
 `shared/orchestration/tier-policy.json` is the machine-readable tier conformance fixture; the shared prose explains it. The five repository-owned reviewer prompts live in `agents/` and `npm run export:agents` links them into both supported harness locations.
 

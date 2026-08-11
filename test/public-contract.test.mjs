@@ -121,7 +121,12 @@ test("pragmatic-longflow contracts are present and coherent", () => {
   const audit = read("shared/review/intent-audit.md");
   assert.match(audit, /impressive machinery around promises that are still hollow/);
   assert.match(audit, /binding/i);
-  assert.match(read("shared/verification/walkthrough-verification.md"), /cannot walk/);
+  assert.match(audit, /Verification has overtaken building/);
+  const walkthrough = read("shared/verification/walkthrough-verification.md");
+  assert.match(walkthrough, /cannot walk/);
+  assert.match(walkthrough, /two consecutive fresh walks that surface only non-material findings/);
+  assert.match(read("shared/templates/RUNS.md"), /estimated vs actual agent dispatches/);
+  assert.match(read("shared/orchestration/process-calibration.md"), /dispatch-count estimate/);
 
   // Course-correction symmetry.
   const ccp = JSON.parse(read("shared/templates/COURSE_CORRECTION_PROPOSAL.json"));

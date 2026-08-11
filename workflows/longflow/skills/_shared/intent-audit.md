@@ -29,6 +29,7 @@ The orchestrator must treat any of these as "dispatch an intent audit now":
 | 4 | A status update cannot state, in plain language, what product outcome the current work serves. |
 | 5 | Several consecutive items have closed with no user-visible consequence. |
 | 6 | A report is praising the process — governance, review verdicts, compliance — rather than the product. Self-congratulation about ceremony is a drift smell, not a health signal. |
+| 7 | Verification has overtaken building: walker, reviewer, and audit dispatches exceed the implementation dispatches they are checking — at a single gate or across the run. Fresh eyes have diminishing returns; this tripwire aims the auditor at the review process itself. |
 
 Tripwire audits are cheap relative to what they prevent. Suppressing one because "the wave is nearly done" is precisely backwards.
 

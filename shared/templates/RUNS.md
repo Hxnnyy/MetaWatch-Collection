@@ -10,6 +10,8 @@ Append one entry per completed (or abandoned) run. Plain English. The point is t
 
 **Cost**: <rough spend and duration; where it concentrated.>
 
+**Dispatches**: <estimated vs actual agent dispatches, with the implementation-versus-verification split; one line on where any overrun came from.>
+
 **Ceremony that paid for itself**: <mechanisms that caught something real — name what they caught.>
 
 **Ceremony that didn't**: <mechanisms that consumed effort and caught nothing; candidates to skip at this tier next time.>

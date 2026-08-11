@@ -26,6 +26,12 @@ Plain-English narrative plus a one-line judgement:
 
 Store the narrative in the ledger evidence for the promise's items and quote its key lines in the gate summary — walkthrough narratives are the most owner-legible artifact a run produces.
 
+## Diminishing returns
+
+Fresh eyes are for discovery, not ritual. Once a walkthrough holds, another fresh walk is re-verification and needs a reason: later work touched the promise's recorded scope (`needs_recheck`), or a reviewer finding disputes the narrative.
+
+At final closeout, two consecutive fresh walks that surface only non-material findings end the walking — record the residual observations and close. A third walker relitigating wording is verification spend with no promise moving; it counts toward tripwire 7 (`../review/intent-audit.md`).
+
 ## Honesty rules
 
 - The walker never sees implementation reports first; expectations contaminate observation.
