@@ -75,7 +75,10 @@ Calibration sets a rough token/effort budget for the run. At T2+, slicing also s
 
 - at T2+, an item at ~2× its size estimate is a tripwire (see `../review/intent-audit.md`);
 - the intent auditor reads the spend-versus-promises curve: spend without promises moving is the classic lost-in-the-sauce signature;
+- verification dispatches exceeding the implementation dispatches they check is also a tripwire — review effort is spend like any other;
 - the handover reports what the run cost and where it went.
+
+Calibration also records a rough **dispatch-count estimate** alongside the token budget, and the retro reports estimate versus actual with the implementation-versus-verification split (`../templates/RUNS.md`). Estimation bias is measured across runs, not remembered.
 
 At T1+, budget state lives in `STATE.json` under `budget`; T0 keeps its rough bound in conversation.
 
