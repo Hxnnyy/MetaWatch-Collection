@@ -2,6 +2,7 @@
   "workflow": "MetaWatch Merge Train",
   "status": "not_started",
   "phase": "ingest",
+  "directive": null,
   "parent_pr": null,
   "parent_branch": null,
   "current_child_pr": null,
@@ -9,6 +10,7 @@
   "merged_child_count": 0,
   "checkpoint_count": 0,
   "last_checkpoint_after_child": null,
+  "review_cycles": {},
   "next_action": "Ingest parent PR, child PR list, branch policy, and test commands.",
   "block_reason": null,
   "updated_at": null

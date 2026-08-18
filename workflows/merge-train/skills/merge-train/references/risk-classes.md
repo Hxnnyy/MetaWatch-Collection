@@ -57,3 +57,7 @@ Examples:
 Handling:
 
 - hard block or human signoff unless config explicitly permits autonomous handling.
+
+## Defaults are a ceiling as well as a floor
+
+Each class's handling is the default bundle in both directions. Skipping below it is a one-line breakglass entry in the execplan — record and continue. Adding ceremony above it — extra reviewers, extra cycles, extra checkpoints — requires intent-auditor concurrence before the ceremony is added; gold-plating review is a scope change like any other.

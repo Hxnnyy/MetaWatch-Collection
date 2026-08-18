@@ -15,7 +15,7 @@ MetaWatch is organized as a registry-backed primitive repository.
 ## Current Workflow Packs
 
 - `workflows/longflow/`: calibrated delivery from rough intent — intent contract, tier calibration, optional council and PRD, ledger slicing, continuous execution with promise gates, closeout, and retro.
-- `workflows/merge-train/`: large parent PR/branch audit, child PR remediation, parent integration checkpoints, and final manual-review readiness. Merge Train owns a workflow-local strict review bar for structural maintainability checks that are stronger than the shared reviewer baseline.
+- `workflows/merge-train/`: large parent PR/branch audit, child PR remediation, parent integration checkpoints, and final manual-review readiness. Merge Train owns a workflow-local strict review bar for structural maintainability checks that are stronger than the shared reviewer baseline; the bar is consequence-gated, and findings are adjudicated into dispositions before any remediation is dispatched.
 
 ## Shared Primitives
 

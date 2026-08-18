@@ -24,3 +24,21 @@ All three promises hold in the current working tree: Longflow has one coherent c
 - Treat real-task dogfooding risk R-001 as the honest remaining uncertainty. Reopen Promise 1 only for an observed behaviour-changing contradiction.
 - Do not add PTC, provider adapters, mutation commands, new review roles, or more framework policy until repeated real tasks demonstrate a concrete friction that the existing agent judgement cannot handle.
 - Future Fable checks use high reasoning, not max. One independent audit is enough unless it reports a concrete blocker.
+
+## 2026-08-18 — Merge Train calibration rework
+
+### Outcome
+
+Merge Train adopted the pragmatic-Longflow mechanisms it had missed: an adjudication step between auditor and remediator (`fix-now | follow-up | residual-risk | rebutted`, only `fix-now` funds work), a consequence-gated strict review bar, a finding-dispositions table in the parent ledger that travels with every fresh reviewer, material/non-material settlement with `closed_with_residuals` at the 3-cycle cap, the intent auditor as a proportionality seat, the asymmetric breakglass on risk-class defaults, and a `RUNS.md` retro at handoff. Four families of stale pre-rework references fixed (directive file, five-seat panel, wave vocabulary, course-correction template). Full validation suite green; no new files, no new state artifacts.
+
+### What paid for itself
+
+Evidence before authorship: reading all five real run journals plus the campaign that motivated the work meant every mechanism adopted here traces to an observed failure ("flag aggressively" with no adjudication layer re-litigating declined findings), not a speculative one. The byte-identical mirror check made the sync strategy trivial to verify.
+
+### What did not
+
+Nothing material; the change stayed adoption-only. The one considered-and-dropped item — generalising the strict review bar's voice away from Merge Train — was cosmetic churn on a shared file.
+
+### Decision and tripwires
+
+Dogfood before extending: the next real merge-train run is the test of whether adjudication plus the dispositions table actually shortens loops. Reopen only on observed friction — a loop that still grows diffs after cycle 2, or a rebutted finding surviving into a later panel — not on speculative completeness.

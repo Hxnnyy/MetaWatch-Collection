@@ -2,6 +2,8 @@
 
 Merge Train reviews must be stricter than ordinary PR review. A child can pass local behavior checks and still block the train if it makes the parent branch harder to maintain, reason about, or safely extend.
 
+Strictness means depth of inspection, not volume of demands. The bar polices in **both directions**: a structural regression waved through and a restructure demanded without consequence are the same review failure.
+
 ## Structural Standard
 
 Reviewers must actively look for behavior-preserving simplifications that delete complexity instead of merely polishing it. Treat these as first-class review questions:
@@ -15,15 +17,22 @@ Reviewers must actively look for behavior-preserving simplifications that delete
 - Is orchestration unnecessarily sequential, or can independent work be composed more directly?
 - Can related updates be made more atomic so the parent branch cannot settle into half-applied state?
 
+## What makes a finding blocking
+
+A finding blocks by naming its **consequence**: the defect it causes, the security or data risk it opens, the contract it breaks, the check it fails, or the specific, plausible future change it makes materially harder — with that change named. "This could be simpler" is an observation; "every new failure class must now be added in three places, and this parent adds failure classes" is a consequence.
+
+- A structural finding with a named consequence blocks. Severity follows the consequence, not the elegance gap.
+- A structural preference with no named consequence is severity `note`, disposition `follow-up` — recorded in the packet, worked after the train.
+- The remedy's cost is part of the finding. A fix that grows net complexity, or a restructure whose payoff the reviewer cannot name, is proposed as `follow-up`, never demanded as in-train remediation. Each accepted finding becomes a narrow correction or a regression check, not a broader framework.
+
 ## Presumptive Blockers
 
-Flag these aggressively. They should block child signoff, parent checkpoint approval, or final closeout unless the author records a clear justification and the reviewer accepts the residual risk:
+These patterns block by default because their consequence is well-known; the author may rebut with a recorded justification the reviewer accepts:
 
 - A file moves from below 1000 lines to above 1000 lines because of the PR.
 - New ad-hoc conditionals, feature flags, nullable modes, or one-off branches tangle unrelated flows.
 - Feature-specific behavior leaks into shared/general-purpose code without an ownership reason.
 - A new wrapper, abstraction, generic mechanism, or helper adds indirection without removing complexity.
-- The diff preserves incidental complexity when a clear restructure could delete it.
 - The implementation relies on casts, `any`, `unknown`, silent fallbacks, or unnecessary optionality where a sharper boundary is available.
 - The PR duplicates canonical utilities or puts logic in the wrong layer.
 - Repeated conditionals signal a missing model, policy object, dispatcher, or state machine.
@@ -31,7 +40,7 @@ Flag these aggressively. They should block child signoff, parent checkpoint appr
 
 ## Preferred Remedies
 
-Push for remedies that reduce concepts a future reader must hold in their head:
+When a consequence is named, push for remedies that reduce the concepts a future reader must hold:
 
 - delete unnecessary layers or wrappers,
 - split oversized files into focused modules,
@@ -44,15 +53,20 @@ Push for remedies that reduce concepts a future reader must hold in their head:
 - parallelize independent work when it also simplifies the flow,
 - restructure related updates so partial state is harder to create.
 
+## Adjudication and memory
+
+Findings are advisory until the orchestrator dispositions them — `fix-now`, `follow-up`, `residual-risk`, or `rebutted` (evidence-backed), per the reviewer protocol. Only `fix-now` findings reach a remediator; raw verdicts stay immutable either way.
+
+Every reviewer dispatched after the first receives the dispositions record to date. A `rebutted` finding returns only with new evidence; re-raising it without any is itself a proportionality finding. Fresh eyes consume cycles; they never mint them.
+
 ## Output Expectations
 
 Prioritize findings in this order:
 
-1. Structural code-quality regressions.
-2. Missed opportunities for major simplification.
-3. Spaghetti or branching complexity growth.
-4. Boundary, abstraction, and type-contract problems.
-5. File-size and decomposition concerns.
-6. Modularity, legibility, and maintainability concerns.
+1. Correctness, security, and data consequences.
+2. Structural regressions with named consequences.
+3. Boundary, abstraction, and type-contract problems.
+4. Simplification opportunities, as `follow-up` proposals with the payoff named.
+5. File-size, decomposition, modularity, and legibility notes.
 
-Prefer a small number of high-conviction blocking findings over a long list of cosmetic notes. Do not approve merely because tests pass; the parent branch must remain structurally coherent.
+Prefer a small number of high-conviction blocking findings over a long list of cosmetic notes. Do not approve merely because tests pass — the parent branch must remain structurally coherent — and do not block merely because a restructure is imaginable: the train ships with consequences fixed, not preferences satisfied.
