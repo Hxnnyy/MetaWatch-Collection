@@ -20,7 +20,7 @@ Turn an overwhelming destination into a navigable map. This is a planning and de
 ## Start the map
 
 1. State the destination in observable terms.
-2. Inspect existing code, documents, issues, decisions, and constraints before interviewing.
+2. Inspect existing code, documents, issues, decisions, and constraints before interviewing. State the window you actually covered; never quietly narrow "all" to a recent sample.
 3. List the major unknowns that could materially alter the route.
 4. Draw dependencies between those unknowns.
 5. Identify the frontier: the smallest high-leverage decisions that can be resolved now.
@@ -54,6 +54,8 @@ Maintain:
 - `MAP.md` — destination, dependency map, frontier, fog, and out-of-scope branches;
 - `decisions/<ticket>.md` — one file per resolved or deferred decision;
 - links to existing ADRs, domain docs, issues, prototypes, or research instead of duplicating them.
+
+Every decision and frontier line in `MAP.md` carries exactly one status tag: `[decided]`, `[deferred: <until>]`, `[frontier]`, `[evidence pending]`, `[fog]`, or `[out of scope]`. A line with no tag is not done yet, so tag it.
 
 The map is a living index, not a second specification.
 
