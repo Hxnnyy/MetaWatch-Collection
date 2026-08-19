@@ -21,6 +21,17 @@ function stripAnchor(link) {
   return index >= 0 ? link.slice(0, index) : link;
 }
 
+// Skills outside workflows/longflow link shared contracts as `../_shared/<file>`,
+// which resolves only in the exported layout (where _shared/ sits beside every
+// installed skill). In the source tree those links resolve against the generated
+// shared tree instead.
+const sharedTailPattern = /(?:^|\/)_shared\/(.+)$/;
+function resolvesViaSharedTree(raw) {
+  const match = stripAnchor(raw).match(sharedTailPattern);
+  if (!match) return false;
+  return fs.existsSync(path.resolve(root, "workflows/longflow/skills/_shared", match[1]));
+}
+
 function validateFile(filePath) {
   const text = fs.readFileSync(filePath, "utf8").replace(/```[\s\S]*?```/g, "");
   const regex = /(?<!!)\[[^\]]+\]\(([^)]+)\)/g;
@@ -30,7 +41,7 @@ function validateFile(filePath) {
     const withoutAnchor = stripAnchor(raw);
     if (!withoutAnchor) continue;
     const target = path.resolve(path.dirname(filePath), withoutAnchor);
-    if (!fs.existsSync(target)) {
+    if (!fs.existsSync(target) && !resolvesViaSharedTree(raw)) {
       failures.push(`${path.relative(root, filePath)} -> ${raw}`);
     }
   }
@@ -40,7 +51,7 @@ function validateFile(filePath) {
     const target = raw.startsWith("_shared/")
       ? path.resolve(root, "workflows/longflow/skills", raw)
       : path.resolve(path.dirname(filePath), stripAnchor(raw));
-    if (!fs.existsSync(target)) failures.push(`${path.relative(root, filePath)} -> ${raw}`);
+    if (!fs.existsSync(target) && !resolvesViaSharedTree(raw)) failures.push(`${path.relative(root, filePath)} -> ${raw}`);
   }
 }
 

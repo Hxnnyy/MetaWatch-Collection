@@ -1,0 +1,34 @@
+{
+  "creator": "Lauren Tan (poteto)",
+  "upstreamRepository": "https://github.com/cursor/plugins",
+  "revision": "60c641e4fad674784b30abcf9f8915dea39df38d",
+  "license": "MIT",
+  "licenseFile": "LICENSE",
+  "installationDisposition": "install-complete-bundle-root",
+  "assets": [
+    {
+      "name": "explain",
+      "path": "explain",
+      "upstreamPath": "pstack/skills/how, pstack/skills/why, pstack/skills/recall, pstack/skills/teach",
+      "designation": "adapted",
+      "modifications": "Merged four upstream skills into one branched skill; critique mode removed (owned by council/reviewers here); Cursor multi-model machinery replaced with this harness's Explore agent, subagents, and Claude Code transcript paths; synthesis bound to the collection's shared epistemics contract.",
+      "dependencies": []
+    },
+    {
+      "name": "verify-harness",
+      "path": "verify-harness",
+      "upstreamPath": "pstack/skills/create-verification-skill, pstack/skills/maintain-verification-skill",
+      "designation": "adapted",
+      "modifications": "Merged generate and maintain into one two-branch skill; generated-skill location rewritten to this collection's project-skill conventions; wired into the Longflow walkthrough-verification contract; anti-skip criteria hardened on prove-before-handover and the live pass.",
+      "dependencies": []
+    },
+    {
+      "name": "reflect",
+      "path": "reflect",
+      "upstreamPath": "pstack/skills/reflect",
+      "designation": "adapted",
+      "modifications": "Three model-diverse reviewers reduced to two fresh-context reviewers; synthesizer subagent inlined into the parent; apply routing rewritten for MetaWatch-Collection and skill-management conventions; transcript location rewritten for Claude Code.",
+      "dependencies": []
+    }
+  ]
+}

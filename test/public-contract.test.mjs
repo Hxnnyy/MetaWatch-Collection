@@ -64,9 +64,10 @@ test("registry and export index contain the same skill entrypoints", () => {
 test("catalog matches the exact curated skill set", () => {
   assert.deepEqual(publicSkills.map(({ name }) => name).sort(), [
     "code-economy", "codebase-design", "codebase-quality-sweep", "context7-cli", "council",
-    "domain-modeling", "frontend-design", "frontend-design-plus", "grilling", "improve-codebase-architecture",
-    "issues-execution", "longflow-orchestrator", "marketing", "merge-train", "prd-to-issues", "tdd",
-    "wayfinder", "write-a-prd", "writing-great-skills"
+    "domain-modeling", "explain", "frontend-design", "frontend-design-plus", "grilling",
+    "improve-codebase-architecture", "issues-execution", "longflow-orchestrator", "marketing",
+    "merge-train", "prd-to-issues", "reflect", "tdd", "verify-harness", "wayfinder",
+    "write-a-prd", "writing-great-skills"
   ]);
   const marketing = JSON.parse(fs.readFileSync(path.join(repoRoot, "third_party/corey-haines/provenance.json"), "utf8"));
   assert.deepEqual(marketing.assets.filter(({ name }) => name !== "marketing-router").map(({ name }) => name).sort(), [

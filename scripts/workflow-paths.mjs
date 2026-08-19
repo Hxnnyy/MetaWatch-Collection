@@ -105,6 +105,21 @@ export const publicSkills = [
     name: "context7-cli",
     source: "third_party/context7/context7-cli",
     workflow: "standalone"
+  },
+  {
+    name: "explain",
+    source: "third_party/poteto/explain",
+    workflow: "standalone"
+  },
+  {
+    name: "verify-harness",
+    source: "third_party/poteto/verify-harness",
+    workflow: "standalone"
+  },
+  {
+    name: "reflect",
+    source: "third_party/poteto/reflect",
+    workflow: "standalone"
   }
 ];
 
