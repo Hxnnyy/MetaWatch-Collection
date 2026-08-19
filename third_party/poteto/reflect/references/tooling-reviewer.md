@@ -48,7 +48,7 @@ Surface 3-5 durable findings. For each:
 
 - Principle: one sentence naming the convention or technical fact, concrete enough that a future agent recognizes when it applies.
 - Evidence: the exact moment (turn number or short verbatim quote, including the command or flag).
-- Routing: `<skill>` plus section, or `tune description: <skill>`, or `new skill: <kebab-name>` (rare — only when no existing skill is a real home).
+- Routing: `<skill>` plus section, or `tune description: <skill>`, or `new skill: <kebab-name>` (rare — only when no existing skill is a real home; lands in Backlog, never Accepted).
 
 Skip trivial things (typos, retries). Skip anything the invoked skill already states clearly. Skip details that drift: SHAs, current file paths, version numbers. Convention generalizes; pinned details don't.
 

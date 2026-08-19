@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Mine the active session for durable lessons, route each into a concrete edit on an existing skill, and stop for approval before anything lands. Skip when the session is trivial or an invoked skill already covers what happened — one-offs are not lessons.
 
-**Hard scope rule** — every finding passes it at every stage: a finding routes to a skill this session actually invoked, or to `tune description: <skill>` for a skill that was visible in the session's catalog but should have triggered and didn't. Everything else is dropped. Adding text to a skill the agent never opened does not change behaviour.
+**Hard scope rule** — every finding passes it at every stage: a finding routes to a skill this session actually invoked, or to `tune description: <skill>` for a skill that was visible in the session's catalog but should have triggered and didn't. A recurring pattern with no existing home goes to Backlog as `new skill: <kebab-name>` — never into Accepted. Everything else is dropped. Adding text to a skill the agent never opened does not change behaviour.
 
 Findings and the user-facing output follow `../_shared/epistemics.md` (a verbatim quote is direct evidence; a reading of the session is inference and phrased as one) and `../_shared/prose-tells.md`.
 
@@ -53,13 +53,13 @@ Present the full Accepted / Rejected / Backlog output and stop. A skill edit aff
 
 First resolve where each approved skill's editable source lives:
 
-- **Collection skill** — its installed copy resolves under `~/.agents/skills/metawatch/`, which is generated. Canonical source is the MetaWatch-Collection repo (`~/Documents/Personal Repos/MetaWatch-Collection`): `shared/` for shared contracts, the skill's own directory otherwise. Reflect proposes the exact edit content and target repo path; the repo's sync / test / export pipeline runs separately, outside this skill.
-- **Local-only skill** — lives directly in `~/.agents/skills/<name>/`; edit in place, per `~/.agents/skills/_meta/skill-management.md`.
+- **Collection skill** — its installed copy is generated from a source repo (an installed copy usually says so in its README or provenance; a symlink into a group directory is another tell). Locate the source checkout — from the installed copy's provenance, or by asking the user — and target it: `shared/` for shared contracts, the skill's own directory otherwise. Reflect proposes the exact edit content and target repo path; the repo's own sync / test / export pipeline runs separately, outside this skill. Never edit a generated copy.
+- **Local-only skill** — lives directly in the harness's skill directory with no generating source; edit in place.
 
-Then, per approved row, follow `writing-great-skills`:
+Then, per approved row, follow the `writing-great-skills` skill where installed (its doctrine — no-op test, single source of truth, description triggers — is the bar either way):
 
 - Trivial edit (a bullet, a tightened sentence, a corrected fact): make it directly.
-- Substantive edit or new-skill proposal: draft the full content and hand it to the repo flow with its target path, rather than landing it inline.
+- Substantive edit, or a new skill the user promotes from Backlog: draft the full content and hand it to the repo flow with its target path, rather than landing it inline.
 - `tune description:` rows follow the description doctrine — front-load the leading word, one trigger per branch.
 
 **Done when:** every approved row is applied or drafted-with-target-path, and the user has a summary: one line per edit (skill, change), Backlog items, and each dropped finding with its reason.

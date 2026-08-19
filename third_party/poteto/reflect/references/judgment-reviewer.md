@@ -36,7 +36,7 @@ Surface 3-5 durable findings. For each:
 
 - Principle: one sentence stating what generalizes — the rule itself, no name-dropping.
 - Evidence: the exact moment (turn number or short verbatim quote).
-- Routing: `<skill>` plus section, or `tune description: <skill>`, or `new skill: <kebab-name>` (rare — only when no existing skill is a real home).
+- Routing: `<skill>` plus section, or `tune description: <skill>`, or `new skill: <kebab-name>` (rare — only when no existing skill is a real home; lands in Backlog, never Accepted).
 
 Skip trivial things (typos, tool retries, mechanical setup). Skip anything the invoked skill already states clearly. Skip details that drift: SHAs, current file paths, version numbers. Only principles that survive code drift.
 

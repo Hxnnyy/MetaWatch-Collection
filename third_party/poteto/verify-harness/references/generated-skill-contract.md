@@ -5,7 +5,7 @@ What the generate branch writes into the target repo. The reader is the next age
 ## Location and registration
 
 - Canonical directory in the target repo: its existing skills location if it has one, otherwise `skills/verify-<app>/` at the repo root.
-- Linked into the repo's local `.claude/skills`, `.codex/skills`, and `.agents/skills`, per the project-skill conventions in `~/.agents/skills/_meta/skill-management.md`.
+- Registered in the project-local skill directories the repo's harnesses actually use (for example `.claude/skills/` and `.codex/skills/`, as symlinks to the canonical directory), following the repo's existing convention.
 - YAML frontmatter: `name: verify-<app>` and a `description` that names the app, the surface, and when to reach for it. Without frontmatter the skill never registers. Leave it model-invocable — walkthrough walkers and other skills must be able to find it on their own.
 
 ## The six sections

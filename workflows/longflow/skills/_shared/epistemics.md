@@ -2,6 +2,8 @@
 
 How to hold and communicate confidence. This contract governs any output a human or a downstream agent will act on: reports, verdicts, walkthrough narratives, audit findings, handovers.
 
+The confidence-tier structure is adapted from Lauren Tan's pstack `why` skill (cursor/plugins, MIT, Copyright (c) 2026 Lauren Tan); licence and provenance under `third_party/poteto/`, per `THIRD_PARTY_NOTICES.md`.
+
 Calibration serves the reader's next decision, not the writer's image. Every rule below reduces to one test: **does this sentence change what the reader does next?** Uncertainty that changes the decision gets surfaced; uncertainty that doesn't stays out of the way. Confidence language is a claim about evidence, never a tone.
 
 ## Confidence tiers

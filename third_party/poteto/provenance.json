@@ -28,6 +28,14 @@
       "upstreamPath": "pstack/skills/reflect",
       "designation": "adapted",
       "modifications": "Three model-diverse reviewers reduced to two fresh-context reviewers; synthesizer subagent inlined into the parent; apply routing rewritten for MetaWatch-Collection and skill-management conventions; transcript location rewritten for Claude Code.",
+      "dependencies": ["external:writing-great-skills"]
+    },
+    {
+      "name": "shared-contracts",
+      "path": "_shared",
+      "upstreamPath": "pstack/skills/why/references/epistemics.md, pstack/skills/unslop",
+      "designation": "adapted",
+      "modifications": "Generated copies of shared/review/epistemics.md and prose-tells.md (the authoring sources, which carry inline attribution); confidence tiers merged with the collection's calibration philosophy, unslop catalog scoped to outward-facing prose.",
       "dependencies": []
     }
   ]

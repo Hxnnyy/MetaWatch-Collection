@@ -7,3 +7,5 @@ Files under `third_party/` are not covered by the MetaWatch copyright assertion.
 - Corey Haines: [licence](third_party/corey-haines/LICENSE) and [provenance](third_party/corey-haines/provenance.json)
 - Upstash Context7: [licence](third_party/context7/LICENSE) and [provenance](third_party/context7/provenance.json)
 - Lauren Tan (poteto): [licence](third_party/poteto/LICENSE) and [provenance](third_party/poteto/provenance.json)
+
+Two shared contracts outside `third_party/` also adapt poteto pstack material under the same MIT licence and say so inline: `shared/review/epistemics.md` and `shared/review/prose-tells.md`. Their generated copies (under `workflows/longflow/skills/_shared/` and `third_party/poteto/_shared/`) carry the same inline attribution.

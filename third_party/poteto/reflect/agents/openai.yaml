@@ -1,0 +1,7 @@
+interface:
+  display_name: "Reflect"
+  short_description: "Mine this session for durable lessons and propose skill edits"
+  default_prompt: "Use $reflect to mine this session and propose approval-gated skill edits."
+
+policy:
+  allow_implicit_invocation: false

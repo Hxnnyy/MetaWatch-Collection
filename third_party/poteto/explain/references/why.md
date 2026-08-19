@@ -26,7 +26,7 @@ Historical context spreads across eight evidence categories, and the question al
 
 | Category | Uniquely surfaces |
 |---|---|
-| Source control (git + `gh`, always available) | Implementation-time rationale captured in review: PR descriptions stating the problem, review threads debating alternatives, tests whose names encode the motivating edge case |
+| Source control (git; `gh` where installed — without it, skip PR archaeology and record the gap) | Implementation-time rationale captured in review: PR descriptions stating the problem, review threads debating alternatives, tests whose names encode the motivating edge case |
 | Issue / ticket tracker | The product or business forcing function: customer asks, compliance deadlines, parent-initiative framing, motive-bearing labels |
 | Long-form documents | Rationale written before the code: PRDs, RFCs, ADRs, "alternatives considered" sections, postmortems |
 | Real-time chat | Deliberation that never reached a doc: incident fire-drills, author–reviewer Q&A, "we decided X because Y" threads |

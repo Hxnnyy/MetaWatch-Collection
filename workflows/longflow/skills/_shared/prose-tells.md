@@ -4,7 +4,7 @@ A checkable catalog of patterns that mark prose as machine-generated or content-
 
 Scope boundary: agent-facing skill bodies are governed by `writing-great-skills` instead, whose leading-words doctrine deliberately uses compact abstract vocabulary (*harness*, *ledger*, *tripwire*) for precision. The jargon rules below target metaphor in human-facing prose, not technical terms used literally.
 
-Adapted from poteto's `unslop` (cursor/plugins pstack, MIT). Two deliberate departures: the upstream em-dash ban is replaced with rule 12 (house style uses em dashes; monotony is the tell, not the mark), and the jargon rule is scoped as above.
+Adapted from Lauren Tan's pstack `unslop` (cursor/plugins, MIT, Copyright (c) 2026 Lauren Tan); licence and provenance under `third_party/poteto/`, per `THIRD_PARTY_NOTICES.md`. Two deliberate departures: the upstream em-dash ban is replaced with rule 12 (house style uses em dashes; monotony is the tell, not the mark), and the jargon rule is scoped as above.
 
 ## Content
 

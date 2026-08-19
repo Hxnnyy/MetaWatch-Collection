@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Verify harness
 
-Every serious project needs a scripted way to prove behavior: launch the real app, exercise a feature the way a user would, capture evidence. That capability lives as a project-local skill named `verify-<app>` inside the target repo, with a feature map (`features/`) as the repo's maintained verification source. Walkthrough walkers consume it instead of improvising their own drive path (`../_shared/walkthrough-verification.md`). You write the generated skill for the next agent, not for a human: it is read cold, mid-task, by an agent that has never seen the app.
+Every serious project needs a scripted way to prove behavior: launch the real app, exercise a feature the way a user would, capture evidence. That capability lives as a project-local skill named `verify-<app>` inside the target repo, with a feature map (`features/`) as the repo's maintained verification source. Where the collection's Longflow walkthrough contract is installed, walkers consume it instead of improvising their own drive path. You write the generated skill for the next agent, not for a human: it is read cold, mid-task, by an agent that has never seen the app.
 
 ## Pick the branch
 
@@ -32,7 +32,7 @@ Done when all five questions have codebase-grounded answers and anything you ask
 
 ### 2. Write the skill
 
-Create the skill at a canonical directory in the target repo and link it into the repo's local `.claude/skills`, `.codex/skills`, and `.agents/skills`, following the project-skill conventions in `~/.agents/skills/_meta/skill-management.md`. Its SKILL.md carries six sections — Launch, Doctor, Drive, Evidence, Cleanup, Helpers — specified in [`references/generated-skill-contract.md`](references/generated-skill-contract.md).
+Create the skill at a canonical directory in the target repo and register it in whichever project-local skill directories the repo's harnesses actually use (for example `.claude/skills/` and `.codex/skills/`, as symlinks to the canonical directory) — discover the repo's existing convention rather than inventing one. Its SKILL.md carries six sections — Launch, Doctor, Drive, Evidence, Cleanup, Helpers — specified in [`references/generated-skill-contract.md`](references/generated-skill-contract.md).
 
 Done when every section is grounded in an interview finding and no placeholder text remains anywhere in the file.
 
@@ -85,6 +85,6 @@ Keep concise run notes (features covered, unreachable prerequisites, confirmed d
 
 ## See also
 
-- `../_shared/walkthrough-verification.md` — walkers use the generated skill for launch, drive, and evidence.
+- The Longflow walkthrough contract (`walkthrough-verification.md`, where that workflow is installed) — walkers use the generated skill for launch, drive, and evidence.
 - `../_shared/epistemics.md` — confidence tiers for maintain reports and blocked verdicts.
 - `../_shared/prose-tells.md` — voice for PR descriptions and handover reports.

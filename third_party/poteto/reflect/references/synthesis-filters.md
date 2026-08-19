@@ -4,7 +4,7 @@ The parent applies every filter to every finding from both reviewers. A finding 
 
 - **Durability** — still true in six months, after paths, versions, and code shapes have changed.
 - **Specificity** — broad enough to apply across tasks, precise enough that a future agent recognizes the moment. Platitudes ("write good code") fail; pinned facts that will rot ("skill X is 175 tokens over its limit") fail.
-- **Existing-skill-first** — `new skill: <kebab-name>` only when no existing skill is a real home and the pattern recurs.
+- **Existing-skill-first** — `new skill: <kebab-name>` only when no existing skill is a real home and the pattern recurs; it routes to Backlog, never Accepted (a new skill cannot satisfy the skill-was-used rule).
 - **Convergence** — a finding both reviewers surfaced carries higher confidence; a singleton must clear every other filter with room to spare.
 - **Decision-changing** — a future agent does something different because of the edit, not just reads more text.
 - **Structural-mechanism** — when a lint rule, script, hook, or metadata flag could enforce the lesson, route it to Backlog as a mechanism note. Encode lessons in structure; skill prose is for what mechanisms cannot enforce.
@@ -33,7 +33,6 @@ Exactly this shape. One sentence per cell; each row readable in five seconds. Th
 |---|---|---|
 | <failure mode in a skill the session used> | <the change to that skill's body> | <skill + section> |
 | <skill was visible but didn't trigger> | <the description change so it fires next time> | tune description: <skill> |
-| <recurring pattern with no existing home> | <draft a new skill> | new skill: <kebab-name> |
 
 ### Rejected
 

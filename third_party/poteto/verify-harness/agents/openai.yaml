@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Harness"
+  short_description: "Generate or maintain a per-repo verify skill and feature map"
+  default_prompt: "Use $verify-harness to generate or maintain this repo's verify-<app> skill."
+
+policy:
+  allow_implicit_invocation: false
