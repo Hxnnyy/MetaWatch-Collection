@@ -16,6 +16,8 @@ Runs have historically discovered their real gaps in a late "dogfood" phase — 
 2. The agent does what the user would do — clicks, types, runs, reads — using whatever drive mechanism the surface supports (browser automation, CLI invocation, HTTP). Screenshots or transcripts where the harness allows.
 3. It narrates plainly: what it tried, what happened, where it stumbled, what a real user would feel at each step. Jank counts — "the page works but takes eleven seconds and the button reads `undefined`" is a walkthrough finding even when every test is green.
 
+When the target repo has a project-local `verify-<app>` skill with a feature map, the walker uses it for launch, drive, and evidence instead of improvising, and walks the feature-map route for the promise under test rather than the first entry point that answers. A verify skill that is missing or breaks when followed is itself worth reporting in the walkthrough result.
+
 ## Output
 
 Plain-English narrative plus a one-line judgement:

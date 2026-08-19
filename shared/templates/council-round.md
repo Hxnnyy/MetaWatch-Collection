@@ -20,11 +20,19 @@ The pragmatist seat argues for the smallest faithful implementation and gets the
 
 ## Findings and dispositions
 
-| ID | Severity | Topic | Kind | Disposition | Rationale |
-|---|---|---|---|---|---|
-| ... | ... | ... | objective / tradeoff / preference / **empirical** | accept / reject / defer / residual-risk / **spike** | ... |
+| ID | Severity | Topic | Kind | Raised by | Disposition | Rationale |
+|---|---|---|---|---|---|---|
+| ... | ... | ... | objective / tradeoff / preference / **empirical** | <n seats> | accept / reject / defer / residual-risk / **spike** | ... |
+
+Findings raised independently by two or more seats carry corroboration weight; a severity downgrade on one requires the closest chair scrutiny. A finding answerable by reading the repo is settled by reading it during disposition — `spike` is for experiments.
 
 **Empirical disagreements are settled by spikes, not argument.** If two members disagree about whether something works, scales, or fits, the disposition is `spike` — name the question, the cheap experiment, and who runs it. Debate cycles on empirical questions are a protocol violation.
+
+## Agreement map
+
+- Where seats converged (corroborated findings):
+- Where seats split, and on what kind of question:
+- What the pattern says about the proposal: convergence corroborates the finding; broad divergence indicts the packet's framing before it indicts the members.
 
 ## Chair resolution
 

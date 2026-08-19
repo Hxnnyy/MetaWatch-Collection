@@ -12,7 +12,7 @@ Council is **one time-boxed adversarial round**: independent reviews from member
 
 ## Roles
 
-- **Members**: the models in `models.council` (config). Each reviews the proposal independently — no member sees another's review before writing its own. Each is assigned a lens; lenses cover the plan's risk areas.
+- **Members**: the models in `models.council` (config). Each reviews the proposal independently — no member sees another's review before writing its own. Each is assigned a lens; lenses cover the plan's risk areas. A member with nothing high-conviction to raise says so and stops: an empty review is a valid outcome, and hypotheticals or nits added to fill space dilute the round.
 - **Pragmatist seat**: one member is always briefed to argue for the **smallest faithful implementation** — what can be cut, simplified, or deferred while keeping every intent-contract promise true. Route this seat to the strongest available model (`routing.intentAuditor` alias by default): arguing for less, credibly, is the hardest brief in the round. The pragmatist has the same standing as every other seat.
 - **Chair**: `models.councilChair` — from a lab not represented among the members, to prevent intra-lab homogenisation on close calls. The chair does not vote. It dispositions findings, breaks ties, and writes the round output.
 
@@ -20,13 +20,15 @@ Council is **one time-boxed adversarial round**: independent reviews from member
 
 1. Freeze the proposal version. Every member receives the intent contract, the proposal, and the packet.
 2. Members review independently and return findings: severity-scored, evidence-backed, classified as `objective` / `tradeoff` / `preference` / `empirical`.
-3. The chair merges duplicates and dispositions every finding in one pass:
+3. The chair merges duplicates — recording how many seats raised each finding independently (`raised by` in the round record; two or more is corroboration) — and dispositions every finding in one pass:
    - `accept` — folded into the proposal edit set.
    - `reject` — dismissed with one-line rationale.
    - `defer` — out of scope; recorded on the "later, maybe" list.
    - `accepted-as-residual-risk` — acknowledged and tracked.
-   - `spike` — empirical; question + experiment + owner queued before or alongside early implementation.
-4. The chair applies the accepted edit set, records the round (template: `../templates/council-round.md`), and writes a three-sentence plain-English summary for the owner: what changed about the plan and why it matters to the product.
+   - `spike` — empirical; question + experiment + owner queued before or alongside early implementation. When the split is over the plan's *shape* (a tradeoff, not a measurable fact), the experiment may be competing drafts: two or three candidate skeletons produced blind against the same packet, graded on a rubric declared before they are produced, with the losers' best parts grafted into the winner and the rejections recorded.
+
+   Trace before dispositioning: a finding answerable by reading the repo is settled by reading the repo in this pass. `spike` is reserved for questions that need an experiment, not a two-minute lookup.
+4. The chair applies the accepted edit set, records the round (template: `../templates/council-round.md`) including the agreement map — where seats converged, where they split, and what the pattern says: convergence on a finding corroborates it, while broad divergence across the round indicts the packet's framing before it indicts the members. Then the chair writes a three-sentence plain-English summary for the owner: what changed about the plan and why it matters to the product.
 
 Findings do not need to vanish; they need an explicit disposition. A second round is T3-only and requires the first round's accepted edits to change the proposal's shape, plus a logged chair justification.
 
@@ -36,7 +38,7 @@ A second round may run only at T3, only when the accepted edit set changed the p
 
 ## Guardrails
 
-- **Severity stability**: a downgrade between draft and disposition requires chair sign-off with logged rationale — findings must not be quietly demoted to escape attention.
+- **Severity stability**: a downgrade between draft and disposition requires chair sign-off with logged rationale — findings must not be quietly demoted to escape attention. Downgrades on findings raised independently by two or more seats get the closest scrutiny.
 - **Ballot integrity**: the chair watches for gaming patterns (members editing severity after seeing the room).
 - **Chair independence**: lab-independence of the chair is non-negotiable; it is the same cross-provider mechanism used for intent-audit adjudication (`../review/intent-audit.md`), and a run may use the same configured provider for both.
 

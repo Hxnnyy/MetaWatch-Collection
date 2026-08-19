@@ -12,7 +12,7 @@ Shared contract: `../_shared/council-protocol.md`
 ## Hard Rules
 
 1. **One round is the default.** A second round requires T3, a shape-changing edit set, and logged chair justification. Two is the ceiling at any tier.
-2. **Empirical disagreements become spikes, not debate.** If members disagree about whether something works, scales, or fits, the disposition is `spike` — question, experiment, owner. Arguing an answerable question into another cycle is a protocol violation.
+2. **Empirical disagreements become spikes, not debate.** If members disagree about whether something works, scales, or fits, the disposition is `spike` — question, experiment, owner. Arguing an answerable question into another cycle is a protocol violation. A finding answerable by reading the repo is settled by reading it during disposition — spikes are for experiments, and a shape-level split may spike as competing drafts (blind candidates, pre-declared rubric).
 3. **The pragmatist seat always sits.** One member — the strongest available model — is briefed to argue for the smallest implementation that keeps every promise true, with the same standing as every other seat.
 4. Findings do not need to vanish — they need an explicit disposition (`accept` / `reject` / `defer` / `residual-risk` / `spike`).
 5. Findings must be evidence-backed and severity-scored; severity downgrades between draft and disposition require chair sign-off with logged rationale.
@@ -21,15 +21,15 @@ Shared contract: `../_shared/council-protocol.md`
 
 ## Roles
 
-- **Members** — `models.council` (config). Independent reviews; no member sees another's review before writing its own. Each carries a lens covering one of the plan's risk areas; one carries the pragmatist brief.
+- **Members** — `models.council` (config). Independent reviews; no member sees another's review before writing its own. Each carries a lens covering one of the plan's risk areas; one carries the pragmatist brief. An empty review is a valid outcome — padding dilutes the round.
 - **Chair** — `models.councilChair` (default `frontier-google`), drawn from a lab not represented among members. Owns dispositions, tie-breaks, and downgrade sign-off.
 
 ## The round
 
 1. Freeze the proposal version. Distribute the intent contract, proposal, and packet to every member. The packet contains the proposal version, promises/non-goals, product class, constraints, assumptions, decision questions, alternatives, and available evidence — never another member's review.
 2. Collect independent reviews: findings classified `objective` / `tradeoff` / `preference` / `empirical`.
-3. Chair merges duplicates and dispositions every finding in one pass; empirical → spike queue.
-4. Apply the accepted edit set → proposal vNext. Record the round with `../_shared/templates/council-round.md`.
+3. Chair merges duplicates — recording how many seats raised each finding independently — and dispositions every finding in one pass; empirical → spike queue.
+4. Apply the accepted edit set → proposal vNext. Record the round with `../_shared/templates/council-round.md`, including the agreement map: convergence corroborates a finding; broad divergence indicts the packet's framing.
 5. Write the owner summary: what changed about the plan and why it matters to the product, three sentences, no jargon.
 
 ## Output
