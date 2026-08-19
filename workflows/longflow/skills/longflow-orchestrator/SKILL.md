@@ -1,7 +1,6 @@
 ---
 name: longflow-orchestrator
 description: "MetaWatch Longflow router: capture intent, calibrate how much process the task deserves (possibly none), then run the right subset of council, PRD, slicing, and continuous execution to verify every promise."
-disable-model-invocation: true
 ---
 
 # Longflow Orchestrator

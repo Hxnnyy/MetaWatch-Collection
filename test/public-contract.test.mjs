@@ -26,6 +26,14 @@ test("entrypoints are installed only through complete bundles", () => {
   assert.match(install, /do not install a nested workflow skill by itself/i);
 });
 
+test("Longflow can auto-invoke in supported harnesses", () => {
+  const orchestrator = fs.readFileSync(
+    path.join(repoRoot, "workflows/longflow/skills/longflow-orchestrator/SKILL.md"),
+    "utf8"
+  );
+  assert.doesNotMatch(orchestrator, /^disable-model-invocation:\s*true$/m);
+});
+
 test("third-party bundles retain complete provenance and MIT notices", () => {
   for (const bundle of registry.bundles.filter(({ ownership }) => ownership === "third-party")) {
     const provenancePath = path.join(repoRoot, bundle.provenanceFile);
