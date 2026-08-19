@@ -95,7 +95,16 @@ For "no regression" criteria. Compare against a baseline.
 test -z "$(git diff --stat origin/main -- 'src/legacy/**')"
 ```
 
-### 7. Endpoint-probe
+### 7. Behavioural-baseline
+
+Extends diff-invariant, which reads only code, to migration- and refactor-shaped promises where the criterion is "behaviour holds still". A funded ledger item captures the baseline artifact — screenshots, API responses, compiled output — with a committed script before any implementation item runs (sequenced via `blockedBy`), so downstream checks read old value against new.
+
+```bash
+# baseline item: bash scripts/capture-baseline-<id>.sh > baseline/<id>/responses.json
+diff baseline/<id>/responses.json <(bash scripts/capture-baseline-<id>.sh)
+```
+
+### 8. Endpoint-probe
 
 For API-shape criteria that need a running service. Requires a deterministic local-dev fixture.
 

@@ -31,6 +31,7 @@ This skill is a T1+ executor. If calibration routes the task to T0, return to no
 2. First distinguish initial calibrated preparation from resume or mid-run execution. Only during initial calibrated preparation may Phase 0 create a missing `tasks/STATE.json` and execplan from the templates; then record tier, promises from `INTENT.md`, budget, and `next_action`. On resume or mid-run, missing or malformed `STATE.json` fires hard-block 8 — do not reconstruct it. Reuse existing artifacts and preserve their directive and judgement while migrating an older valid snapshot in place to the current schema. Resolve the harness agent-thread limit into `agent_pool.max_threads` (default 6), `reserved_slots: 2`.
 3. Never replace a populated state or execplan: append or make the smallest truthful update.
 4. Optional, long unattended runs only: wire the run-scoped Stop guard project-locally (`../_shared/hooks/continuous-stop-guard/HOOK.md`). Modern harnesses rarely stop prematurely; skip it by default and rely on `STATE.json.directive`.
+5. Copy this skill's phase steps verbatim into the harness todo list. A step skipped under breakglass stays in the list as `skip: <reason>` alongside its breakglass log entry; at closeout every listed step reads done or `skip: <reason>`.
 
 ## Phase 1: Ingest
 
@@ -61,7 +62,7 @@ On return: consume the result; `git diff` scoped to the item's files; confirm no
 - Check fails on a **disposable** item: fix or simplify in one move. It needs to work, not to be perfect.
 - Watch tripwire 2 as you read the diff: machinery whose purpose is satisfying the check means the check is probably miscalibrated — raise the proposal instead of admiring the workaround.
 
-Stage only the item's files; commit referencing the item; update the ledger file (status, evidence, spend note if the item ran ~2× its size — that is tripwire 3).
+Stage only the item's files; commit referencing the item; update the ledger file (status, evidence, spend note if the item ran ~2× its size — that is tripwire 3). Order commits so the sequence proves itself: for a failing-test-turns-green predicate, the failing test lands before the fix so a reviewer replays red→green; the same ordering puts subtraction before reshape and baseline capture before treatment.
 
 ### 2d. Promise gates as they come due
 
@@ -79,9 +80,11 @@ Append every raw verdict unchanged and record applied dispositions separately. C
 2. **End-to-end walkthrough** of the whole journey, all promises in sequence.
 3. **Final intent audit** (T2+) against the full contract: all promises verified, nothing unfunded shipped, proportionality held.
 4. **Final reviewer panel** (T2+) — fresh where possible, verifying from the codebase. Normal closure accepts only `PASS` / `NOT_APPLICABLE`. The same 3-cycle budget applies; at exhaustion only non-material findings may close via `review_outcome: closed_with_residuals`, with raw verdicts preserved and every finding disposed. `merge-train` is the pre-merge backstop. T1 skips steps 3–4.
-5. **Append the retro** to `RUNS.md` (`../_shared/templates/RUNS.md`): what ceremony paid for itself, what didn't, tripwires fired or missed, auditor performance, lessons that generalise.
-6. Reconcile and close every agent thread. Record `final_closeout` with its walkthrough, audit, review, check, and retro references. Set `STATE.json` to `complete` only after the retro is durable.
-7. **Report once, plain-English first**: which promises are verified (quote the walkthrough), what it cost against budget, what was flagged for follow-up and why the follow-ups are follow-ups.
+5. **Trail-truthfulness audit**: walk the execplan and `STATE.json` against the session transcript (Claude Code keeps it at `~/.claude/projects/<cwd-slug>/*.jsonl`). Every substantive entry maps to an action that actually happened; every evidence pointer resolves to what it claims; forks, pivots, and abandoned approaches that shaped the run get appended. The execplan is append-only, so a wrong entry gets an appended supersede entry. This gate audits the narrative record against what happened — an aspirational entry survives every other gate.
+6. **Cross-model attention scan**: exactly one fresh dispatch — a cross-provider CLI when available, otherwise a fresh-context same-provider sceptic recorded as `weaker: same-provider` (the `../_shared/intent-audit.md` convention) — reads the execplan tail and the `STATE.json` promise roll-up, then flags decisions resting on weak evidence and verifications skipped or claimed without proof. One dispatch, never iterated, so it stays clear of tripwire 7.
+7. **Append the retro** to `RUNS.md` (`../_shared/templates/RUNS.md`): what ceremony paid for itself, what didn't, tripwires fired or missed, auditor performance, lessons that generalise.
+8. Reconcile and close every agent thread. Record `final_closeout` with its walkthrough, audit, review, check, and retro references. Set `STATE.json` to `complete` only after the retro is durable.
+9. **Report once, plain-English first**: which promises are verified (quote the walkthrough), what it cost against budget, what was flagged for follow-up and why the follow-ups are follow-ups. End with `reviewed by <model>` and the attention-scan flags, or "No flags".
 
 ## Anti-patterns
 

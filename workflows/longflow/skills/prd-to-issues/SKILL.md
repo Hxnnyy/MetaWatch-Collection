@@ -36,11 +36,11 @@ Each item is a vertical slice cutting through every required layer end-to-end. P
 
 ### 4. Class, tiered size, and check
 
-For each item: promise citations, rigour class, tier-scaled size, and its proportionate check. At T1 that means `size: null`, one honest check, and no predicate script. At T2+, use S/M/L; production predicate scripts use the types in `../_shared/acceptance-predicates.md` (failing-test-turns-green preferred) from `../_shared/templates/verify-issue.sh`, committed alongside the item.
+For each item: promise citations, rigour class, tier-scaled size, and its proportionate check. At T1 that means `size: null`, one honest check, and no predicate script. At T2+, use S/M/L; production predicate scripts use the types in `../_shared/acceptance-predicates.md` (failing-test-turns-green preferred) from `../_shared/templates/verify-issue.sh`, committed alongside the item. For migration- or refactor-shaped promises, choose behavioural-baseline: fund a baseline-capture item and block the implementation items on it, so their checks read old value against new.
 
 ### 5. Schedule
 
-Derive parallel groups and `blockedBy` chains from the parallelism analysis and file sets. Map every item to the promise gates it feeds — the gate plan (walkthrough surface, risk-routed reviewers per `../_shared/reviewer-protocol.md`) is recorded per promise in Delivery Governance (`../_shared/templates/delivery-governance.md`).
+Derive parallel groups and `blockedBy` chains from the parallelism analysis and file sets. Where those leave the order free, fund the item that retires the riskiest unknown first — spike-first covers the single riskiest assumption; this applies the same tiebreak across the whole frontier. Map every item to the promise gates it feeds — the gate plan (walkthrough surface, risk-routed reviewers per `../_shared/reviewer-protocol.md`) is recorded per promise in Delivery Governance (`../_shared/templates/delivery-governance.md`).
 
 ### 6. Coverage audit
 

@@ -35,6 +35,7 @@ Then route:
 9. **Execution uses a bounded agent pool** per `../_shared/agent-lifecycle.md`: reserved slots, zero descendant delegation by default, prompt closure of consumed threads.
 10. **Every recorded decision carries `serves promise #N because <...>`.** A decision that cannot name its promise is drift in its earliest catchable form.
 11. **Durable state carries operative judgement and evidence freshness.** At every resume and promise gate, adopt the decisions, assumptions, binding actions, and residual risks in `STATE.json`; move affected verified promises to `needs_recheck` when later work touches their recorded scope. See `../_shared/state-files.md`.
+12. **Multi-arm work pre-declares its winner rule.** Before spawning competing spikes or bakeoff arms, record in the execplan what each arm is and which rule picks the winner — `first pass`, `rank all`, or `best-of`. The recorded rule then decides, however the arms are later framed — the same discipline that budgets review cycles however panels are named.
 
 ## Flow (T2–T3)
 
