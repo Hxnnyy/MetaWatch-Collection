@@ -66,6 +66,7 @@ They emit compact JSON and only recommend lifecycle changes; agents remain respo
 - **Design:** Emil Kowalski's adapted `frontend-design-plus`.
 - **Marketing:** Corey Haines' six-workflow package—AI SEO, cold email, copywriting, pricing strategy, product marketing context, and programmatic SEO.
 - **Current docs:** `context7-cli`, with the external Context7 CLI as an explicit prerequisite.
+- **poteto pstack:** `explain` (evidence-backed how/why/recall explanations), `verify-harness` (per-repo verification skill generation and maintenance), and `reflect` (session mining into approval-gated skill edits) — adapted from Lauren Tan's pstack.
 
 `writing-great-skills` is the highlighted meta-skill for codifying repeatable knowledge into predictable new skills. It covers invocation, information hierarchy, progressive disclosure, completion criteria, pruning, and common failure modes.
 

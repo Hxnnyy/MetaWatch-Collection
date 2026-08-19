@@ -6,3 +6,4 @@ Files under `third_party/` are not covered by the MetaWatch copyright assertion.
 - Emil Kowalski: [licence](third_party/emil-kowalski/frontend-design-plus/LICENSE) and [provenance](third_party/emil-kowalski/provenance.json)
 - Corey Haines: [licence](third_party/corey-haines/LICENSE) and [provenance](third_party/corey-haines/provenance.json)
 - Upstash Context7: [licence](third_party/context7/LICENSE) and [provenance](third_party/context7/provenance.json)
+- Lauren Tan (poteto): [licence](third_party/poteto/LICENSE) and [provenance](third_party/poteto/provenance.json)
