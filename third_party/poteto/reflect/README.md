@@ -6,4 +6,4 @@
 
 **Scope:** session retrospection and skill-edit routing. It proposes edit content and target paths; it does not run this repo's sync / test / export pipeline.
 
-**Use:** invoke `/reflect` at the end of a session worth learning from. Follow the review-first process in [INSTALL.md](../../../INSTALL.md).
+**Use:** invoke `/reflect` in Claude Code or `$reflect` in Codex at the end of a session worth learning from. Follow the bundle-local [installation guidance](../INSTALL.md).

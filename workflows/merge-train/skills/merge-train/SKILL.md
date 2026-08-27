@@ -10,7 +10,7 @@ Run Merge Train when the user wants a feature branch or parent PR reviewed befor
 
 ## Promise
 
-Before a feature branch is ready for human merge, drive a rigorous audit/remediation loop until fresh reviewers find no blocking correctness, structural, security, test, documentation, product, or integration issues.
+Before a feature branch is ready for human merge, drive a rigorous audit/remediation loop until fresh reviewers find no material issues and every remaining finding carries an explicit disposition — across correctness, structure, security, tests, documentation, product, and integration.
 
 ## Authority
 
@@ -21,12 +21,14 @@ It does **not** authorize direct pushes to `main`/`master`, force-pushes, histor
 ## Hard rules
 
 1. **Detect state before acting.** Inspect branch, PRs, labels, comments, train files, child PRs, checks, and merge base before deciding the next phase.
-2. **Strict review is a blocker bar.** Apply `references/strict-review-bar.md` at child audit, parent checkpoints, and final closeout. Passing tests are not enough.
-3. **Fresh verification is required.** The verifier must inspect code and evidence after remediation; do not accept the remediator's completion report as signoff.
-4. **No child integration without no-blocker signoff.** A child may merge into the parent only after audit, remediation, deterministic checks, and fresh verification pass.
-5. **Run parent checkpoints after risk triggers.** Shared abstractions, auth/security/data/schema/public APIs/background jobs/build or test config/architecture boundaries require checkpoint review.
-6. **Recover rather than restart.** If train state exists, reconstruct progress and continue from the next unsafe or incomplete step.
-7. **Final closeout accepts no structural notes.** Parent readiness requires no blocking findings and no unresolved structural `PASS_WITH_NOTES`.
+2. **Strict review is a consequence bar.** Apply `references/strict-review-bar.md` at child audit, parent checkpoints, and final closeout: a finding blocks by naming its consequence, and passing tests are not enough.
+3. **Findings are adjudicated, not obeyed.** Every finding gets a disposition — `fix-now`, `follow-up`, `residual-risk`, or `rebutted` (evidence-backed) — before remediation is dispatched; only `fix-now` reaches a remediator. Raw verdicts stay immutable; the ledger's dispositions table is the decision record, and it travels with every later reviewer. A `rebutted` finding returns only with new evidence.
+4. **Fresh verification is required.** The verifier must inspect code and evidence after remediation; do not accept the remediator's completion report as signoff.
+5. **No child integration without adjudicated signoff.** A child may merge into the parent only after audit, adjudication, remediation of `fix-now` findings, deterministic checks, and fresh verification pass — or after the cap settles it per `references/audit-remediate-loop.md`.
+6. **Run parent checkpoints after risk triggers.** Shared abstractions, auth/security/data/schema/public APIs/background jobs/build or test config/architecture boundaries require checkpoint review.
+7. **Risk-class defaults are a ceiling as well as a floor.** Ceremony above a child's risk-class defaults requires intent-auditor concurrence recorded in the execplan; skipping below them is a one-line breakglass entry (`references/risk-classes.md`).
+8. **Recover rather than restart.** If train state exists, reconstruct progress and continue from the next unsafe or incomplete step.
+9. **Final closeout accepts no material findings and no undispositioned notes.** Parent readiness requires zero open material findings and an explicit disposition on every note; a structural note whose consequence does not reach material closes as `follow-up` or `residual-risk` in the packet.
 
 ## Phase 0: Detect start state
 
@@ -65,37 +67,32 @@ For each child slice or child PR:
 
 1. Classify risk with `references/risk-classes.md`.
 2. Audit the child diff against parent intent and strict review bar.
-3. Remediate blocking findings within child scope.
-4. Run configured tests and predicates.
-5. Dispatch a fresh verifier.
-6. Iterate until no blockers remain, the 3-cycle cap in `references/audit-remediate-loop.md` is hit (hold the child for owner disposition), or a hard block fires.
-7. Post/update the child completion comment and child report.
-8. Integrate into the parent branch according to repo policy.
-9. Update parent ledger, risk register, and state.
+3. Adjudicate: disposition every finding; only `fix-now` findings fund remediation.
+4. Remediate `fix-now` findings within child scope.
+5. Run configured tests and predicates.
+6. Dispatch a fresh verifier carrying the dispositions table.
+7. Iterate until a cycle yields no `fix-now` dispositions, the 3-cycle cap settles the child (material findings hold for owner disposition; the rest close with residuals), or a hard block fires. A child on its second cycle dispatches the intent auditor.
+8. Post/update the child completion comment and child report.
+9. Integrate into the parent branch according to repo policy.
+10. Update parent ledger (including dispositions), risk register, and state.
 
 ## Phase 3: Parent checkpoints
 
 Read `references/parent-checkpoints.md`.
 
-Run checkpoints after configured merge counts, every high-risk child, every wave, and every high-risk surface. Checkpoints look for integration drift that individual child reviews can miss: duplicated abstractions, inconsistent contracts, loose types, global coherence breaks, and composition-level test gaps.
+Run checkpoints after configured merge counts, every child batch, every high-risk child, and every high-risk surface. Checkpoints look for integration drift that individual child reviews can miss: duplicated abstractions, inconsistent contracts, loose types, global coherence breaks, and composition-level test gaps. When remediation across children has grown the parent diff rather than shrunk it, the intent auditor joins the checkpoint.
 
 ## Phase 4: Final closeout
 
 Read `references/final-closeout.md`.
 
-Run final parent reviewers only after children are merged or explicitly deferred. Required review domains:
+Run final parent reviewers only after children are merged or explicitly deferred. The panel is the canonical shared roster — `implementation-reviewer`, `security-reviewer`, `product-reviewer`, `operations-reviewer` — plus the `intent-auditor` as the proportionality seat.
 
-- architecture/coherence,
-- runtime/integration,
-- security/data,
-- regression/test,
-- product/UX.
-
-Final reviewers inspect code, ledger, risk register, checkpoint reports, deterministic checks, predicate/test rollup, and strict-review disposition. Write `FINAL_PARENT_REVIEW_PACKET.md` only when all blockers are resolved.
+Final reviewers inspect code, ledger (with dispositions), risk register, checkpoint reports, deterministic checks, predicate/test rollup, and strict-review disposition. Write `FINAL_PARENT_REVIEW_PACKET.md` when no material findings remain and every note is dispositioned.
 
 ## Phase 5: Stabilise and hand off
 
-Confirm ledgers, risk register, PR body, child summaries, final packet, docs, and deferred work are explicit. Report that the parent is ready for human merge; do not merge unless requested.
+Confirm ledgers, risk register, PR body, child summaries, final packet, docs, and deferred work are explicit. Append a run retro to the repo's `RUNS.md` — ceremony that paid, ceremony that didn't, tripwires fired, reusable rule. Report that the parent is ready for human merge; do not merge unless requested.
 
 ## Recovery
 

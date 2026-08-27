@@ -23,6 +23,10 @@
 - File-size/decomposition concerns:
 - Boundary/type-contract drift:
 
+## Cleared Risks
+
+One line per risk checked and cleared: the risk, the check, its evidence rung.
+
 ## Residual Risks
 
 ## Required Next Action

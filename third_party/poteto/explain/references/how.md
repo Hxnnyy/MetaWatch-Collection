@@ -15,7 +15,7 @@ Lean simple when in doubt; escalate to a fan-out if the single pass hits a wall.
 
 Decompose the question into 2–4 disjoint slices — for a rate limiter, say: data model and state / request path and enforcement / configuration and metrics — sized so no two explorers trace the same code. Narrow questions take 2, broad subsystems up to 4.
 
-In this harness the explorers are the built-in read-only **Explore** agent — spawn one per slice, all in one message, rather than writing bespoke explorer prompts. Each brief names its slice and asks for findings traced from real code, not guessed from file names: components (name, path, one line each), the flow step by step from entry point to effect, files read, boundaries with other subsystems, non-obvious behavior, and anything it could not trace. Overlap in the returns is fine — synthesis reconciles.
+Use the harness's available fresh, read-only investigator mechanism and launch one investigator per slice in one batch. When no fresh investigator mechanism exists, explore the slices locally instead of inventing a harness-specific command. Each brief names its slice and asks for findings traced from real code, not guessed from file names: components (name, path, one line each), the flow step by step from entry point to effect, files read, boundaries with other subsystems, non-obvious behavior, and anything it could not trace. Overlap in the returns is fine — synthesis reconciles.
 
 Done when every slice has an explorer launched and no two slices name the same code.
 

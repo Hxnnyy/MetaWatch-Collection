@@ -10,6 +10,18 @@ export const installedSkillRoot = path.join(homeDir, ".agents", "skills", skillG
 export const workflowAgentRoot = repoPath("workflows/longflow/agents");
 export const installedAgentRoot = path.join(homeDir, ".agents", "agents");
 
+const potetoSkillSupportFiles = [
+  { source: "third_party/poteto/INSTALL.md", target: "INSTALL.md" },
+  { source: "third_party/poteto/LICENSE", target: "LICENSE" },
+  { source: "third_party/poteto/provenance.json", target: "provenance.json" }
+];
+
+export const installedGroupSupportFiles = [
+  { source: "THIRD_PARTY_NOTICES.md", target: "THIRD_PARTY_NOTICES.md" },
+  { source: "third_party/poteto/LICENSE", target: "third_party/poteto/LICENSE" },
+  { source: "third_party/poteto/provenance.json", target: "third_party/poteto/provenance.json" }
+];
+
 export const publicSkills = [
   {
     name: "longflow-orchestrator",
@@ -109,17 +121,20 @@ export const publicSkills = [
   {
     name: "explain",
     source: "third_party/poteto/explain",
-    workflow: "standalone"
+    workflow: "standalone",
+    supportFiles: potetoSkillSupportFiles
   },
   {
     name: "verify-harness",
     source: "third_party/poteto/verify-harness",
-    workflow: "standalone"
+    workflow: "standalone",
+    supportFiles: potetoSkillSupportFiles
   },
   {
     name: "reflect",
     source: "third_party/poteto/reflect",
-    workflow: "standalone"
+    workflow: "standalone",
+    supportFiles: potetoSkillSupportFiles
   }
 ];
 

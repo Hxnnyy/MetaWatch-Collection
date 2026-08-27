@@ -2,7 +2,8 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
-const STATE_SCHEMA = "metawatch-longflow-4.0";
+const STATE_SCHEMA = "metawatch-longflow-4.1";
+const LEGACY_STATE_SCHEMA = "metawatch-longflow-4.0";
 const SHA_PATTERN = /^[0-9a-f]{40}$/i;
 const PROMISE_STATUSES = ["open", "in_progress", "verifying", "verified", "needs_recheck"];
 const MODES = ["continuous", "interactive", "complete", "hard_blocked", "interactive_override"];
@@ -207,7 +208,7 @@ function validateGate(promiseValue, reference, problems) {
   }
 }
 
-function validateCloseout(root, tier, closeout, problems) {
+function validateCloseout(root, tier, schemaVersion, closeout, problems) {
   if (!isObject(closeout)) {
     problems.push(problem("final_closeout_shape", "tasks/STATE.json#final_closeout", "final_closeout does not match the v4 shape."));
     return;
@@ -231,6 +232,17 @@ function validateCloseout(root, tier, closeout, problems) {
   if (["T2", "T3"].includes(tier) && !["passed", "closed_with_residuals"].includes(closeout.review_outcome)) {
     problems.push(problem("final_closeout_review_outcome", "tasks/STATE.json#final_closeout/review_outcome", `${tier} final closeout requires a passed or closed_with_residuals reviewer outcome.`));
   }
+  if (schemaVersion === STATE_SCHEMA) {
+    if (!["passed", "not_executable"].includes(closeout.trail_audit)) {
+      problems.push(problem("final_closeout_trail_audit", "tasks/STATE.json#final_closeout/trail_audit", "Final closeout requires a passed trail audit or an explicit not_executable gap."));
+    }
+    const validAttentionScan = tier === "T1"
+      ? closeout.attention_scan === "n/a"
+      : ["passed", "flags_recorded"].includes(closeout.attention_scan);
+    if (!validAttentionScan) {
+      problems.push(problem("final_closeout_attention_scan", "tasks/STATE.json#final_closeout/attention_scan", `${tier} final closeout requires the tier-appropriate attention scan outcome.`));
+    }
+  }
   if (!repoPath(closeout.retro_reference) || closeout.retro_reference.endsWith("/")) {
     problems.push(problem("retro_reference", "tasks/STATE.json#final_closeout/retro_reference", "retro_reference must be an exact safe repo-relative file path."));
   } else {
@@ -244,7 +256,7 @@ function validateState(root, state, problems) {
     problems.push(problem("state_shape", "tasks/STATE.json", "State must be a JSON object."));
     return;
   }
-  if (state.schema_version !== STATE_SCHEMA) problems.push(problem("schema_version", "tasks/STATE.json", `schema_version must be ${STATE_SCHEMA}.`));
+  if (![STATE_SCHEMA, LEGACY_STATE_SCHEMA].includes(state.schema_version)) problems.push(problem("schema_version", "tasks/STATE.json", `schema_version must be ${STATE_SCHEMA} or legacy ${LEGACY_STATE_SCHEMA}.`));
   if (!Number.isInteger(state.state_version) || state.state_version < 1) problems.push(problem("state_version", "tasks/STATE.json", "state_version must be a positive integer."));
   if (!(state.checkpoint_id === null || nonEmptyString(state.checkpoint_id))) problems.push(problem("checkpoint_id", "tasks/STATE.json", "checkpoint_id must be null or a non-empty string."));
   if (!(state.last_managed_commit === null || (typeof state.last_managed_commit === "string" && SHA_PATTERN.test(state.last_managed_commit)))) problems.push(problem("last_managed_commit", "tasks/STATE.json", "last_managed_commit must be null or a full Git SHA."));
@@ -300,7 +312,7 @@ function validateState(root, state, problems) {
   } else if (state.final_closeout !== null) {
     problems.push(problem("closeout_before_complete", "tasks/STATE.json", "final_closeout must remain null until the run is complete."));
   }
-  if (state.final_closeout !== null) validateCloseout(root, state.tier, state.final_closeout, problems);
+  if (state.final_closeout !== null) validateCloseout(root, state.tier, state.schema_version, state.final_closeout, problems);
   if (state.status === "hard_blocked" && !nonEmptyString(state.block_reason)) problems.push(problem("hard_block_without_reason", "tasks/STATE.json", "A hard-blocked run requires block_reason."));
 }
 

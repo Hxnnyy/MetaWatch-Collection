@@ -40,7 +40,8 @@ If no train files exist, copy templates into the delivery workspace:
 - `PARENT_RISK_REGISTER.md`
 - `CHILD_SUMMARIES/`
 - `CHECKPOINTS/`
-- `CONTINUOUS_DIRECTIVE.md`
 - `EXECPLAN.md`
+
+The continuous-mode directive lives in `MERGE_TRAIN_STATE.json` under `directive`; there is no separate directive file.
 
 Update state before creating PRs, dispatching auditors, or integrating children.

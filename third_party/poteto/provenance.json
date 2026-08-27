@@ -11,8 +11,8 @@
       "path": "explain",
       "upstreamPath": "pstack/skills/how, pstack/skills/why, pstack/skills/recall, pstack/skills/teach",
       "designation": "adapted",
-      "modifications": "Merged four upstream skills into one branched skill; critique mode removed (owned by council/reviewers here); Cursor multi-model machinery replaced with this harness's Explore agent, subagents, and Claude Code transcript paths; synthesis bound to the collection's shared epistemics contract.",
-      "dependencies": []
+      "modifications": "Merged four upstream skills into one branched skill; critique mode removed (owned by council/reviewers here); Cursor multi-model machinery replaced with harness-neutral fresh investigators and verified current-session history; synthesis bound to the collection's shared epistemics contract.",
+      "dependencies": ["shared-contracts"]
     },
     {
       "name": "verify-harness",
@@ -27,8 +27,8 @@
       "path": "reflect",
       "upstreamPath": "pstack/skills/reflect",
       "designation": "adapted",
-      "modifications": "Three model-diverse reviewers reduced to two fresh-context reviewers; synthesizer subagent inlined into the parent; apply routing rewritten for MetaWatch-Collection and skill-management conventions; transcript location rewritten for Claude Code.",
-      "dependencies": ["external:writing-great-skills"]
+      "modifications": "Three model-diverse reviewers reduced to two fresh-context reviewers; synthesizer subagent inlined into the parent; apply routing rewritten for MetaWatch-Collection and skill-management conventions; transcript discovery made explicit for Codex, Claude Code, and visible-history fallback.",
+      "dependencies": ["shared-contracts", "external:writing-great-skills"]
     },
     {
       "name": "shared-contracts",

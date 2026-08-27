@@ -6,4 +6,4 @@
 
 **Scope:** explanation only. Critique belongs to the reviewer personas and council; mid-run Longflow state recovery belongs to the Longflow hard-block rules.
 
-**Use:** invoke `explain` by name (it never fires autonomously), or point a skill loader at this folder using a location supported by that harness. Follow the review-first process in [INSTALL.md](../../../INSTALL.md).
+**Use:** invoke `explain` by name (it never fires autonomously), or point a skill loader at this folder using a location supported by that harness. Follow the bundle-local [installation guidance](../INSTALL.md).

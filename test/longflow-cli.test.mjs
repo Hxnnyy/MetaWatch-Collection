@@ -60,7 +60,7 @@ function validLedger(overrides = {}) {
 
 function validState(overrides = {}) {
   return {
-    schema_version: "metawatch-longflow-4.0",
+    schema_version: "metawatch-longflow-4.1",
     state_version: 2,
     checkpoint_id: "lf-001-started",
     last_managed_commit: null,
@@ -196,6 +196,8 @@ function validCloseout(overrides = {}) {
     walkthrough: "holds",
     intent_audit: "aligned",
     review_outcome: "passed",
+    trail_audit: "passed",
+    attention_scan: "passed",
     evidence_references: ["node --test"],
     retro_reference: "RUNS.md",
     ...overrides
@@ -209,7 +211,7 @@ function completeState(tier = "T2", overrides = {}) {
     tier,
     prd: tier === "T1" ? null : "tasks/run-prd.md",
     promises: [verifiedPromise(null)],
-    final_closeout: validCloseout(tier === "T1" ? { intent_audit: "n/a", review_outcome: "n/a" } : {}),
+    final_closeout: validCloseout(tier === "T1" ? { intent_audit: "n/a", review_outcome: "n/a", attention_scan: "n/a" } : {}),
     next_action: "Report the completed run.",
     ...overrides
   });
@@ -366,6 +368,36 @@ test("T2+ complete runs require aligned audit and a closed reviewer outcome", (t
   const codes = problemCodes(longflow.validate(root));
   assert.ok(codes.includes("final_closeout_intent_audit"));
   assert.ok(codes.includes("final_closeout_review_outcome"));
+});
+
+test("complete runs require a trail audit and the tier-appropriate attention scan", (t) => {
+  const root = makeRun(t);
+  fs.writeFileSync(path.join(root, "RUNS.md"), "# Runs\n\nClosed.\n", "utf8");
+
+  writeState(root, completeState("T1", {
+    final_closeout: validCloseout({
+      intent_audit: "n/a",
+      review_outcome: "n/a",
+      trail_audit: undefined,
+      attention_scan: "n/a"
+    })
+  }));
+  assert.ok(problemCodes(longflow.validate(root)).includes("final_closeout_trail_audit"));
+
+  writeState(root, completeState("T2", {
+    final_closeout: validCloseout({ trail_audit: "passed", attention_scan: undefined })
+  }));
+  assert.ok(problemCodes(longflow.validate(root)).includes("final_closeout_attention_scan"));
+});
+
+test("legacy v4.0 completed runs remain valid without retrospective closeout claims", (t) => {
+  const root = makeRun(t);
+  fs.writeFileSync(path.join(root, "RUNS.md"), "# Runs\n\nClosed.\n", "utf8");
+  writeState(root, completeState("T2", {
+    schema_version: "metawatch-longflow-4.0",
+    final_closeout: validCloseout({ trail_audit: undefined, attention_scan: undefined })
+  }));
+  assert.deepEqual(longflow.validate(root).problems, []);
 });
 
 test("complete-run evidence is non-empty and its safe retro file exists", (t) => {

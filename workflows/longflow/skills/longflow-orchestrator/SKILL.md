@@ -43,7 +43,7 @@ Then route:
 2. **Parent PRD** — `write-a-prd`. Subordinate to the intent contract; promise trace and subtraction pass mandatory; frozen promise-level acceptance authored here.
 3. **Slicing** — `prd-to-issues`. Local ledger (GitHub is an optional projection), rigour classes, S/M/L sizing, proportionate checks — then the **coverage audit**: every promise funded, every item cites a promise. Blocking, both directions.
 4. **Execution** — `issues-execution`. Continuous mode, tripwire monitoring, promise gates as they come due.
-5. **Closeout** — end-to-end walkthrough, aligned final intent audit, and a final reviewer panel. Normal closure accepts only `PASS` / `NOT_APPLICABLE`; the sole exception is documented budget exhaustion with only non-material residuals and gate-level `closed_with_residuals`. Append the retro to `RUNS.md` (`../_shared/templates/RUNS.md`), record `STATE.json.final_closeout`, then give the plain-English handover: which promises are verified, what it cost, what was flagged.
+5. **Closeout** — end-to-end walkthrough and trail-truthfulness audit; at T2+ add the one-shot attention scan, aligned final intent audit, and final reviewer panel. Normal closure accepts only `PASS` / `NOT_APPLICABLE`; the sole exception is documented budget exhaustion with only non-material residuals and gate-level `closed_with_residuals`. Append the retro to `RUNS.md` (`../_shared/templates/RUNS.md`), record every closeout outcome in `STATE.json.final_closeout`, then give the plain-English handover: which promises are verified, what it cost, what was flagged.
 
 ## Reporting
 

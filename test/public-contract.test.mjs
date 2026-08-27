@@ -26,6 +26,14 @@ test("entrypoints are installed only through complete bundles", () => {
   assert.match(install, /do not install a nested workflow skill by itself/i);
 });
 
+test("Merge Train report templates match the public skill copies", () => {
+  for (const name of ["CHILD_PR_REPORT.md", "FINAL_PARENT_REVIEW_PACKET.md", "PARENT_CHECKPOINT_REPORT.md"]) {
+    const workflowTemplate = fs.readFileSync(path.join(repoRoot, "workflows/merge-train/templates", name), "utf8");
+    const skillTemplate = fs.readFileSync(path.join(repoRoot, "workflows/merge-train/skills/merge-train/templates", name), "utf8");
+    assert.equal(workflowTemplate, skillTemplate, `${name} drifted between workflow and skill`);
+  }
+});
+
 test("Longflow can auto-invoke in supported harnesses", () => {
   const orchestrator = fs.readFileSync(
     path.join(repoRoot, "workflows/longflow/skills/longflow-orchestrator/SKILL.md"),
@@ -51,6 +59,44 @@ test("third-party bundles retain complete provenance and MIT notices", () => {
       assert.ok(fs.existsSync(path.join(path.dirname(provenancePath), asset.path)));
     }
   }
+});
+
+test("exported poteto skills retain their bundle support files", async () => {
+  const { expectedSkillFiles } = await import("../scripts/skill-export-content.mjs");
+  for (const name of ["explain", "reflect", "verify-harness"]) {
+    const skill = publicSkills.find((entry) => entry.name === name);
+    const files = expectedSkillFiles(skill);
+    for (const required of ["INSTALL.md", "LICENSE", "provenance.json"]) {
+      assert.ok(files.has(required), `${name} export drops ${required}`);
+    }
+  }
+});
+
+test("the poteto bundle stays inside its install boundary and supports Codex", () => {
+  const bundleRoot = path.join(repoRoot, "third_party/poteto");
+  for (const name of ["explain", "reflect", "verify-harness"]) {
+    const readmePath = path.join(bundleRoot, name, "README.md");
+    const readme = fs.readFileSync(readmePath, "utf8");
+    for (const match of readme.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)) {
+      if (/^[a-z]+:/i.test(match[1]) || match[1].startsWith("#")) continue;
+      const resolved = path.resolve(path.dirname(readmePath), match[1]);
+      assert.ok(resolved.startsWith(`${bundleRoot}${path.sep}`), `${name} README escapes the bundle: ${match[1]}`);
+    }
+  }
+
+  assert.match(fs.readFileSync(path.join(bundleRoot, "reflect/README.md"), "utf8"), /\/reflect.*\$reflect|\$reflect.*\/reflect/s);
+  assert.match(fs.readFileSync(path.join(bundleRoot, "reflect/SKILL.md"), "utf8"), /Codex[\s\S]*Claude|Claude[\s\S]*Codex/);
+  assert.match(fs.readFileSync(path.join(bundleRoot, "explain/references/how.md"), "utf8"), /available.*fresh.*investigator|fresh.*investigator.*available/is);
+});
+
+test("external evidence and verification skills preserve authority boundaries", () => {
+  const read = (relativePath) => fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
+  const why = read("third_party/poteto/explain/references/why.md");
+  assert.match(why, /availability.*not.*authority|available.*does not.*authori[sz]/is);
+  assert.match(why, /untrusted.*never instructions/is);
+  assert.doesNotMatch(why, /one of these two reasons/i);
+  assert.match(read("third_party/poteto/verify-harness/SKILL.md"), /audit-only[\s\S]*no edits[\s\S]*no PR/is);
+  assert.match(read("third_party/poteto/verify-harness/SKILL.md"), /production[\s\S]*explicit.*approval/is);
 });
 
 test("registry and export index contain the same skill entrypoints", () => {

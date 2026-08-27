@@ -8,4 +8,4 @@ Skills adapted from Lauren Tan's (poteto) `pstack` collection in [cursor/plugins
 
 - `_shared/` — generated copies of the two shared contracts the skills link (`epistemics.md`, `prose-tells.md`); the authoring sources live at `shared/review/` in this repo and adapt pstack material with inline attribution (`epistemics.md` from `why/references/epistemics.md`, `prose-tells.md` from `unslop`). Regenerate with `npm run sync:shared`; never edit the copies.
 
-Do not install a nested workflow skill by itself; install complete bundles from the bundle root.
+Install the complete bundle using [INSTALL.md](INSTALL.md); nested skill directories are not standalone source bundles.

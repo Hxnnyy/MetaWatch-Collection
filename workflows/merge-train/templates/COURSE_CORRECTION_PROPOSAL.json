@@ -4,7 +4,8 @@
   "trigger": "",
   "evidence": [],
   "affected_invariants": [],
-  "recommended_action": "continue_with_note | local_adjustment | parent_checkpoint | reroute | reslice | hard_block",
+  "recommended_action": "continue_with_note | local_adjustment | descope | de_escalate | parent_checkpoint | reroute | reslice | hard_block",
   "authority_level": "green | amber | red",
+  "serves_promise": "",
   "safe_next_step": ""
 }

@@ -8,4 +8,4 @@
 
 **Provenance:** adapted from pstack's `create-verification-skill` and `maintain-verification-skill` (cursor/plugins pstack, MIT), merged into one two-branch skill with this collection's project-skill path conventions.
 
-**Use:** invoke `verify-harness` by name in the target repo and say whether you want a verify skill generated or an existing one maintained. Follow the review-first process in [INSTALL.md](../../../INSTALL.md).
+**Use:** invoke `verify-harness` by name in the target repo and say whether you want a verify skill generated, audited read-only, or maintained. Follow the bundle-local [installation guidance](../INSTALL.md).

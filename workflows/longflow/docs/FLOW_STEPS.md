@@ -57,7 +57,7 @@ Composition: walkthrough (every durable tier) → intent audit (T2+) → risk-ro
 
 Goal: evidence-based closure of the whole run.
 
-Requirements: end-to-end walkthrough of the full journey at T1+. At T2+, add an `aligned` final intent audit and each final persona once in the initial cycle, round-robin across `routing.finalCloseoutModels`. Normal closure with no blocking findings accepts only `PASS` / `NOT_APPLICABLE`. The budget-exhausted exception is separate: after cycle 3, only non-material findings may close as `closed_with_residuals`; preserve raw blocking verdicts unchanged and record dispositions separately.
+Requirements: end-to-end walkthrough and trail-truthfulness audit at T1+. At T2+, add the one-shot attention scan, an `aligned` final intent audit, and each final persona once in the initial cycle, round-robin across `routing.finalCloseoutModels`. Normal closure with no blocking findings accepts only `PASS` / `NOT_APPLICABLE`. The budget-exhausted exception is separate: after cycle 3, only non-material findings may close as `closed_with_residuals`; preserve raw blocking verdicts unchanged and record dispositions separately. Persist the trail and attention outcomes in `STATE.json.final_closeout` before completion.
 
 ## Step 9: Handover and Retro
 

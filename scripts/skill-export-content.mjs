@@ -15,9 +15,12 @@ function addTree(files, root, prefix, transform) {
   }
 }
 
-export function rewriteSkillSource(sourcePath, contents, workflow) {
-  if (workflow === "longflow" && sourcePath.endsWith("SKILL.md")) {
+export function rewriteSkillSource(sourcePath, contents, skill) {
+  if (skill.workflow === "longflow" && sourcePath.endsWith("SKILL.md")) {
     return contents.replaceAll("../_shared/", "_shared/");
+  }
+  if (skill.supportFiles && sourcePath.endsWith("README.md")) {
+    return contents.replaceAll("(../INSTALL.md)", "(INSTALL.md)");
   }
   return contents;
 }
@@ -25,10 +28,13 @@ export function rewriteSkillSource(sourcePath, contents, workflow) {
 export function expectedSkillFiles(skill) {
   const files = new Map();
   addTree(files, repoPath(skill.source), "", (source, contents) =>
-    rewriteSkillSource(source, contents, skill.workflow)
+    rewriteSkillSource(source, contents, skill)
   );
   if (skill.workflow === "longflow") {
     addTree(files, repoPath("workflows/longflow/skills/_shared"), "_shared");
+  }
+  for (const support of skill.supportFiles ?? []) {
+    files.set(support.target, fs.readFileSync(repoPath(support.source), "utf8"));
   }
   return files;
 }

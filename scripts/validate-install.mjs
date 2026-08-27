@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { homeDir, installedSkillRoot, publicSkills, staleSkillNames } from "./workflow-paths.mjs";
+import { homeDir, installedGroupSupportFiles, installedSkillRoot, publicSkills, repoPath, staleSkillNames } from "./workflow-paths.mjs";
 import { compareInstalledSkill } from "./skill-export-content.mjs";
 
 const installedRoot = process.argv[2] ? path.resolve(process.argv[2]) : installedSkillRoot;
@@ -30,6 +30,13 @@ for (const skill of publicSkills) {
 for (const stale of staleSkillNames) {
   if (fs.existsSync(path.join(installedRoot, stale, "SKILL.md"))) {
     fail(`stale installed skill still discoverable: ${stale}`);
+  }
+}
+
+for (const support of installedGroupSupportFiles) {
+  const installed = path.join(installedRoot, support.target);
+  if (!fs.existsSync(installed) || fs.readFileSync(installed, "utf8") !== fs.readFileSync(repoPath(support.source), "utf8")) {
+    fail(`installed support file missing or stale: ${installed}`);
   }
 }
 
