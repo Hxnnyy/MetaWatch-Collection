@@ -1,0 +1,7 @@
+interface:
+  display_name: "Explain"
+  short_description: "Evidence-backed how, why, and where-did-I-leave-off explanations"
+  default_prompt: "Use $explain to answer this how/why/catch-me-up question with cited evidence."
+
+policy:
+  allow_implicit_invocation: false

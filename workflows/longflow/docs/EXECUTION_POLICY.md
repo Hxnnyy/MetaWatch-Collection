@@ -53,7 +53,9 @@ The run closes only when:
 2. At T1, every ledger item's honest check passes. At T2+, the production predicate roll-up passes.
 3. The end-to-end walkthrough holds; at T2+ the final intent audit is `aligned`.
 4. At T2+, required final persona audits are `PASS` or `NOT_APPLICABLE` on the normal path; after cycle 3, a separate `review_outcome: closed_with_residuals` may close only when every remaining finding is non-material, disposed, and preserved in its raw verdict. T1 has no final reviewer panel.
-5. The retro is appended to `RUNS.md`.
+5. The trail-truthfulness audit is recorded as `passed` or `not_executable` with the missing history named.
+6. At T2+, the one-shot attention scan is recorded as `passed` or `flags_recorded`; T1 records `n/a`.
+7. The retro is appended to `RUNS.md`.
 
 ## State Durability Policy
 

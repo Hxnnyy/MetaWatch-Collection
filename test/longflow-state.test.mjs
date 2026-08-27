@@ -10,7 +10,7 @@ const readJson = (relativePath) => JSON.parse(read(relativePath));
 test("the v4 snapshot carries evidence-relative truth and operative judgement", () => {
   const state = readJson("shared/templates/STATE.json");
 
-  assert.equal(state.schema_version, "metawatch-longflow-4.0");
+  assert.equal(state.schema_version, "metawatch-longflow-4.1");
   assert.equal(state.state_version, 1);
   assert.equal(state.checkpoint_id, null);
   assert.equal(state.last_managed_commit, null);
@@ -26,7 +26,7 @@ test("the v4 snapshot carries evidence-relative truth and operative judgement", 
   assert.equal(state.final_closeout, null);
 
   const contract = read("shared/orchestration/state-files.md");
-  assert.match(contract, /"schema_version": "metawatch-longflow-4\.0"/);
+  assert.match(contract, /"schema_version": "metawatch-longflow-4\.1"/);
   assert.match(contract, /"state_version": 1/);
   assert.match(contract, /"checkpoint_id":/);
   assert.match(contract, /"last_managed_commit":/);

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   homeDir,
+  installedGroupSupportFiles,
   installedSkillRoot,
   normalizeForCompare,
   publicSkills,
@@ -9,7 +10,7 @@ import {
   repoRoot,
   staleSkillNames
 } from "./workflow-paths.mjs";
-import { rewriteSkillSource } from "./skill-export-content.mjs";
+import { expectedSkillFiles } from "./skill-export-content.mjs";
 
 const installedRoot = process.argv[2] ? path.resolve(process.argv[2]) : installedSkillRoot;
 const safeRoot = normalizeForCompare(path.join(homeDir, ".agents", "skills"));
@@ -31,16 +32,15 @@ function rmInside(targetPath) {
   fs.rmSync(targetPath, { recursive: true, force: true });
 }
 
-function copyDir(source, target, transformFile) {
+function copyDir(source, target) {
   fs.mkdirSync(target, { recursive: true });
   for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
     const from = path.join(source, entry.name);
     const to = path.join(target, entry.name);
     if (entry.isDirectory()) {
-      copyDir(from, to, transformFile);
+      copyDir(from, to);
     } else if (entry.isFile()) {
-      let contents = fs.readFileSync(from, "utf8");
-      if (transformFile) contents = transformFile(from, contents);
+      const contents = fs.readFileSync(from, "utf8");
       fs.mkdirSync(path.dirname(to), { recursive: true });
       fs.writeFileSync(to, contents, "utf8");
     }
@@ -82,10 +82,10 @@ for (const skill of publicSkills) {
     fail(`Missing SKILL.md for ${skill.name} at ${source}`);
   }
   rmInside(target);
-  copyDir(source, target, (from, contents) => rewriteSkillSource(from, contents, skill.workflow));
-
-  if (skill.workflow === "longflow") {
-    copyDir(repoPath("workflows/longflow/skills/_shared"), path.join(target, "_shared"));
+  for (const [relativePath, contents] of expectedSkillFiles(skill)) {
+    const destination = path.join(target, relativePath);
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    fs.writeFileSync(destination, contents, "utf8");
   }
 }
 
@@ -95,6 +95,11 @@ for (const stale of staleSkillNames) {
 
 rmInside(path.join(installedRoot, "_shared"));
 copyDir(repoPath("workflows/longflow/skills/_shared"), path.join(installedRoot, "_shared"));
+for (const support of installedGroupSupportFiles) {
+  const destination = path.join(installedRoot, support.target);
+  fs.mkdirSync(path.dirname(destination), { recursive: true });
+  fs.copyFileSync(repoPath(support.source), destination);
+}
 writeGroupReadme();
 
 for (const harness of [".codex", ".claude"]) {

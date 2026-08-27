@@ -42,3 +42,24 @@ Nothing material; the change stayed adoption-only. The one considered-and-droppe
 ### Decision and tripwires
 
 Dogfood before extending: the next real merge-train run is the test of whether adjudication plus the dispositions table actually shortens loops. Reopen only on observed friction — a loop that still grows diffs after cycle 2, or a rebutted finding surviving into a later panel — not on speculative completeness.
+
+## 2026-08-27 — PR #5 pstack adoption closeout
+
+### Outcome
+
+PR #5 was reconciled with the newer Merge Train calibration work and reached consequence-gated closeout. The merge preserves both adjudication/dispositions memory and the pstack evidence ladder. Material review findings were fixed: report-template parity, durable-but-backward-compatible Longflow closeout evidence, Codex-compatible skill instructions, bundle-contained installation, retained licence/provenance, authority-scoped untrusted evidence, and non-production verification boundaries. Full validation passed 62/62, and an isolated Windows export passed installed-tree validation.
+
+### What paid for itself
+
+- Fresh reviewers found contract breaks that the original 56-test suite missed; focused red/green tests now cover each shipped correction.
+- The owner's consequence bar stopped the train expanding into formatting cleanup, exporter atomicity redesign, or speculative process work.
+- Keeping legacy schema 4.0 readable while emitting 4.1 for new closeouts preserved historical truth instead of inventing retrospective audit claims.
+
+### What did not
+
+- The first review wave produced several low-value notes alongside material findings. Explicit adjudication was necessary; reviewer volume was not evidence of consequence.
+- A first isolated-export command was rejected before execution because it combined setup with recursive cleanup. A unique scratch profile proved the same path without destructive cleanup.
+
+### Decision and tripwires
+
+Merge on the five-seat PASS, 62/62 tests, synchronized generated trees, clean diff checks, and `INSTALL VALID`. Retain the non-blocking exporter-interruption and generated-tree wording notes as follow-ups only if observed operational friction makes them consequential.

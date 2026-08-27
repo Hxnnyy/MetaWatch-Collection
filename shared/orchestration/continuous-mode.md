@@ -61,7 +61,7 @@ If the orchestrator arrives in a conversation without context (post-compaction, 
 
 Continuous mode ends only when:
 
-1. **Complete**: every promise in `STATE.json.promises` is `verified`, the tier-scaled final closeout passed, and the retro entry is written (`../templates/RUNS.md`). At T1 that means the end-to-end walkthrough holds; at T2+ it also means the final intent audit is aligned and the final reviewer gate closed by its normal or documented residual path.
+1. **Complete**: every promise in `STATE.json.promises` is `verified`, the tier-scaled final closeout passed, and the retro entry is written (`../templates/RUNS.md`). At T1 that means the end-to-end walkthrough holds and the trail-truthfulness audit is recorded. At T2+ it also means the attention scan ran, the final intent audit is aligned, and the final reviewer gate closed by its normal or documented residual path.
 2. **Hard-block**: a condition from `hard-block-conditions.md` fired.
 3. **Explicit override**: user said `interactive mode` or equivalent during the run.
 

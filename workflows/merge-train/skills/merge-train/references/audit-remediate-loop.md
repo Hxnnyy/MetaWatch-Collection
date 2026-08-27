@@ -10,7 +10,7 @@ Each child must survive a strict audit, adjudication, remediation, and fresh ver
 4. **Adjudicate.** The orchestrator dispositions every finding — `fix-now`, `follow-up`, `residual-risk`, or `rebutted` (with file/line evidence, recorded in the ledger's dispositions table) — before dispatching any remediation. Findings are advisory until dispositioned; only `fix-now` reaches the remediator. The audit trail explains every non-fix.
 5. Remediate `fix-now` findings within child scope. Each remediation is a narrow correction or a regression check; a remedy that would grow net complexity goes back to adjudication as a `follow-up` proposal instead.
 6. Run configured tests and predicates.
-7. Dispatch a fresh verifier that receives the remediated diff, the evidence, and the dispositions table — not the remediator's confidence. A `rebutted` finding returns only with new evidence; re-raising it without any is a proportionality finding.
+7. Dispatch a fresh verifier that receives the remediated diff, the evidence, and the dispositions table — not the remediator's confidence. A `rebutted` finding returns only with new evidence; re-raising it without any is a proportionality finding. For high- and critical-risk children, the verifier's signoff names the change's load-bearing safety fact at rung 4 of the strict-review-bar evidence ladder — ran it, output in the child report — or records it as unproven.
 8. Repeat. A cycle that produces no `fix-now` dispositions ends the loop: disposition the remainder, record, and proceed to integration. The hard cap is **3 audit-remediate cycles per child**.
 
 ## Cycle 2 tripwire

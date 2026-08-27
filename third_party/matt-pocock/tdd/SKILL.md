@@ -34,6 +34,12 @@ Keep each cycle vertical: one observable behavior, one failing test, one minimal
 
 For bug fixes, reproduce the bug at the nearest stable seam, see the regression test fail, then fix it and keep the test.
 
+## When a failing test is impractical
+
+State why, then use the closest executable check instead: a targeted script, a manual reproduction command, browser automation, a snapshot comparison, or a log assertion. The check must still demonstrate the behavior; a debt note alone defers the guardrail without proving the change.
+
+Prefer no new test over a bad test: one that mostly tests mocks, encodes implementation details, depends on timing or unrelated global state, or needs expensive infrastructure for a small fix.
+
 ## Test quality
 
 - Assert outcomes through public interfaces.
@@ -42,7 +48,7 @@ For bug fixes, reproduce the bug at the nearest stable seam, see the regression 
 - Mock system boundaries, not internal collaborators. Read [references/mocking.md](references/mocking.md) when boundaries need substitution.
 - Prefer deterministic fixtures and real test databases where practical.
 - Keep snapshots for stable serialized contracts or intentional visual artifacts, not as a substitute for assertions.
-- A meaningful behavior change ships with a test that would have failed before, or an explicit debt note explaining why the guardrail is deferred.
+- A meaningful behavior change ships with a test that would have failed before; when that is impractical, follow the off-ramp above.
 
 Read [references/test-quality.md](references/test-quality.md) when choosing assertions or reviewing test sensitivity.
 
@@ -67,3 +73,5 @@ The change is complete when:
 - nearby affected tests pass;
 - the test remains sensitive to removing or reverting the behavior;
 - refactoring has not widened the implementation beyond the proven slice.
+
+Report the evidence, not just the outcome: name the failing-before run and its failure text, and the passing-after run. If failing-before could not be demonstrated, state why and name the check used instead.

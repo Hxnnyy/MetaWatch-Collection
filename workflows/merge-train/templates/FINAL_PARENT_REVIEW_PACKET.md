@@ -30,6 +30,10 @@
 - Boundary/abstraction/type-contract blockers:
 - Accepted residual strict-review risks:
 
+## Cleared Risks
+
+One line per risk checked and cleared across the train: the risk, the check, its evidence rung. Carried forward from child reports and checkpoints so final reviewers do not relitigate them.
+
 ## Residual Risks
 
 ## Manual Reviewer Notes

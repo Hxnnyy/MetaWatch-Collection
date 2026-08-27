@@ -64,6 +64,22 @@ When designing an interface, ask:
 - **The interface is the test surface.** Callers and tests cross the same seam. If you want to test *past* the interface, the module is probably the wrong shape.
 - **One adapter means a hypothetical seam. Two adapters means a real one.** Don't introduce a seam unless something actually varies across it.
 
+## Red flags
+
+- **Temporal decomposition** — modules organised by execution order (load, validate, transform, save) instead of by the knowledge they own, so one representation and its invariants repeat across several interfaces. Group by information hiding, not by when things run.
+- **A deep call chain is not a deep module.** A chain scatters understanding across layers; a deep module concentrates capability behind one interface.
+
+## When to scrap a design
+
+Rewrite on a *pattern* of friction, not an instance — some problems are legitimately complex. The tells:
+
+- The same shape of workaround repeating across unrelated callers.
+- Types needing escape hatches to compile: `any`, casts, optional fields always set in practice.
+- The "we need a lock" reflex where the design said state wasn't shared.
+- Callers needing the implementation's internal rules to use the interface.
+
+On scrap, redesign as if the new requirement had been a day-one assumption, and subtract before the new design grows. Use [DESIGN-IT-TWICE.md](DESIGN-IT-TWICE.md) to explore replacement shapes.
+
 ## Designing for testability
 
 Good interfaces make testing natural:

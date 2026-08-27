@@ -12,13 +12,14 @@ Interview the user until the important branches of the decision tree are resolve
 1. Establish the decision being made and the observable outcome.
 2. Map the major branches: users, constraints, scope, behavior, data, interfaces, failure modes, operations, rollout, and verification as relevant.
 3. Ask one question at a time. Wait for the answer before moving on.
-4. Give a recommended answer with every question, including the tradeoff and why it is your recommendation.
+4. Give a recommended answer with every question, including the tradeoff, the strongest rejected alternative, and why it lost.
 5. Follow dependencies in order. Resolve an upstream choice before asking questions whose answers depend on it.
 6. Challenge contradictions, vague terms, hidden assumptions, and attractive ideas that do not serve the stated outcome.
-7. Periodically summarize settled decisions and remaining branches.
-8. Stop only when the unresolved items are genuinely optional, explicitly deferred, or blocked on external evidence.
+7. When answers keep contradicting or reopening settled branches, stop interviewing and re-establish the decision frame — divergence indicts the framing before the answers.
+8. Periodically summarize settled decisions and remaining branches.
+9. Stop only when the unresolved items are genuinely optional, explicitly deferred, or blocked on external evidence.
 
-Investigate facts from the codebase, supplied documents, or authoritative sources instead of asking the user to retrieve them. The user owns product and preference decisions; do not answer those on their behalf.
+Investigate facts from the codebase, supplied documents, or authoritative sources instead of asking the user to retrieve them. When a fork is empirically observable, build and run the cheap probe instead of asking the user to predict the outcome. The user owns product and preference decisions; do not answer those on their behalf.
 
 Do not implement the plan during the interview unless the user explicitly ends the grilling phase and authorizes implementation.
 

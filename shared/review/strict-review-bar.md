@@ -53,6 +53,21 @@ When a consequence is named, push for remedies that reduce the concepts a future
 - parallelize independent work when it also simplifies the flow,
 - restructure related updates so partial state is harder to create.
 
+## Evidence Bar
+
+Safety- and correctness-critical claims — in findings, in rebuttals, and in verifier signoff — state how far down this ladder they were pushed and where they stopped:
+
+1. **Asserted** — the reviewer said so. Worthless alone.
+2. **Cited** — a real `file:line` or library source pointed at.
+3. **Walked** — the failure path traced step by step and shown not to reach.
+4. **Ran** — a script or test calling the real code, failing loud if the claim is wrong, output included. Often one small script that imports the same library the app ships and calls the exact function at issue.
+5. **Reproduced** — demonstrated in the running app.
+
+Two applications:
+
+- A rebuttal that dismisses a correctness or safety finding requires rung 4: exercise the scenario and include what happened. "The input is validated upstream" is rung 2 until the validation is run against the failing input.
+- Most scary changes are safe because of a single fact. Find the one fact the change is safe because of, push that fact to rung 4, and state any safety fact still above rung 4 as unproven rather than rounding up. Time spent proving the one fact beats time spent enumerating maybes.
+
 ## Adjudication and memory
 
 Findings are advisory until the orchestrator dispositions them — `fix-now`, `follow-up`, `residual-risk`, or `rebutted` (evidence-backed), per the reviewer protocol. Only `fix-now` findings reach a remediator; raw verdicts stay immutable either way.
@@ -60,6 +75,8 @@ Findings are advisory until the orchestrator dispositions them — `fix-now`, `f
 Every reviewer dispatched after the first receives the dispositions record to date. A `rebutted` finding returns only with new evidence; re-raising it without any is itself a proportionality finding. Fresh eyes consume cycles; they never mint them.
 
 ## Output Expectations
+
+Alongside findings, return the **cleared list**: risks checked and cleared, each with the check that cleared it and its evidence rung. A search that finds nothing is still an answer, and a recorded clearance stops later reviewers re-litigating the same surface.
 
 Prioritize findings in this order:
 

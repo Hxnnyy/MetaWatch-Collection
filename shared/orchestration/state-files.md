@@ -25,7 +25,7 @@ Historical artifacts `CONTINUOUS_DIRECTIVE.md` and `HEARTBEAT.md` are retired: t
 
 ```jsonc
 {
-  "schema_version": "metawatch-longflow-4.0",
+  "schema_version": "metawatch-longflow-4.1",
   "state_version": 1,
   "checkpoint_id": "run-local checkpoint id | null",
   "last_managed_commit": "full git SHA observed at the latest managed update | null",
@@ -114,6 +114,8 @@ Historical artifacts `CONTINUOUS_DIRECTIVE.md` and `HEARTBEAT.md` are retired: t
     "walkthrough": "holds",
     "intent_audit": "aligned | n/a",
     "review_outcome": "passed | closed_with_residuals | n/a",
+    "trail_audit": "passed | not_executable",
+    "attention_scan": "passed | flags_recorded | n/a",
     "evidence_references": [],
     "retro_reference": "RUNS.md entry"
   },
@@ -156,7 +158,7 @@ The template file is valid JSON with empty/null defaults; this schema doc descri
 
 ### Snapshot identity
 
-- `schema_version` identifies the contract. Version 4 adds evidence-relative promise truth and operative judgement.
+- `schema_version` identifies the contract. Version 4 adds evidence-relative promise truth and operative judgement; 4.1 adds durable trail-audit and attention-scan outcomes. The read-only validator still accepts completed 4.0 snapshots without inventing retrospective closeout claims.
 - `state_version` starts at `1` and increments on every successful managed write. It detects stale handoffs; it is not an event log.
 - `checkpoint_id` names the latest meaningful item, gate, override, or closeout boundary. Change it when that boundary changes, not for prose-only execplan entries.
 - `last_managed_commit` is the repository `HEAD` observed during the latest managed write, or `null` when no commit exists. It is a recovery sanity check, not promise evidence.
@@ -185,7 +187,7 @@ Gate records separate evidence from orchestration judgement. Append every comple
 
 Raw verdict ids are unique within a gate. Every applied disposition must reference an existing raw verdict id and an existing finding index in that verdict; a duplicate id or dangling reference makes the snapshot invalid.
 
-`final_closeout` remains `null` until the tier-scaled end-to-end closeout has passed and the retro is durable. Its evidence references are non-empty and point to the whole-journey walkthrough, final audit and panel where required, full checks, and retro rather than copying those artifacts into state. T2–T3 require `intent_audit: aligned` and `review_outcome: passed | closed_with_residuals`; T1 may use `n/a`. `retro_reference` is an exact safe repo-relative file path, and that file must exist before the run is complete.
+`final_closeout` remains `null` until the tier-scaled end-to-end closeout has passed and the retro is durable. Its evidence references are non-empty and point to the whole-journey walkthrough, trail-truthfulness audit, attention scan where required, final audit and panel where required, full checks, and retro rather than copying those artifacts into state. Every durable tier records `trail_audit: passed | not_executable`; `not_executable` names the missing history in an evidence reference. T2–T3 require `attention_scan: passed | flags_recorded`, `intent_audit: aligned`, and `review_outcome: passed | closed_with_residuals`; T1 records `attention_scan: n/a` and may use `n/a` for the audit and review. `retro_reference` is an exact safe repo-relative file path, and that file must exist before the run is complete.
 
 ## The execplan
 

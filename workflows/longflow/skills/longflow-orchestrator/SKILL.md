@@ -1,7 +1,6 @@
 ---
 name: longflow-orchestrator
 description: "MetaWatch Longflow router: capture intent, calibrate how much process the task deserves (possibly none), then run the right subset of council, PRD, slicing, and continuous execution to verify every promise."
-disable-model-invocation: true
 ---
 
 # Longflow Orchestrator
@@ -36,6 +35,7 @@ Then route:
 9. **Execution uses a bounded agent pool** per `../_shared/agent-lifecycle.md`: reserved slots, zero descendant delegation by default, prompt closure of consumed threads.
 10. **Every recorded decision carries `serves promise #N because <...>`.** A decision that cannot name its promise is drift in its earliest catchable form.
 11. **Durable state carries operative judgement and evidence freshness.** At every resume and promise gate, adopt the decisions, assumptions, binding actions, and residual risks in `STATE.json`; move affected verified promises to `needs_recheck` when later work touches their recorded scope. See `../_shared/state-files.md`.
+12. **Multi-arm work pre-declares its winner rule.** Before spawning competing spikes or bakeoff arms, record in the execplan what each arm is and which rule picks the winner — `first pass`, `rank all`, or `best-of`. The recorded rule then decides, however the arms are later framed — the same discipline that budgets review cycles however panels are named.
 
 ## Flow (T2–T3)
 
@@ -43,7 +43,7 @@ Then route:
 2. **Parent PRD** — `write-a-prd`. Subordinate to the intent contract; promise trace and subtraction pass mandatory; frozen promise-level acceptance authored here.
 3. **Slicing** — `prd-to-issues`. Local ledger (GitHub is an optional projection), rigour classes, S/M/L sizing, proportionate checks — then the **coverage audit**: every promise funded, every item cites a promise. Blocking, both directions.
 4. **Execution** — `issues-execution`. Continuous mode, tripwire monitoring, promise gates as they come due.
-5. **Closeout** — end-to-end walkthrough, aligned final intent audit, and a final reviewer panel. Normal closure accepts only `PASS` / `NOT_APPLICABLE`; the sole exception is documented budget exhaustion with only non-material residuals and gate-level `closed_with_residuals`. Append the retro to `RUNS.md` (`../_shared/templates/RUNS.md`), record `STATE.json.final_closeout`, then give the plain-English handover: which promises are verified, what it cost, what was flagged.
+5. **Closeout** — end-to-end walkthrough and trail-truthfulness audit; at T2+ add the one-shot attention scan, aligned final intent audit, and final reviewer panel. Normal closure accepts only `PASS` / `NOT_APPLICABLE`; the sole exception is documented budget exhaustion with only non-material residuals and gate-level `closed_with_residuals`. Append the retro to `RUNS.md` (`../_shared/templates/RUNS.md`), record every closeout outcome in `STATE.json.final_closeout`, then give the plain-English handover: which promises are verified, what it cost, what was flagged.
 
 ## Reporting
 
