@@ -11,7 +11,7 @@ Why this shape: models over-index on ceremony — literal, maximal execution is 
 
 ## Phase 0 — Intent and calibration (always)
 
-1. **Capture intent in conversation.** During the intent stress-test, use plain business language, the owner's own words, numbered promises, explicit non-goals, and product class — use `grilling` when assumptions are soft. Read the latest relevant `RUNS.md` retro before calibrating. Do not create run files before the tier is known. Contract: `../_shared/intent-contract.md`.
+1. **Capture intent in conversation.** During the intent stress-test, use plain business language, the owner's own words, numbered promises, explicit non-goals, and product class — use `grilling` when assumptions are soft. Read the latest relevant `RUNS.md` retro before calibrating, and record `Retro reviewed: <ref | first-run>` in the execplan's calibration section once run files exist — the run-ledger predicate suite asserts that line at closeout. Do not create run files before the tier is known. Contract: `../_shared/intent-contract.md`.
 2. **Propose a tier** (T0–T3) with a plain-English rationale — product class, blast radius, reversibility — and get the owner's sign-off. Owner absent: proceed under the proposed tier, except T3 (hard-block 9). At T1+, persist the captured intent as `tasks/INTENT.md` (template: `../_shared/templates/INTENT.md`) and converge with the owner until confirmed; owner absent → `drafted-unconfirmed`.
 3. **Name the riskiest assumption.** If a cheap spike can answer it, run the spike before anything else is funded.
 4. **Set a rough budget** and record the calibration entry in the execplan.
@@ -43,7 +43,7 @@ Then route:
 2. **Parent PRD** — `write-a-prd`. Subordinate to the intent contract; promise trace and subtraction pass mandatory; frozen promise-level acceptance authored here.
 3. **Slicing** — `prd-to-issues`. Local ledger (GitHub is an optional projection), rigour classes, S/M/L sizing, proportionate checks — then the **coverage audit**: every promise funded, every item cites a promise. Blocking, both directions.
 4. **Execution** — `issues-execution`. Continuous mode, tripwire monitoring, promise gates as they come due.
-5. **Closeout** — end-to-end walkthrough and trail-truthfulness audit; at T2+ add the one-shot attention scan, aligned final intent audit, and final reviewer panel. Normal closure accepts only `PASS` / `NOT_APPLICABLE`; the sole exception is documented budget exhaustion with only non-material residuals and gate-level `closed_with_residuals`. Append the retro to `RUNS.md` (`../_shared/templates/RUNS.md`), record every closeout outcome in `STATE.json.final_closeout`, then give the plain-English handover: which promises are verified, what it cost, what was flagged.
+5. **Closeout** — end-to-end walkthrough, trail-truthfulness audit, and the run-ledger predicate suite (`../_shared/run-ledger-predicates.md` — bookkeeping existence checks; a failure blocks completion); at T2+ add the one-shot attention scan, aligned final intent audit, and final reviewer panel. Normal closure accepts only `PASS` / `NOT_APPLICABLE`; the sole exception is documented budget exhaustion with only non-material residuals and gate-level `closed_with_residuals`. Append the retro to `RUNS.md` (`../_shared/templates/RUNS.md`), record every closeout outcome in `STATE.json.final_closeout`, then give the plain-English handover: which promises are verified, what it cost, what was flagged.
 
 ## Reporting
 

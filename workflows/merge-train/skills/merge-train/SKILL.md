@@ -92,7 +92,7 @@ Final reviewers inspect code, ledger (with dispositions), risk register, checkpo
 
 ## Phase 5: Stabilise and hand off
 
-Confirm ledgers, risk register, PR body, child summaries, final packet, docs, and deferred work are explicit. Append a run retro to the repo's `RUNS.md` — ceremony that paid, ceremony that didn't, tripwires fired, reusable rule. Report that the parent is ready for human merge; do not merge unless requested.
+Confirm ledgers, risk register, PR body, child summaries, final packet, docs, and deferred work are explicit. Run the deferral-ticket scan — `node templates/run-ledger-predicates.mjs --scan FINAL_PARENT_REVIEW_PACKET.md PARENT_INTEGRATION_LEDGER.md CHILD_SUMMARIES` (paths as the train laid them out): every committal deferral phrase must carry a ticket reference or an explicit `no-ticket: <reason>` waiver (`references/run-ledger-predicates.md`). An unticketed deferral is an undispositioned note. Append a run retro to the repo's `RUNS.md` — ceremony that paid, ceremony that didn't, tripwires fired, reusable rule. Report that the parent is ready for human merge; do not merge unless requested.
 
 ## Recovery
 

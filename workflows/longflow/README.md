@@ -36,6 +36,7 @@ Longflow uses these shared primitives (canonical under `../../shared/`; the flat
 - `../../shared/review/reviewer-personas.md`
 - `../../shared/review/verdict-schema.md`
 - `../../shared/verification/acceptance-predicates.md`
+- `../../shared/verification/run-ledger-predicates.md`
 - `../../shared/verification/walkthrough-verification.md`
 - `../../shared/verification/predicate-adequacy-review.md`
 - `../../shared/verification/test-adequacy-review.md`

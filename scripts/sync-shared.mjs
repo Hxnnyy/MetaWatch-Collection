@@ -68,6 +68,16 @@ for (const sourceFile of potetoSharedSources) {
   potetoGenerated.set(path.basename(sourceFile), rewriteReferences(fs.readFileSync(repoPath(sourceFile), "utf8")));
 }
 
+// The merge-train bundle ships the run-ledger predicate suite too (its Phase 5
+// deferral scan). Same authoring source, generated into the skill's own
+// references/ and templates/ dirs — written file-by-file, never by tree
+// replacement, because that root is the hand-authored skill itself.
+const mergeTrainSkillRoot = repoPath("workflows/merge-train/skills/merge-train");
+const mergeTrainGenerated = new Map([
+  ["references/run-ledger-predicates.md", rewriteReferences(fs.readFileSync(repoPath("shared/verification/run-ledger-predicates.md"), "utf8"))],
+  ["templates/run-ledger-predicates.mjs", rewriteReferences(fs.readFileSync(repoPath("shared/templates/run-ledger-predicates.mjs"), "utf8"))]
+]);
+
 function checkTree(root, files, failures) {
   const seen = new Set();
   for (const [rel, contents] of files) {
@@ -91,10 +101,29 @@ function writeTree(root, files) {
   }
 }
 
+// File-level check/write for generated files living inside a hand-authored
+// root: no tree replacement, no orphan scan.
+function checkFiles(root, files, failures) {
+  for (const [rel, contents] of files) {
+    const target = path.join(root, rel);
+    if (!fs.existsSync(target)) failures.push(`missing: ${path.join(path.basename(root), rel)}`);
+    else if (fs.readFileSync(target, "utf8") !== contents) failures.push(`stale: ${path.join(path.basename(root), rel)}`);
+  }
+}
+
+function writeFiles(root, files) {
+  for (const [rel, contents] of files) {
+    const target = path.join(root, rel);
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.writeFileSync(target, contents, "utf8");
+  }
+}
+
 if (checkMode) {
   const failures = [];
   checkTree(targetRoot, generated, failures);
   checkTree(potetoSharedRoot, potetoGenerated, failures);
+  checkFiles(mergeTrainSkillRoot, mergeTrainGenerated, failures);
   if (failures.length > 0) {
     console.error("SHARED TREE OUT OF SYNC (run `npm run sync:shared`):");
     for (const failure of failures) console.error(`  - ${failure}`);
@@ -104,5 +133,6 @@ if (checkMode) {
 } else {
   writeTree(targetRoot, generated);
   writeTree(potetoSharedRoot, potetoGenerated);
-  console.log(`SHARED TREE SYNCED: ${targetRoot} (${generated.size} files) + ${potetoSharedRoot} (${potetoGenerated.size} files)`);
+  writeFiles(mergeTrainSkillRoot, mergeTrainGenerated);
+  console.log(`SHARED TREE SYNCED: ${targetRoot} (${generated.size} files) + ${potetoSharedRoot} (${potetoGenerated.size} files) + ${mergeTrainSkillRoot} (${mergeTrainGenerated.size} files)`);
 }

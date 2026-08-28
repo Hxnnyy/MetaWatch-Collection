@@ -25,6 +25,8 @@
 **What it means for the product**: <what the owner should expect from this run.>
 **Intent-match confidence**: high — because <the owner confirmed the contract wording / drafted-unconfirmed from kickoff message>.
 
+Retro reviewed: <RUNS.md ref | first-run>
+
 <budget estimate; item sizing summary; coverage-audit result: every promise funded, every item cites a promise>
 
 ## Promise log

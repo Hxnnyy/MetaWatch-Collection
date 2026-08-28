@@ -63,3 +63,42 @@ PR #5 was reconciled with the newer Merge Train calibration work and reached con
 ### Decision and tripwires
 
 Merge on the five-seat PASS, 62/62 tests, synchronized generated trees, clean diff checks, and `INSTALL VALID`. Retain the non-blocking exporter-interruption and generated-tree wording notes as follow-ups only if observed operational friction makes them consequential.
+
+## 2026-08-29 — Run-ledger predicate suite (tier T1)
+
+**Outcome**: A third predicate layer landed: run-ledger predicates (RL1–RL10)
+assert at closeout that the paper trail exists — complete verdict records,
+dispositions referencing real findings, closed items with run records, resolving
+evidence paths, deferral language carrying tickets or explicit waivers, the
+calibration retro-read recorded, and live-defect runs closing with a
+production readback. Wired into issues-execution Phase 3, longflow-orchestrator
+closeout, and merge-train Phase 5 (deferral scan over the final packet).
+Contract: shared/verification/run-ledger-predicates.md; runner:
+shared/templates/run-ledger-predicates.mjs (zero-dep node, exported API + CLI);
+12 fixture-mutation tests.
+
+**Cost**: One session slice: recon of the authoring/sync/export pipeline,
+contract + runner + tests, five wiring patches, sync-shared extension
+(file-level generation into the merge-train bundle without tree replacement).
+
+**Ceremony that paid for itself**: The test suite caught the deferral regex
+over-matching on the first run ("nothing deferred" fired it) — the exact
+false-positive class that would have made the predicate noise; committal-phrase
+scoping came out of a failing test, not review.
+
+**Ceremony that didn't**: None; T1-shaped change, no panel.
+
+**Tripwires**: validate-agents fails when the suite runs from a git worktree
+(installed junctions point at the canonical checkout by design) — environmental,
+not a regression; verify from the canonical checkout after merge.
+
+**Reusable rule**: Predicates over run records must match committal phrases,
+not vocabulary — a bookkeeping check that fires on retro prose about deferrals
+teaches people to stop writing retros. And: this layer asserts existence and
+run-records only, never quality; a run-ledger predicate that starts judging
+content is scope creep.
+
+**Evidence trail**: motivated by recurring retro failures (verdict-stub,
+unrun-review, lesson-without-check classes) and a live specimen the same week —
+a remediation shipped with its follow-up "deferred outside this ticket" and no
+ticket filed. RL8 exists because of it.

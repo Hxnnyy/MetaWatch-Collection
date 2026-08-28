@@ -76,7 +76,7 @@ Append every raw verdict unchanged and record applied dispositions separately. C
 
 ## Phase 3: Closeout
 
-1. Resolve or convert every remaining `PASS_WITH_NOTES` note; run the full test suite. At T1, run each item's honest check. Run the production predicate roll-up (T2+ only): `for f in scripts/verify-issue-*.sh; do bash "$f"; done`.
+1. Resolve or convert every remaining `PASS_WITH_NOTES` note; run the full test suite. At T1, run each item's honest check. Run the production predicate roll-up (T2+ only): `for f in scripts/verify-issue-*.sh; do bash "$f"; done`. Then run the run-ledger predicate suite — `node ../_shared/templates/run-ledger-predicates.mjs --run-dir tasks` (from the repo root, resolving the script inside this skills install) — mechanical bookkeeping checks: complete verdict records, dispositions that reference real findings, closed items with run records, deferral language carrying tickets. A failure is a hard closeout block: fix the record, never the predicate. Contract: `../_shared/run-ledger-predicates.md`.
 2. **End-to-end walkthrough** of the whole journey, all promises in sequence.
 3. **Final intent audit** (T2+) against the full contract: all promises verified, nothing unfunded shipped, proportionality held.
 4. **Final reviewer panel** (T2+) — fresh where possible, verifying from the codebase. Normal closure accepts only `PASS` / `NOT_APPLICABLE`. The same 3-cycle budget applies; at exhaustion only non-material findings may close via `review_outcome: closed_with_residuals`, with raw verdicts preserved and every finding disposed. `merge-train` is the pre-merge backstop. T1 skips steps 3–4.
@@ -95,7 +95,7 @@ Append every raw verdict unchanged and record applied dispositions separately. C
 
 ## See also
 
-- `../_shared/promise-gates.md`, `../_shared/walkthrough-verification.md`, `../_shared/intent-audit.md`
+- `../_shared/promise-gates.md`, `../_shared/walkthrough-verification.md`, `../_shared/intent-audit.md`, `../_shared/run-ledger-predicates.md`
 - `../_shared/continuous-mode.md`, `../_shared/hard-block-conditions.md`, `../_shared/state-files.md`
 - `../_shared/reviewer-protocol.md`, `../_shared/agent-lifecycle.md`, `../_shared/ledger.md`
 - `tdd` — implementation subagents use red-green-refactor through public seams for production behavior changes.
